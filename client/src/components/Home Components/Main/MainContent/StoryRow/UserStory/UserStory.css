@@ -1,0 +1,44 @@
+.userStory{
+    width: 70px;
+    max-width: 80px;
+    cursor: pointer;
+    margin-inline: 5px;
+}
+
+.userStory .story-content{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0px 2px;
+}
+
+.story-content .user-story-img-layout{
+    width: 55px;
+    height: 55px;
+    padding: 2px;
+    overflow: hidden;
+    border-radius: 50%;
+    border: 3px solid green;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.user-story-img-layout img{
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+}
+
+.story-content .story-user-name{
+    max-width: 70px;
+    font-size: 13px;
+    margin-top: 5px;
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+}

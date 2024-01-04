@@ -1,0 +1,169 @@
+.checkFollowerDailog {
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.checkFollowerDailog .check-follow-dailog-content {
+    width: 100%;
+    max-width: 400px;
+    height: 400px;
+    max-height: 400px;
+    box-sizing: border-box;
+    border-radius: 10px;
+    background: rgb(38, 38, 38);
+    margin: 20px;
+    overflow: hidden;
+}
+
+.check-follow-dailog-content .dailog-header {
+    width: 100%;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    box-sizing: border-box;
+    border-bottom: 1px solid rgb(54, 54, 54);
+}
+
+.dailog-header .dailog-heading {
+    width: 100%;
+    max-width: 300px;
+    height: 100%;
+    font-size: 16px;
+    color: #F5F5F5;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dailog-header .dailog-cancle-btn {
+    padding-inline: 8px;
+    cursor: pointer;
+}
+
+.dailog-cancle-btn button {
+    width: max-content;
+    height: max-content;
+    padding: 8px;
+    background: transparent;
+    outline: none;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.dailog-cancle-btn button svg {
+    width: 18px;
+    height: 18px;
+    color: white;
+    margin: 0;
+}
+
+.check-follow-dailog-content .dailog-main-conten {
+    width: 100%;
+    max-width: 400px;
+}
+
+.dailog-main-content .dailog-search-bar {
+    width: 100%;
+    height: max-content;
+    padding: 8px 16px;
+    box-sizing: border-box;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dailog-search-bar input {
+    padding: 3px 16px;
+    width: 100%;
+    height: 32px;
+    box-sizing: border-box;
+    background: transparent;
+    outline: none;
+    border: none;
+    color: white;
+    font-size: 14px;
+}
+
+.dailog-search-bar .input-attributes {
+    width: max-content;
+    height: 18px;
+    position: absolute;
+    margin: auto;
+    left: 33px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.input-attributes svg {
+    height: 16px;
+    width: 16px;
+    color: rgb(168, 168, 168);
+    margin-right: 8px;
+}
+
+.input-attributes .input-placeholder {
+    height: 100%;
+    max-height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: normal;
+    color: rgb(168, 168, 168);
+    margin-top: -3px;
+}
+
+.dailog-search-bar .cancle-input-text-btn {
+    background-image: url('https://static.cdninstagram.com/rsrc.php/v3/y5/r/TJztmXpWTmS.png');
+    background-repeat: no-repeat;
+    background-position: -318px -333px;
+    height: 20px;
+    width: 20px;
+    position: absolute;
+    right: 32px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 3;
+    cursor: pointer;
+}
+
+.dailog-main-content .dailog-content {
+    width: 100% !important;
+    height: calc(400px - 91px);
+    max-height: calc(400px - 91px);
+    overflow: hidden;
+    overflow-y: scroll;
+}
+
+.dailog-content::-webkit-scrollbar {
+    background: white;
+    width: min-content;
+}
+
+.dailog-content::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.8);
+}
+
+.dailog-content::-webkit-scrollbar-thumb {
+    background: #8e8e8e;
+}
+
+.dailog-content::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}

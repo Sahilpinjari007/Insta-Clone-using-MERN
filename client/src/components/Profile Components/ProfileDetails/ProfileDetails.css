@@ -1,0 +1,193 @@
+/* profile highlight icon  */
+.profile-highlight-component {
+    padding-block: 5px 25px;
+}
+
+.profile-highlight-component .profile-highilight-title{
+    width: 115px;
+    text-align: center;
+    margin-top: 5px;
+    font-size: 15px;
+    display: inline-block;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    padding-inline: 2px;
+    box-sizing: border-box;
+}
+
+.profile-highlight-component .profile-highlight-cover {
+    width: 87px;
+    height: 87px;
+    border-radius: 50%;
+    padding: 2px;
+    border: 2px solid #121212;
+    box-sizing: border-box;
+    margin-inline: 14px;
+    cursor: pointer;
+}
+
+.profile-highlight-cover .profile-highlight-icon {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: #121212;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-highlight-icon svg {
+    fill: #737373;
+}
+
+.profile-content {
+    width: 100%;
+    height: max-content;
+    box-sizing: border-box;
+    color: white;
+}
+
+.profile-content .profile-details {
+    display: flex;
+    width: 100%;
+    min-height: 191px;
+    height: max-content;
+    margin-bottom: 50px;
+}
+
+.profile-details .profile-img-section {
+    min-width: 291px;
+    height: 191px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-img-section .profile-img-layout {
+    width: 165px;
+    height: 165px;
+    border-radius: 50%;
+    border: 2px solid #303030;
+    padding: 5px;
+    box-sizing: border-box;
+}
+
+.profile-img-layout .profile-img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+.profile-details .profile-meta-data {
+    width: 100%;
+    height: 100%;
+    padding: 10px 15px;
+    box-sizing: border-box;
+}
+
+.profile-meta-data .profile-meta-content {
+    width: 100%;
+    height: 100%;
+}
+
+.profile-meta-content .profile-username-action-btns {
+    display: flex;
+    align-items: center;
+}
+
+.profile-username-action-btns .profile-username {
+    font-size: 20px;
+}
+
+.profile-username-action-btns .profile-action-btns {
+    display: flex;
+    gap: 10px;
+    margin-left: 17px;
+}
+
+.profile-username-action-btns .setting-icon {
+    margin-left: 15px;
+}
+
+.setting-icon svg{
+    cursor: pointer;
+}
+
+.profile-meta-content .profile-user-intraction {
+    display: flex;
+    gap: 50px;
+    margin-top: 25px;
+}
+
+.profile-user-intraction span{
+    cursor: pointer;
+}
+
+.profile-user-intraction span span {
+    font-weight: 500;
+}
+
+.profile-meta-content .profile-sub-username {
+    display: block;
+    padding-block: 15px;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.profile-meta-content .profile-bio {
+    display: block;
+    font-size: 15px;
+    max-width: 100%;
+    width: 100%;
+    text-wrap: wrap;
+}
+
+.profile-content .profile-highlight-section {
+    position: relative;
+    margin-top: 20px;
+}
+
+.profile-highlight-section .profile-highlights {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding-inline: 15px;
+    overflow-x: scroll;
+    scroll-behavior: smooth;
+}
+
+.profile-highlights::-webkit-scrollbar{
+    display: none;
+}
+
+
+.profile-highlight-section .left-highlight-scroll{
+    position: absolute;
+    left: 10px;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    background-image: url("https://static.cdninstagram.com/rsrc.php/v3/y8/r/ZWR9C7_JdnP.png");
+    background-repeat: no-repeat;
+    background-position: -294px -226px;
+    height: 45px;
+    width: 45px;
+    cursor: pointer;
+    z-index: 999;
+}
+
+.profile-highlight-section .right-highlight-scroll{
+    position: absolute;
+    right: 10px;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    background-image: url("https://static.cdninstagram.com/rsrc.php/v3/y8/r/ZWR9C7_JdnP.png");
+    background-repeat: no-repeat;
+    background-position: -294px -273px;
+    height: 45px;
+    width: 45px;
+    cursor: pointer;
+    z-index: 999;
+}

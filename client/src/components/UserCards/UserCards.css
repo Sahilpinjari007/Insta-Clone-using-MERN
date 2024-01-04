@@ -1,0 +1,77 @@
+.follow-following-users-card{
+    width: 100%;
+    height: max-content;
+    padding: 8px 16px;
+    box-sizing: border-box;
+}
+
+.follow-following-users-card .folw-folwing-user-card-containt{
+    width: 100%;
+    height: max-content;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.folw-folwing-user-card-containt .user-img-layout{
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    margin-right: 12px;
+}
+
+.user-img-layout img{
+    width: 44px;
+    height: 44px;
+    border-radius: 50%; 
+}
+
+.folw-folwing-user-card-containt .user-meta{
+    height: 100%;
+    width: 100%;
+    max-width: 168px;
+}
+
+.user-meta .user-meta-top-section{
+    width: 100%;
+    height: max-content;
+    display: flex;
+    align-items: center;
+}
+
+.user-meta-top-section .sapretor{
+    min-width: 2.5px;
+    min-height: 2.5px;
+    background: white;
+    border-radius: 50%;
+    margin-inline: 5px;
+}
+
+.user-meta-top-section .follow-user-btn{
+    color: #0095F6;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.folw-folwing-user-card-containt .userName{
+    max-width: 100%;
+    font-size: 14px;
+    font-weight: bold;
+    color: #F5F5F5;
+    display: block
+}
+
+.folw-folwing-user-card-containt .name{
+    max-width: 100%;
+    height: max-content;
+    font-size: 14px;
+    font-weight: normal;
+    color: #A8A8A8;
+    display: block
+}
+
+.folw-folwing-user-card-containt button{
+    position: absolute;
+    right: 0;
+}

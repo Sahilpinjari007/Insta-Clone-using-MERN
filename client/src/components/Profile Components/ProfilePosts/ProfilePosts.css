@@ -1,0 +1,87 @@
+*{
+    font-weight: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+
+.profile-posts-section{
+    width: 100%;
+    height: max-content;
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+
+.profile-posts-section .profile-posts-section-header{
+    width: 100%;
+    height: 52px;
+    border-top: 1px solid rgb(38, 38, 38);;
+}
+
+.profile-posts-section-header .post-navigation{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.post-navigation ul{
+    width: max-content;
+    height: 100%;
+    list-style: none;
+    display: flex;
+    box-sizing: border-box;
+}
+
+.post-navigation .post-nav-item{
+    height: 100%;
+    width: max-content;
+    margin: 0;
+    margin-right: 60px;
+}
+
+.post-navigation .post-nav-item:last-child  {
+    margin: 0;
+}
+
+
+.post-nav-item div{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.post-nav-item div svg{
+    fill: #a8a8a8;
+    color: #a8a8a8;
+}
+
+.post-nav-item div span{
+    margin-left: 5px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #a8a8a8;
+    letter-spacing: 1px;
+    line-height: 18px;
+}
+
+/* nav active classes */
+.post-nav-item .activeNav{
+    border-top: 1px solid white;
+    margin-top: -1px;
+}
+
+.post-nav-item .activeNav svg{
+    fill: white;
+    color: white;
+}
+
+.post-nav-item .activeNav span{
+    color: white;
+}
+
+.profile-posts-section .nav-page-changer-section{
+    width: 100%;
+    height: max-content;
+}

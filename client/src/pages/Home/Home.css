@@ -1,0 +1,17 @@
+.main-intaraction-section {
+    /* width: 100%; */
+    color: white;
+    width: max-content;
+    height: max-content;
+    max-height: max-content;
+    display: flex;
+    justify-content: center;
+    margin: auto;
+}
+
+@media (max-width: 765px) {
+    .main-intaraction-section {
+        max-width: 100%;
+        display: unset;
+    }
+  }

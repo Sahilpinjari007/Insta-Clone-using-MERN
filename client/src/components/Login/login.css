@@ -1,0 +1,173 @@
+.sign-in-layout {
+    width: 100%;
+    max-width: 350px;
+    height: max-content;
+}
+
+.sign-in-layout .sign-in-google-section,
+.dont-ac-section,
+.get-the-app-section {
+    width: 100%;
+    border: 1px solid var(--border-color);
+}
+
+.sign-in-google-section .logo {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    margin-block: 20px;
+}
+
+.sign-in-google-section .logo i {
+    background-image: url("https://static.cdninstagram.com/rsrc.php/v3/yx/r/WtxJZZ3-9ZP.png");
+    background-position: 0px 0px;
+    background-size: 176px 186px;
+    width: 174px;
+    height: 50px;
+    background-repeat: no-repeat;
+    display: inline-block;
+}
+
+.sign-in-google-section .sign-in-from {
+    width: 100%;
+    height: max-content;
+}
+
+.sign-in-from .form-row {
+    width: 100%;
+    max-width: 280px;
+    margin: auto;
+    margin-block: 10px;
+}
+
+.form-row button {
+    background: var(--log-in-btn) !important;
+    border-radius: 10px;
+    text-transform: none;
+    font-weight: bold;
+}
+
+.sign-in-from .form-row:last-child {
+    margin-top: 20px;
+}
+
+.sign-in-google-section .sign-in-or-section {
+    width: 100%;
+    max-width: 280px;
+    margin: auto;
+}
+
+.sign-in-or-section .or-line {
+    width: 100%;
+    padding-block: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.or-line .or-lines {
+    width: 50%;
+    height: 0.2px;
+    background: var(--border-color);
+    display: block;
+}
+
+.or-line .or {
+    margin-inline: 20px;
+    font-size: 12px;
+    color: var(--text-color);
+    font-weight: bold;
+}
+
+.sign-in-or-section .facebook-login-btn {
+    width: 100%;
+    outline: none;
+    border: none;
+    color: var(--facebook-btn);
+    font-weight: bold;
+    margin-block: 20px;
+    background: transparent;
+    cursor: pointer;
+}
+
+.facebook-login-btn .facebook-icon {
+    display: inline-block;
+    margin-right: 8px;
+    padding: 0;
+    position: relative;
+    top: 3px;
+    background-image: url('https://static.cdninstagram.com/rsrc.php/v3/y5/r/TJztmXpWTmS.png');
+    background-repeat: no-repeat;
+    background-position: -414px -259px;
+    height: 16px;
+    width: 16px;
+}
+
+.sign-in-or-section .forget-password {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    font-size: 12px;
+    margin-block: 0px 20px;
+    color: var(--facebook-btn);
+}
+
+.sign-in-layout .dont-ac-section {
+    margin-top: 10px;
+}
+
+.dont-ac-section .dont-ac-txt {
+    width: 100%;
+    box-sizing: border-box;
+    display: inline-block;
+    text-align: center;
+    padding: 20px;
+    font-size: 15px;
+}
+
+.dont-ac-txt a {
+    text-decoration: none;
+    font-weight: 500;
+    color: var(--log-in-btn);
+}
+
+.sign-in-layout .get-the-app-section {
+    border: none;
+}
+
+.get-the-app-section .get-the-app-heading {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    padding-block: 12px 10px;
+    font-size: 15px;
+}
+
+.get-the-app-section .app-providers {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.app-providers .app-provider img {
+    height: 40px;
+}
+
+@media (max-width: 450px) {
+
+    .sign-in-layout {
+        width: 100%;
+    }
+
+
+    .sign-in-google-section .logo {
+        padding-inline: 0;
+    }
+
+    .sign-in-layout .sign-in-google-section,
+    .dont-ac-section,
+    .get-the-app-section {
+        border: none;
+    }
+}

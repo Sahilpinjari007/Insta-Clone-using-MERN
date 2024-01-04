@@ -1,0 +1,172 @@
+:root {
+    --follow-btn-color: #0095f6;
+    --low-opacity-text-color: #A8A8A8;
+    --viewd-story-border-color: #222222;
+    --footer-text-color: #737373;
+}
+
+.user-saggestion-section{
+    width: 100%;
+    min-width: max-content;
+    height: 100%;
+}
+
+.user-saggestion-section .user-saggestions{
+    width: 315px;
+    max-width: 315px;
+    margin-top: 30px;
+    padding-left: 64px;
+}
+
+.currentUserAc {
+    width: 100%;
+    max-width: 315px;
+    height: 60px;
+    max-height: 60px;
+    padding: 8px 16px;
+    box-sizing: border-box;
+}
+
+.currentUserAc .currentUserAc-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.currentUserAc-content .currentUserAc-img {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 2px solid var(--viewd-story-border-color);
+    padding: 2px;
+}
+
+.currentUserAc-img img {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+}
+
+.currentUserAc-img.active{
+    border: 3px solid green;
+}
+
+.currentUserAc-content .currentUserAc-info {
+    width: 180px;
+    max-width: 180px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 10px;
+}
+
+.currentUserAc-info .currentUserAc-username {
+    font-size: 14px;
+    font-weight: bold;
+    color: white;
+    display: block;
+    max-width: 180px;
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+}
+
+.currentUserAc-info .currentUserAc-name {
+    font-size: 14px;
+    max-width: 180px;
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+    color: var(--low-opacity-text-color) !important;
+}
+
+.currentUserAc-content .currentUserAc-switch-ac-btn {
+    outline: none;
+    background: transparent;
+    color: var(--follow-btn-color);
+    border: none;
+    font-weight: bolder;
+    position: absolute;
+    right: 0;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.currentUserAc-switch-ac-btn:hover{
+    color: white;
+}
+
+.user-saggestions .show-all-saggestions-bar{
+    width: 100%;
+    height: max-content;
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 16px 8px 16px;
+    box-sizing: border-box;
+}
+
+.show-all-saggestions-bar .saggestions-bar-heading{
+    color: var(--low-opacity-text-color);
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.show-all-saggestions-bar .see-all-saggestion-btn{
+    outline: none;
+    background: transparent;
+    color: white;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.see-all-saggestion-btn:hover{
+    color: var(--low-opacity-text-color);
+}
+
+.user-saggestions .user-saggestion-footer{
+    width: 100%;
+    height: max-content;
+    margin-left: 15px;
+    margin-top: 40px;
+}
+
+.user-saggestion-footer ul{
+    width: 100%;
+    max-width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+}
+
+.user-saggestion-footer ul li{
+    margin-right: 3px;
+    color: var(--footer-text-color);
+    font-size: 12px;
+    margin-top: -5px;
+    cursor: pointer;
+}
+
+.user-saggestion-footer ul li:hover{
+    text-decoration: underline;
+}
+
+.user-saggestion-footer .inst-copy-right{
+    color: var(--footer-text-color);
+    font-size: 13px;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+@media (max-width: 1160px) {
+    .user-saggestion-section{
+        display: none;
+    }
+}

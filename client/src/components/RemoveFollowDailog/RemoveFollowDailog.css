@@ -1,0 +1,93 @@
+.remove-follow-dailog{
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+
+.remove-follow-dailog .remove-dailog-content{
+    width: 100%;
+    max-width: 400px;
+    box-sizing: border-box;
+    border-radius: 10px;
+    background: rgb(38, 38, 38);
+}
+
+.remove-dailog-content .remove-dailog-header{
+    width: 100%;
+    height: max-content;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 16px;
+    box-sizing: border-box;
+}
+
+.remove-dailog-header .remove-profile-img{
+    width: 88px;
+    height: 88px;
+    border-radius: 50%;
+    margin: 16px;
+}
+
+.remove-profile-img img{
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+.remove-dailog-header .dailog-heading{
+    color: #F5F5F5;
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.remove-dailog-header h2.dailog-heading{
+    color: #F5F5F5;
+    font-weight: normal;
+    font-size: 14px;
+    margin-block: 10px;
+}
+
+.remove-dailog-header .dailog-sub-heading{
+    color: #A8A8A8;
+    font-size: 14px;
+    text-align: center;
+    padding-block: 10px 16px;
+    max-width: 336px;
+}
+
+.remove-dailog-content .dailog-btns{
+    width: 100%;
+    height: max-content;
+}
+
+.remove-dailog-content  .dailog-btns .dailog-btn{
+    width: 100%;
+    height: 48px;
+    padding: 4px 8px;
+    box-sizing: border-box;
+    outline: none;
+    border: none;
+    background: transparent;
+    font-size: 14px;
+    font-weight: normal;
+    color: white;
+    border-top: 1px solid rgb(54, 54, 54);
+    cursor: pointer;
+}
+
+.remove-dailog-content  .dailog-btns .dailog-btn:nth-child(1){
+    color: #ED4956;
+    font-weight: bold;
+}

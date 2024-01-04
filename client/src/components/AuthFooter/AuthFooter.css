@@ -1,0 +1,62 @@
+.auth-footer {
+    width: 100%;
+    height: auto;
+    margin-bottom: 60px;
+    color: var(--text-color);
+}
+
+.auth-footer .other-links {
+    width: 100%;
+    height: auto;
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+.other-links ul{
+    width: max-content;
+    max-width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    justify-content: center;
+    box-sizing: border-box;
+    margin: auto;
+}
+
+.other-links ul li{
+    font-size: 12px;
+    margin-inline: 10px;
+    margin-top: 5px;
+}
+
+.other-links ul li:hover{
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.auth-footer .copy-write{
+    width: 100%;
+    height: auto;
+    padding-inline: 20px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+}
+
+.copy-write .language-selector{
+    outline: none;
+    border: none;
+    background: none;
+    max-width: 70px;
+    color: var(--text-color);
+}
+
+.language-selector option{
+    color: black;
+}
+
+.copy-write .copy-write-text{
+    font-size: 12px;
+    margin-left: 10px;
+}

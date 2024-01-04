@@ -1,0 +1,59 @@
+.story-row{
+    width: 100%; 
+    max-width: 630px;
+    height: max-content;
+    position: relative;
+    border-radius: 10px;
+    padding-block: 8px;
+}
+
+.story-row .sotry-row-content{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    overflow-x: scroll;
+    scroll-behavior: smooth;
+}
+
+.sotry-row-content::-webkit-scrollbar{
+    display: none;
+}
+
+.story-row .left-scroll-story-row-btn{
+    position: absolute;
+    left: 10px;
+    bottom: 38px;
+    background-image: url("https://static.cdninstagram.com/rsrc.php/v3/y8/r/ZWR9C7_JdnP.png");
+    background-repeat: no-repeat;
+    background-position: -294px -226px;
+    height: 45px;
+    width: 45px;
+    cursor: pointer;
+}
+.story-row .right-scroll-story-row-btn{
+    position: absolute;
+    right: 10px;
+    bottom: 38px;
+    background-image: url("https://static.cdninstagram.com/rsrc.php/v3/y8/r/ZWR9C7_JdnP.png");
+    background-repeat: no-repeat;
+    background-position: -294px -273px;
+    height: 45px;
+    width: 45px;
+    cursor: pointer;
+}
+
+.sotry-row-content .currentUserStory{
+    display: none;
+}
+
+.currentUserStory .story-user-name{
+    color: rgb(168, 168, 168);
+}
+
+@media (max-width: 1160px) {
+    .sotry-row-content .currentUserStory{
+        display: unset;
+    }
+}

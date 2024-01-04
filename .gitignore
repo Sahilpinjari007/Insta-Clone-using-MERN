@@ -1,0 +1,6 @@
+client/public/*
+!client/public/.gitkeep
+server/storage/*
+!server/storage/.gitkeep
+server/node_modules
+client/node_modules

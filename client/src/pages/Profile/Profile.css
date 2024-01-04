@@ -1,0 +1,16 @@
+.profile-section{
+    width: 100%;
+    max-width: 975px;
+    height: max-content;
+    margin-inline: auto;
+    padding: 30px 20px 0px;
+    box-sizing: border-box;
+}
+
+
+@media (max-width: 1060px) {
+    .profile-section{
+        width: 100%;
+        max-width: 100%;
+    }
+}

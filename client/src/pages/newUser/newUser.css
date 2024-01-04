@@ -1,0 +1,116 @@
+:root {
+
+    --text-color: #737373;
+    --border-color: rgb(219, 219, 219);
+    --facebook-btn: #00376b;
+    --log-in-btn: #0095f6;
+}
+
+
+
+.new-user-section {
+    width: 100%;
+    height: max-content;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-block: 30px;
+}
+
+.new-user-section .new-user-content {
+    width: max-content;
+    height: max-content;
+    margin: auto;
+    display: flex;
+}
+
+.new-user-section .left-svg-section {
+    width: max-content;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.left-svg-section .svg-layout {
+    width: 380.31px;
+    height: 582.15px;
+    background-image: url("./assets/asset 8.png");
+    background-position: -46px 0;
+    background-repeat: no-repeat;
+    margin-right: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.svg-layout .svg-transition-imgs {
+    width: 250px;
+    height: 538.84px;
+    position: absolute;
+    right: 39.5px;
+}
+
+.svg-transition-imgs .transition-cover {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.svg-transition-imgs .svg-transition-img {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0px;
+    opacity: 0;
+    visibility: hidden;
+    transition: .7s ease-in-out;
+}
+
+.svg-transition-imgs .svg-transition-img.active {
+    visibility: visible;
+    opacity: 1;
+}
+
+
+.new-user-section .right-intraction-section {
+    width: max-content;
+    height: max-content;
+    margin-block: 15px;
+}
+
+.right-intraction-section .sign-in-layout {
+    width: 100%;
+    min-width: 350px;
+    height: max-content;
+}
+
+@media (max-width: 880px) {
+
+    .new-user-section .new-user-content {
+        width: 100%;
+        max-width: max-content;
+    }
+    
+    .new-user-section .left-svg-section {
+        display: none;
+    }
+
+    .new-user-content .right-intraction-section{
+        width: 100% !important;
+        max-width: max-content;
+        margin: 0;
+        padding: 12px;
+        box-sizing: border-box;
+    }
+}
+
+@media (max-width: 450px) {
+
+    .right-intraction-section .sign-in-layout {
+        width: 100%;
+        min-width: unset;
+    }
+}

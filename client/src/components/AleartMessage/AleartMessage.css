@@ -1,0 +1,40 @@
+.aleart-message{
+    width: 100%;
+    height: max-content;
+    position: fixed;
+    bottom: -80px;
+    left: 0;
+    background: rgb(38, 38, 38);;
+    padding: 20px 20px 20px 50px;
+    transition: .2s ease-in-out;
+}
+
+.aleart-message.active{
+    bottom: 0px;
+}
+
+.aleart-message .aleart-message-content{
+    width: 100%;
+    height: max-content;
+    box-sizing: border-box;
+}
+
+.aleart-message-content .aleart-message-txt{
+    color: white;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.aleart-message-txt .message-type{
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.message-type.Error{
+    color: red;
+}
+
+.message-type.Success{
+    color: green !important;
+}

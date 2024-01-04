@@ -28,23 +28,23 @@ export const createPost = async (req, res) => {
 
     const data = req.body;
 
-    try{
+    try {
         const query = `INSERT INTO allposts(postId, postUserUserId, postTitle, postMetaData, postTimeStamp, postType, postVideoURL, singlePostImgURL, isPostContainSong, postSongTitle, postSongURL, isMultiplePost, multipleImgPostURLS, isPostTaged, postTagList, postLikes) VALUES ('${v4()}','${data.postUserUserId}','${data.postTitle}','${data.postMetaData}','${data.postTimeStamp}','${data.postType}','${data.postVideoURL}','${data.singlePostImgURL}','${data.isPostContainSong}','${data.postSongTitle}','${data.postSongURL}','${data.isMultiplePost}','${data.multipleImgPostURLS}','${data.isPostTaged}','${data.postTagList}', ${data.postLikes})`;
 
-        conn.query(query, (err, result)=>{
+        conn.query(query, (err, result) => {
 
-            if(err) return res.status(500).json({message: 'Unable to Create Post', code: 400, err});
+            if (err) return res.status(500).json({ message: 'Unable to Create Post', code: 400, err });
 
-            if(result.affectedRows >= 1){
-                return res.status(200).json({message: 'Post Create SuccessFul!', code: 200});
+            if (result.affectedRows >= 1) {
+                return res.status(200).json({ message: 'Post Create SuccessFul!', code: 200 });
             }
-            else{
-                return res.status(500).json({message: 'Unable to Create Post', code: 201});
+            else {
+                return res.status(500).json({ message: 'Unable to Create Post', code: 201 });
             }
         })
     }
-    catch(err){
-        return res.status(500).json({message: 'Unable to Create Post', code: 400, err});
+    catch (err) {
+        return res.status(500).json({ message: 'Unable to Create Post', code: 400, err });
     }
 }
 
@@ -146,13 +146,131 @@ export const checkPostLiked = async (req, res) => {
     }
 }
 
-export const getPostLikedUsers = async (req, res) =>{
+export const getPostLikedUsers = async (req, res) => {
 
 
     const data = req.body;
-    
-    // {
-    //     "postId": "e12244dc-32db-4d47-bf37-a3d97fbd6652",
-    //     "authUserId": "74c41d99-35e0-4bb9-b87b-1521bfad6373"
-    // }
+
+    try {
+        const query = `
+        SELECT *
+        FROM users 
+        JOIN followers ON users.userId = followers.followerUserId
+        JOIN postlikes ON users.userId = postlikes.likedUserId
+        WHERE postlikes.postId = '${data.postId}'
+        AND followers.followingUserId = "${data.authUserId}" LIMIT 3;`;
+
+        conn.query(query, (err, result) => {
+            if (err) return res.status(500).json({ message: 'Unable to fetch post Liked Users!', code: 400, err });
+
+            if (Array.from(result).length >= 1) {
+                return res.status(200).json({ message: 'post Liked Users Featched!', code: 200, result });
+            }
+            else {
+                return res.status(200).json({ message: 'Post Liked Users Not Avilable!', code: 201, result: [] });
+            }
+        })
+
+    }
+    catch (err) {
+        return res.status(500).json({ message: 'Unable to fetch post Liked Users!', code: 400, err });
+    }
+}
+
+export const savePost = async (req, res) => {
+
+    const data = req.body;
+
+    // userId postId
+
+    try {
+
+        let query = `SELECT * FROM savedposts WHERE postId = '${data.postId}' AND userId = '${data.userId}';`;
+
+        // check post are alredy saved or not
+        conn.query(query, (err, result) => {
+            if (err) return res.status(500).json({ message: 'Unable to Save Post', code: 400, err });
+
+            // its means post is already saved unsave it
+            if (Array.from(result).length >= 1) {
+                query = `DELETE FROM savedposts WHERE postId = '${data.postId}' AND userId = '${data.userId}';`;
+
+                conn.query(query, (err, result) => {
+                    if (err) return res.status(500).json({ message: 'Unable to UnSave Post', code: 400, err });
+
+                    if (result.affectedRows >= 1) {
+                        return res.status(200).json({ message: 'Post UnSaved SuccessFul!', code: 200, value: false })
+                    }
+                    else {
+                        return res.status(200).json({ message: 'Unable to UnSaved Post!', code: 201 })
+                    }
+                })
+            } // its means post are not saved save it
+            else {
+                query = `INSERT INTO savedPosts (savedPostId, postId, userId) VALUES ('${v4()}','${data.postId}','${data.userId}');`;
+
+                conn.query(query, (err, result) => {
+                    if (err) return res.status(500).json({ message: 'Unable to Save Post!', code: 400, err });
+
+                    if (result.affectedRows >= 1) {
+                        return res.status(200).json({ message: 'Post Saved SuccessFul!', code: 200, value: true });
+                    }
+                    else {
+                        return res.status(200).json({ message: 'Unable to Save Post!', code: 201 })
+                    }
+                })
+            }
+        })
+    }
+    catch (err) {
+        return res.status(500).json({ message: 'Unable to Save Post', code: 400, err });
+    }
+}
+
+export const checkPostSaved = async (req, res) => {
+
+    const data = req.body;
+
+    try {
+        const query = `SELECT * FROM savedposts WHERE postId = '${data.postId}' AND userId = '${data.userId}';`;
+
+        conn.query(query, (err, result) => {
+            if (err) return res.status(500).json({ message: 'Unable to Check Post Saved or Not!', code: 400, err });
+
+            if (Array.from(result).length >= 1) {
+                return res.status(200).json({ message: 'Post Are Saved!', code: 200, value: true });
+            }
+            else {
+                return res.status(200).json({ message: 'Post Are Not Saved!', code: 200, value: false });
+            }
+        })
+    }
+    catch (err) {
+        return res.status(500).json({ message: 'Unable to Check Post Saved or Not!', code: 400, err });
+    }
+}
+
+export const insertComment = async (req, res) => {
+
+    //postId postUserId	commentedUserId	message	timeStamp	
+    const data = req.body;
+
+    try {
+
+        const query = `INSERT INTO postComments(commentId, postId, postUserId, commentedUserId, message, timeStamp) VALUES ('${v4()}','${data.postId}','${data.postUserId}','${data.commentedUserId}','${data.message}','${data.timeStamp}')`
+
+        conn.query(query, (err, result) => {
+            if (err) return res.status(500).json({ message: 'Unable to Comment on Post!', code: 400, err });
+
+            if (result.affectedRows >= 1) {
+                return res.status(200).json({ message: 'Commented On Post!', code: 200 });
+            }
+            else {
+                return res.status(200).json({ message: 'Unable to Comment on Post!', code: 201 });
+            }
+        })
+    }
+    catch (err) {
+        return res.status(500).json({ message: 'Unable to Comment on Post!', code: 400, err });
+    }
 }

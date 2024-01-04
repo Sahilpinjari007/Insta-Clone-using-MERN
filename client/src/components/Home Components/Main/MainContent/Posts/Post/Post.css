@@ -343,24 +343,31 @@
 .post-footer .post-title-area {
     width: 100%;
     height: max-content;
-    display: block;
     margin-top: 8px;
-    overflow: hidden;
+    display: block;
 }
 
-.post-title-area.active {
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+.post-title-area.active .post-title {
+    overflow: unset;
+    white-space: unset;
+    text-overflow: unset;
+    display: inline;
 }
 
 .post-title-area .post-user-username {
     color: white;
-    font-weight: bold;
+    font-weight: 500;
+    font-size: 14px;
 }
 
 .post-title-area .post-title {
+    display: inline-block;
+    max-width: 77% !important;
     font-size: 14px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-bottom: -3px;
 }
 
 .post-footer .remove-hided-title-btn {
@@ -370,6 +377,16 @@
     background: transparent !important;
     cursor: pointer;
 }
+
+.post-footer .view-all-comment-section{
+    margin-top: 8px;
+}
+
+.post-footer .view-all-commends-txt-btn{
+    color: #A8A8A8;
+    font-size: 14px;
+}
+
 
 .post-footer .add-comment-section {
     width: 100%;

@@ -51,6 +51,7 @@ p {
   background: #a8a8a8;
 }
 
+
 .home-content {
   width: 100%;
   height: max-content;
@@ -59,10 +60,6 @@ p {
   flex-direction: row;
   background: var(--app-bg-color);
   position: relative;
-}
-
-.home-content.active{
-  max-height: 100vh;
 }
 
 .home-content .app-pages{

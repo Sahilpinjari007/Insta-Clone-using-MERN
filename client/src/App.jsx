@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 import NewUser from "./pages/newUser/NewUser";
 import LoginPage from "./pages/logIn/LoginPage";
@@ -21,22 +21,29 @@ import CheckFollowerDailog from "./components/CheckFollowerDailog/CheckFollowerD
 import CheckFollowingDailog from "./components/CheckFollowingDailog/CheckFollowingDailog";
 import CreatePostDailog from "./components/CreateMediaDailogs/CreatePostDailog";
 import AleartMessage from "./components/AleartMessage/AleartMessage";
+import SendPostDailog from "./components/SendPostDailog/SendPostDailog";
 
 const CombineHome = () => {
 
-  const { showProfileDailog, createPostDailog } = useContext(AppContext);
+  const { showProfileDailog, createPostDailog, sendPostDailog } = useContext(AppContext);
+
+  
+    if ((showProfileDailog || createPostDailog || sendPostDailog)) {
+      document.body.style.overflow = 'hidden';
+    }
+    else{
+      document.body.style.overflow = 'scroll';
+    }
 
   return (
-    <div className={showProfileDailog || createPostDailog ? "home-content active" : "home-content"}>
+    <div className="home-content">
       <Nav />
       <div className="app-pages">
         <Outlet />
       </div>
-      {showProfileDailog &&
-        <Dailog />}
-      {
-        createPostDailog && <CreatePostDailog />
-      }
+      {showProfileDailog && <Dailog />}
+      {createPostDailog && <CreatePostDailog />}
+      {sendPostDailog && <SendPostDailog />}
     </div>
   );
 };

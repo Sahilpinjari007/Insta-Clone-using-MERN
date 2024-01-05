@@ -16,6 +16,8 @@ export const AppProvider = ({ children }) => {
     const [aleartData, setAleartData] = useState({message: '', type: ''});
     const [isAlert, setIsAlert] = useState(false);
 
+    const [sendPostDailog, setSendPostDailog] = useState(true);
+
 
     const getCurrentUser = async (curUserID) => {
         const response = await getUser(curUserID);
@@ -46,7 +48,7 @@ export const AppProvider = ({ children }) => {
         getCurrentUser,
         profileUser,
         setProfileUser, fromDailog, setFromDailog, createPostDailog, setCreatePostDailog
-        ,aleartData, setAleartData, isAlert, setIsAlert
+        ,aleartData, setAleartData, isAlert, setIsAlert, sendPostDailog, setSendPostDailog
     }}>
         {children}
     </AppContext.Provider>

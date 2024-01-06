@@ -16,7 +16,8 @@ export const AppProvider = ({ children }) => {
     const [aleartData, setAleartData] = useState({message: '', type: ''});
     const [isAlert, setIsAlert] = useState(false);
 
-    const [sendPostDailog, setSendPostDailog] = useState(true);
+    const [sendPostDailog, setSendPostDailog] = useState(false);
+    const [viewUserMedia, setViewUserMedia] = useState(true);
 
 
     const getCurrentUser = async (curUserID) => {
@@ -48,7 +49,7 @@ export const AppProvider = ({ children }) => {
         getCurrentUser,
         profileUser,
         setProfileUser, fromDailog, setFromDailog, createPostDailog, setCreatePostDailog
-        ,aleartData, setAleartData, isAlert, setIsAlert, sendPostDailog, setSendPostDailog
+        ,aleartData, setAleartData, isAlert, setIsAlert, sendPostDailog, setSendPostDailog, viewUserMedia, setViewUserMedia
     }}>
         {children}
     </AppContext.Provider>

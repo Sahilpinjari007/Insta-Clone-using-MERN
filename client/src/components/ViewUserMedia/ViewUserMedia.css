@@ -1,0 +1,252 @@
+.viewUserMedia-section {
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1001;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.viewUserMedia-section-content {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.viewUserMedia-section-content .close-viewUserMedia-dailog-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    padding: 8px;
+    display: flex;
+}
+
+.viewUserMedia-section-content .close-viewUserMedia-dailog-btn svg {
+    color: white;
+}
+
+.viewUserMedia-section-content .viewUserMedia-dailog {
+    width: 100%;
+    max-width: calc(100% - 64px - 64px);
+    height: 100%;
+    max-height: calc(100vh - 40px);
+    overflow: auto;
+    animation-name: dailogAnimation;
+    animation-timing-function: ease-out;
+    animation-iteration-count: 1;
+    animation-duration: .1s;
+}
+
+@keyframes dailogAnimation {
+    0% {
+        opacity: 0;
+        transform: scale(1.2);
+        transform-origin: center;
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+        transform-origin: center;
+    }
+}
+
+.viewUserMedia-dailog .viewUserMedia-dailog-content {
+    width: 100%;
+    height: 100%;
+}
+
+.viewUserMedia-dailog-content .viewUserMedia-articale-content {
+    width: 100%;
+    height: 100%;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.viewUserMedia-articale-content .viewUserMedia-media-section {
+    width: 100%;
+    height: 100%;
+    max-width: 545px;
+    background: #000;
+}
+
+.viewUserMedia-media-section .viewUserMedia-media-section-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.viewUserMedia-media-section-content .img-media-content {
+    width: 100%;
+    height: 100%;
+    max-height: max-content;
+    overflow-x: scroll;
+    display: flex;
+    scroll-behavior: smooth;
+}
+
+.img-media-content::-webkit-scrollbar{
+    display: none;
+}
+
+.img-media-content .viewUserMedia-img-layout {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.viewUserMedia-img-layout img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: .1s ease;
+}
+
+.viewUserMedia-articale-content .viewUserMedia-media-meta-data-section {
+    max-width: 500px;
+    min-width: 405px;
+    height: 100%;
+    align-items: stretch;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    flex-shrink: 2;
+    vertical-align: baseline;
+    border-left: 1px solid rgb(38, 38, 38);
+    background: #000;
+}
+
+
+.viewUserMedia-section-content .viewUserMedia-left-scroll-btn {
+    position: absolute;
+    left: 5px;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    background-image: url("https://static.cdninstagram.com/rsrc.php/v3/y8/r/ZWR9C7_JdnP.png");
+    background-repeat: no-repeat;
+    background-position: -294px -226px;
+    height: 45px;
+    width: 45px;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.viewUserMedia-section-content .viewUserMedia-right-scroll-btn {
+    position: absolute;
+    right: 5px;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    background-image: url("https://static.cdninstagram.com/rsrc.php/v3/y8/r/ZWR9C7_JdnP.png");
+    background-repeat: no-repeat;
+    background-position: -294px -273px;
+    height: 45px;
+    width: 45px;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.viewUserMedia-section-content .viewUserMedia-media-section-footer {
+    width: 100%;
+    position: absolute;
+    bottom: 0px;
+    left: 0;
+    padding: 15px 12px;
+    box-sizing: border-box;
+    z-index: 1;
+}
+
+.viewUserMedia-media-section-footer .viewUserMedia-media-section-footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+
+.viewUserMedia-media-section-footer-content .tag-icon,
+.viewUserMedia-media-section-footer-content .audio-icon{
+    width: 28px;
+    height: 28px;
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.viewUserMedia-media-section-footer-content svg{
+    color: white;
+}
+
+.viewUserMedia-media-section-footer-content .current-post-active-thumbs{
+    width: 100%;
+    height: max-content;
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+    position: absolute;
+
+}
+
+.current-post-active-thumbs .current-post-thumb{
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgb(255, 255, 255);
+    opacity: .4;
+    transition: .1s ease;
+}
+
+.current-post-active-thumbs .current-post-thumb.active{
+    opacity: 1;
+}
+
+
+
+
+@media (max-width: 1250px) {
+    .viewUserMedia-articale-content .viewUserMedia-media-section {
+        max-width: 490px;
+    }
+}
+
+
+
+@media (max-width: 1010px) {
+    .viewUserMedia-section-content .viewUserMedia-dailog {
+        width: 100%;
+        max-width: calc(100% - 64px - 64px);
+        height: 100%;
+        max-height: calc(100vw - 435px) !important;
+    }
+}
+
+@media (max-width: 890px) {
+    .viewUserMedia-section-content .viewUserMedia-dailog {
+        width: 100%;
+        max-width: calc(100% - 64px - 64px);
+        height: 100%;
+        max-height: 450px !important;
+    }
+
+
+    .viewUserMedia-media-section-content .img-media-content {
+        height: auto
+    }
+}

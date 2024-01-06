@@ -22,17 +22,18 @@ import CheckFollowingDailog from "./components/CheckFollowingDailog/CheckFollowi
 import CreatePostDailog from "./components/CreateMediaDailogs/CreatePostDailog";
 import AleartMessage from "./components/AleartMessage/AleartMessage";
 import SendPostDailog from "./components/SendPostDailog/SendPostDailog";
+import ViewUserMedia from "./components/ViewUserMedia/ViewUserMedia";
 
 const CombineHome = () => {
 
-  const { showProfileDailog, createPostDailog, sendPostDailog } = useContext(AppContext);
+  const { showProfileDailog, createPostDailog, sendPostDailog, viewUserMedia } = useContext(AppContext);
 
   
-    if ((showProfileDailog || createPostDailog || sendPostDailog)) {
-      document.body.style.overflow = 'hidden';
+    if ((showProfileDailog || createPostDailog || sendPostDailog || viewUserMedia)) {
+      document.body.style['overflow-y']  = 'hidden';
     }
     else{
-      document.body.style.overflow = 'scroll';
+      document.body.style['overflow-y']  = 'scroll';
     }
 
   return (
@@ -44,6 +45,7 @@ const CombineHome = () => {
       {showProfileDailog && <Dailog />}
       {createPostDailog && <CreatePostDailog />}
       {sendPostDailog && <SendPostDailog />}
+      {viewUserMedia && <ViewUserMedia/>}
     </div>
   );
 };

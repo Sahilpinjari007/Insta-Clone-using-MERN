@@ -43,6 +43,7 @@
     animation-timing-function: ease-out;
     animation-iteration-count: 1;
     animation-duration: .1s;
+    overflow: hidden;
 }
 
 @keyframes dailogAnimation {
@@ -93,12 +94,10 @@
     width: 100%;
     height: 100%;
     max-height: max-content;
-    overflow-x: scroll;
     display: flex;
-    scroll-behavior: smooth;
 }
 
-.img-media-content::-webkit-scrollbar{
+.img-media-content::-webkit-scrollbar {
     display: none;
 }
 
@@ -115,20 +114,41 @@
     transition: .1s ease;
 }
 
-.viewUserMedia-articale-content .viewUserMedia-media-meta-data-section {
-    max-width: 500px;
-    min-width: 405px;
+.viewUserMedia-media-section-content .video-media-content{
+    width: 100%;
     height: 100%;
-    align-items: stretch;
-    box-sizing: border-box;
+    max-height: max-content;
     display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-    flex-shrink: 2;
-    vertical-align: baseline;
-    border-left: 1px solid rgb(38, 38, 38);
-    background: #000;
+    position: relative;
 }
+
+.video-media-content video{
+    width: 100%;
+    height: 100%;
+    margin: auto;
+}
+
+.video-media-content .video-media-push-btn{
+    background-repeat: no-repeat;
+    background-position: 0 0;
+    height: 135px;
+    width: 135px;
+    background-image: url('https://static.cdninstagram.com/rsrc.php/v3/ys/r/qv7ZSPGDNFr.png');
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.video-media-push-btn.active{
+    opacity: 1;
+    visibility: visible;
+}
+
 
 
 .viewUserMedia-section-content .viewUserMedia-left-scroll-btn {
@@ -144,6 +164,9 @@
     width: 45px;
     cursor: pointer;
     z-index: 1;
+    visibility: hidden;
+    opacity: 0;
+    transition: .2s ease
 }
 
 .viewUserMedia-section-content .viewUserMedia-right-scroll-btn {
@@ -159,6 +182,15 @@
     width: 45px;
     cursor: pointer;
     z-index: 1;
+    visibility: hidden;
+    opacity: 0;
+    transition: .1s ease
+}
+
+.viewUserMedia-right-scroll-btn.active,
+.viewUserMedia-left-scroll-btn.active {
+    visibility: visible;
+    opacity: 1;
 }
 
 .viewUserMedia-section-content .viewUserMedia-media-section-footer {
@@ -168,7 +200,7 @@
     left: 0;
     padding: 15px 12px;
     box-sizing: border-box;
-    z-index: 1;
+    z-index: 99;
 }
 
 .viewUserMedia-media-section-footer .viewUserMedia-media-section-footer-content {
@@ -179,7 +211,7 @@
 }
 
 .viewUserMedia-media-section-footer-content .tag-icon,
-.viewUserMedia-media-section-footer-content .audio-icon{
+.viewUserMedia-media-section-footer-content .audio-icon {
     width: 28px;
     height: 28px;
     background: rgba(0, 0, 0, 0.8);
@@ -188,13 +220,14 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    z-index: 999;
 }
 
-.viewUserMedia-media-section-footer-content svg{
+.viewUserMedia-media-section-footer-content svg {
     color: white;
 }
 
-.viewUserMedia-media-section-footer-content .current-post-active-thumbs{
+.viewUserMedia-media-section-footer-content .current-post-active-thumbs {
     width: 100%;
     height: max-content;
     display: flex;
@@ -204,7 +237,7 @@
 
 }
 
-.current-post-active-thumbs .current-post-thumb{
+.current-post-active-thumbs .current-post-thumb {
     width: 6px;
     height: 6px;
     border-radius: 50%;
@@ -213,7 +246,336 @@
     transition: .1s ease;
 }
 
-.current-post-active-thumbs .current-post-thumb.active{
+.current-post-active-thumbs .current-post-thumb.active {
+    opacity: 1;
+}
+
+
+
+.viewUserMedia-articale-content .viewUserMedia-media-meta-data-section {
+    max-width: 500px;
+    min-width: 405px;
+    height: 100%;
+    align-items: stretch;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    flex-shrink: 2;
+    vertical-align: baseline;
+    border-left: 1px solid rgb(38, 38, 38);
+    background: #000;
+}
+
+.viewUserMedia-media-meta-data-section .viewUserMedia-meta-header {
+    width: 100%;
+    height: max-content;
+    padding: 14px 16px;
+    box-sizing: border-box;
+}
+
+.viewUserMedia-meta-header .viewUserMedia-meta-header-content {
+    width: 100%;
+    height: max-content;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.viewUserMedia-meta-header-content .viewUserMedia-meta-profile-img-layout {
+    width: max-content;
+    height: max-content;
+}
+
+.viewUserMedia-meta-profile-img-layout .viewUserMedia-meta-profile-img {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    box-sizing: border-box;
+    padding: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 14px;
+    /* border: 3px solid green; */
+
+}
+
+.viewUserMedia-meta-profile-img.active{
+    border: 3px solid green;
+}
+
+.viewUserMedia-meta-profile-img img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+.viewUserMedia-meta-header-content .viewUserMedia-meta-username {
+    width: max-content;
+    height: max-content;
+}
+
+.viewUserMedia-meta-username span {
+    font-size: 14px;
+    color: #F5F5F5;
+    font-weight: bold;
+}
+
+.viewUserMedia-meta-header-content .viewUserMedia-meta-sapretor {
+    width: 3.5px;
+    height: 3.5px;
+    border-radius: 50%;
+    background-color: #F5F5F5;
+    margin-inline: 5px;
+    margin-top: 5px;
+}
+
+.viewUserMedia-meta-header-content .viewUserMedia-meta-follow-btn {
+    font-size: 14px;
+    font-weight: bold;
+    color: #0095F6;
+    cursor: pointer;
+}
+
+.viewUserMedia-meta-header-content .viewUserMedia-meta-more-action-btn {
+    width: max-content;
+    height: max-content;
+    display: flex;
+    position: absolute;
+    right: 8px;
+    padding: 8px;
+    cursor: pointer;
+}
+
+.viewUserMedia-meta-more-action-btn svg {
+    color: white;
+}
+
+
+
+.viewUserMedia-media-meta-data-section .viewUserMedia-meta-comment-section{
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    border-top: 1px solid rgb(38, 38, 38);
+    position: relative;
+}
+
+.viewUserMedia-meta-comment-section::-webkit-scrollbar{
+    display: none;
+}
+
+.viewUserMedia-meta-comment-section .viewUserMedia-meta-comment-section-content{
+    height: auto;
+    padding: 16px 16px 0px 16px;
+    position: relative;
+}
+
+.comment{
+    width: 100%;
+    height: max-content;
+    box-sizing: border-box;
+    padding-bottom: 25px;
+}
+
+.comment .comment-content{
+    width: 100%;
+    height: max-content;
+    display: flex;
+    align-items: start;
+}
+
+.comment-content .comment-user-profile-img-layout{
+    width: max-content;
+    height: max-content;
+}
+
+.comment-user-profile-img-layout .comment-user-profile-img{
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    box-sizing: border-box;
+    padding: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 14px;
+    border: 3px solid green;
+}
+
+.comment-user-profile-img img{
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+.comment-content .comment-meta{
+    width: 100%;
+    height: max-content;
+}
+
+.comment-meta .comment-user-name{
+    width: 100%;
+    height: max-content;
+}
+
+.comment-user-name span{
+    font-size: 14px;
+    font-weight: bold;
+    color: #F5F5F5;
+}
+
+.comment-meta .comment-txt{
+    width: 100%;
+    height: max-content;
+}
+
+.comment-txt span{
+    width: 100%;
+    max-width: 100%;
+    display: block;
+    height: max-content;
+    font-size: 14px;
+    font-weight: normal;
+    color: #F5F5F5;
+    word-wrap: wrap;
+}
+
+.comment-content .comment-time{
+    width: max-content;
+    height: max-content;
+    margin-left: 14px;
+    margin-top: 8px;
+}
+
+.comment-time span{
+    color: #A8A8A8;
+    font-size: 12px;
+}
+
+
+
+
+
+.viewUserMedia-media-meta-data-section .viewUserMedia-meta-post-intractions {
+    width: 100%;
+    height: max-content;
+    margin-top: 4px;
+    border-top: 1px solid rgb(38, 38, 38);
+}
+
+.viewUserMedia-meta-post-intractions .viewUserMedia-meta-post-intraction-content {
+    width: 100%;
+    height: max-content;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 16px;
+    box-sizing: border-box;
+}
+
+.viewUserMedia-meta-post-intraction-content .viewUserMedia-meta-right-post-intractions,
+.viewUserMedia-meta-post-intraction-content .viewUserMedia-meta-left-post-intractions {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.viewUserMedia-meta-right-post-intractions div,
+.viewUserMedia-meta-left-post-intractions div {
+    width: max-content;
+    height: max-content;
+    display: flex;
+    padding: 8px;
+}
+
+.viewUserMedia-meta-post-intraction-content div svg {
+    color: white;
+}
+
+.viewUserMedia-meta-post-intractions .viewUserMedia-meta-post-timestapm{
+    width: 100%;
+    height: max-content;
+    padding-inline: 16px;
+    box-sizing: border-box;
+    margin-bottom: 16px;
+}
+
+.viewUserMedia-meta-post-timestapm span{
+    font-size: 12px;
+    color: #A8A8A8;
+}
+
+
+
+.viewUserMedia-media-meta-data-section .viewUserMedia-meta-add-comment-section{
+    width: 100%;
+    height: max-content;
+    padding: 6px 16px 16px 0px;
+    border-top: 1px solid rgb(38, 38, 38);
+    box-sizing: border-box;
+}
+
+.viewUserMedia-meta-add-comment-section .viewUserMedia-meta-add-comment-content{
+    width: 100%;
+    height: max-content;
+    display: flex;
+    align-items: center;
+}
+
+.viewUserMedia-meta-add-comment-content .viewUserMedia-media-comment-emoji-btn{
+    height: max-content;
+    width: max-content;
+    padding: 8px 16px;
+    display: flex;
+}
+
+.viewUserMedia-media-comment-emoji-btn svg{
+    color: white;
+}
+
+.viewUserMedia-meta-add-comment-content .viewUserMedia-media-comment-text-area{
+    width: 100%;
+    height: max-content;
+    display: flex;
+}
+
+.viewUserMedia-media-comment-text-area textarea{
+    width: 100%;
+    height: 18px;
+    max-height: 80px;
+    border: none;
+    outline: none;
+    resize: none;
+    color: white;
+    font-size: 14px;
+    font-weight: normal;
+    background: transparent;
+}
+
+.viewUserMedia-media-comment-text-area textarea::placeholder{
+    font-size: 16px;
+    font-weight: normal !important;
+}
+
+.viewUserMedia-meta-add-comment-content .viewUserMedia-media-comment-post-btn{
+    height: max-content;
+    width: max-content;
+}
+
+.viewUserMedia-media-comment-post-btn span{
+    font-weight: 600;
+    color: rgb(179, 219, 255);
+    cursor: pointer;
+    margin-left: 8px;
+    opacity: .5;
+    font-size: .875rem;;
+}
+
+.viewUserMedia-media-comment-post-btn .active{
+    color: #0095F6;
+    cursor: pointer;
     opacity: 1;
 }
 
@@ -225,8 +587,6 @@
         max-width: 490px;
     }
 }
-
-
 
 @media (max-width: 1010px) {
     .viewUserMedia-section-content .viewUserMedia-dailog {

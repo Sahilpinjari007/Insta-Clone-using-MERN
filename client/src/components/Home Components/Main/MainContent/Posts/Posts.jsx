@@ -87,6 +87,7 @@ const Posts = () => {
         const response = await getPosts();
 
         const AllPosts = response?.result?.map((elem)=>{
+            console.log(JSON.parse(elem?.multipleImgPostURLS));
             elem.multipleImgPostURLS = JSON.parse(elem?.multipleImgPostURLS);
             elem.postTagList = JSON.parse(elem?.postTagList);
             return elem;

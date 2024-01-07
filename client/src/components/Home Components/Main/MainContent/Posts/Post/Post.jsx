@@ -14,7 +14,7 @@ import {
 import { AppContext } from "../../../../../../Context/context";
 
 const Post = ({ postData }) => {
-  const { authUser, setIsAlert, setAleartData, setSendPostDailog } = useContext(AppContext);
+  const { authUser, setIsAlert, setAleartData, setSendPostDailog, setViewUserMedia, setViewUserMediaData } = useContext(AppContext);
 
   const [comment, setComment] = useState("");
   const [songSituation, setSongSituation] = useState(false);
@@ -184,6 +184,11 @@ const Post = ({ postData }) => {
 
     setPostLikedUsers(response.result);
   };
+
+  const handleViewComment = () =>{
+    setViewUserMedia(true);
+    setViewUserMediaData(postData);
+  }
 
   useEffect(() => {
     if (postScrollValue > 0) {
@@ -414,7 +419,7 @@ const Post = ({ postData }) => {
                 )}
               </div>
 
-              <svg
+              <svg onClick={handleViewComment}
                 xmlns="http://www.w3.org/2000/svg"
                 aria-label="Comment"
                 className="x1lliihq x1n2onr6 x5n08af svgHover"

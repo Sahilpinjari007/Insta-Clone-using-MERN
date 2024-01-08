@@ -274,3 +274,26 @@ export const insertComment = async (req, res) => {
         return res.status(500).json({ message: 'Unable to Comment on Post!', code: 400, err });
     }
 }
+
+export const getComments = async (req, res) =>{
+    
+    const postId = req.params.postId;
+
+    try{
+        const query = `SELECT * FROM postcomments WHERE postId = '${postId}'`;
+
+        conn.query(query, (err, result) =>{
+            if(err)  return res.status(500).json({message: 'Unable to Featch Comments!', code: 400, err});
+
+            if(Array.from(result).length >= 1){
+                return res.status(200).json({message: 'All Comment Featched!', code: 200, result});
+            }
+            else{
+                return res.status(200).json({message: 'Comments are not Available for This Post', code: 201, result: []});
+            }
+        })
+    }
+    catch(err){
+        return res.status(500).json({message: 'Unable to Featch Comments!', code: 400, err});
+    }
+}

@@ -263,7 +263,7 @@ const Post = ({ postData }) => {
                   <img src={postData.singlePostImgURL} alt="No image Found!" />
                 </div>
               ) : (
-                postData.multipleImgPostURLS.map((elem, i) => {
+                postData.multipleImgPostURLS?.map((elem, i) => {
                   return (
                     <div className="post-img-layout" key={i}>
                       <img src={elem.url} alt={postData.postTitle} />
@@ -326,7 +326,7 @@ const Post = ({ postData }) => {
             <div className="bottom-post-navigation-section">
               {postData.isMultiplePost === "true" && (
                 <div className="posts-count-thumb">
-                  {postData.multipleImgPostURLS.map((elem, i) => {
+                  {postData.multipleImgPostURLS?.map((elem, i) => {
                     return (
                       <div
                         key={i}

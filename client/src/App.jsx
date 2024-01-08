@@ -44,8 +44,8 @@ const CombineHome = () => {
       </div>
       {showProfileDailog && <Dailog />}
       {createPostDailog && <CreatePostDailog />}
-      {sendPostDailog && <SendPostDailog />}
       {viewUserMedia && <ViewUserMedia/>}
+      {sendPostDailog && <SendPostDailog />}
     </div>
   );
 };

@@ -84,3 +84,14 @@ export const commentOnPost = async (formData) =>{
         return err?.response?.data;
     }
 }
+
+export const getPostComments = async (postId) =>{
+    try {
+        const { data } = await api.getPostComments(postId);
+        return data;
+    } 
+    catch (err) {
+        return err?.response?.data;
+    }
+}
+

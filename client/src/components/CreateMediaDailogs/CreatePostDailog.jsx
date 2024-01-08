@@ -59,9 +59,9 @@ const CreatePostDailog = () => {
     postSongTitle: "",
     postSongURL: "",
     isMultiplePost: false,
-    multipleImgPostURLS: [],
+    multipleImgPostURLS: '[]',
     isPostTaged: false,
-    postTagList: [],
+    postTagList: '[]',
     postLikes: 0,
   });
 
@@ -187,7 +187,7 @@ const CreatePostDailog = () => {
         postSongTitle: selectedMusicTitle,
         postSongURL: selectedMusicUrl,
         isMultiplePost: multiMediaPath.length > 1 ? true : false,
-        multipleImgPostURLS: multiMediaPath.length > 1 ? JSON.stringify(multiMediaPath) : '[]',
+        multipleImgPostURLS: JSON.stringify(multiMediaPath),
         isPostTaged: tagList.length >= 1 ? true : false,
         postTagList: JSON.stringify(tagList),
       });

@@ -17,7 +17,7 @@ export const AppProvider = ({ children }) => {
     const [isAlert, setIsAlert] = useState(false);
 
     const [sendPostDailog, setSendPostDailog] = useState(false);
-    const [viewUserMedia, setViewUserMedia] = useState(true);
+    const [viewUserMedia, setViewUserMedia] = useState(false);
     const [viewUserMediaData, setViewUserMediaData] = useState({});
 
 

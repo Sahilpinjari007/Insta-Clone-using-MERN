@@ -88,6 +88,7 @@
     align-items: center;
     justify-content: center;
     margin-right: 16px;
+    cursor: pointer;;
 }
 
 .send-post-dailog-header-close-btn svg {

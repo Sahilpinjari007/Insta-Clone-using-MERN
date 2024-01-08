@@ -32,6 +32,7 @@ export const fetchPostLikedUsers = (formData) => API.post(`/insgaram/posts/fetch
 export const savePost = (formData) => API.post(`/insgaram/posts/save`, formData);
 export const checkPostSaved = (formData) => API.post(`/insgaram/posts/checkPostSaved`, formData);
 export const insertComment = (formData) => API.post(`/insgaram/posts/insertComment`, formData);
+export const getPostComments = (postId) => API.get(`/insgaram/posts/getPostComments/${postId}`);
 
 
 

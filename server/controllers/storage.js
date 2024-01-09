@@ -27,21 +27,20 @@ let upload = multer({
 
 
 
-export const uploadPostImg = async (req, resp) => {
+export const uploadPostImg = async (req, res) => {
 
     fileName = v4();
 
-    upload(req, resp, async (err) => {
-        // Validate request
+    upload(req, res, async (err) => {
         if (!req.file) {
-            return resp.json({ error: 'File not Availble', code: 400 });
+            return res.status(500).json({ message: 'Media not Availble', code: 400 });
         }
 
         if (err) {
-            return resp.status(500).send({ error: err.message, code: 500 });
+            return res.status(500).json({ message: 'Media not Availble', code: 500, err: err.message });
         }
 
-        return resp.json({ url: `http://localhost:5000/storage/${fileName}${path.extname(req.file.originalname)}` })
+        return res.status(200).json({ message: 'Media Uploaded!', code: 200,  url: `http://localhost:5000/storage/${fileName}${path.extname(req.file.originalname)}` })
     })
 }
 

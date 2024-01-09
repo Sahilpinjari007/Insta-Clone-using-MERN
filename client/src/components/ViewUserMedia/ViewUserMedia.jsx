@@ -6,6 +6,7 @@ import {
   checkPostLiked,
   checkPostSaved,
   commentOnPost,
+  deleteUserComment,
   getPostComments,
   likePost,
   savePost,
@@ -13,7 +14,11 @@ import {
 import moment from "moment";
 import DeleteCommentAlert from "../DeleteCommentAlert/DeleteCommentAlert";
 
-const PostComment = ({ commentData, setShowDeleteCommentDailog }) => {
+const PostComment = ({
+  commentData,
+  setShowDeleteCommentDailog,
+  setDeleteCommentId,
+}) => {
   const [commentUser, setCommentUser] = useState({});
   const { authUser } = useContext(AppContext);
 
@@ -45,7 +50,13 @@ const PostComment = ({ commentData, setShowDeleteCommentDailog }) => {
           <div className="comment-user-name">
             <span>{commentUser.userName}</span>
             {authUser.userId === commentData.commentedUserId && (
-              <div className="comment-more-icon" onClick={()=>setShowDeleteCommentDailog(true)}>
+              <div
+                className="comment-more-icon"
+                onClick={() => {
+                  setShowDeleteCommentDailog(true);
+                  setDeleteCommentId(commentData.commentId);
+                }}
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   aria-label="More options"
@@ -85,6 +96,8 @@ const ViewUserMedia = () => {
     setAleartData,
     setIsAlert,
     setSendPostDailog,
+    setCurrentPostUserId,
+    setIsActivePostMore,
   } = useContext(AppContext);
 
   const [postUser, setPostUser] = useState({});
@@ -107,6 +120,7 @@ const ViewUserMedia = () => {
   const [isSongPlay, setIsSongPlay] = useState(false);
 
   const [showDeleteCommentDailog, setShowDeleteCommentDailog] = useState(false);
+  const [deleteCommentId, setDeleteCommentId] = useState("");
 
   const hanldeRightPostScroll = () => {
     if (currentImgIndex !== multiplePosts.length - 1) {
@@ -259,6 +273,18 @@ const ViewUserMedia = () => {
     if (response.code === 200) setPostComments(response.result);
   };
 
+  const deleteComment = async () => {
+    const response = await deleteUserComment(deleteCommentId);
+
+    if (response.code !== 200) {
+      setIsAlert(true);
+      setAleartData({ message: "Unable to Delete Comment!", type: "Error" });
+    }
+
+    setShowDeleteCommentDailog(false);
+    getComments();
+  };
+
   useEffect(() => {
     getComments();
 
@@ -339,7 +365,7 @@ const ViewUserMedia = () => {
                             draggable={false}
                             src={
                               viewUserMediaData.isMultiplePost === "true"
-                                ? multiplePosts[currentImgIndex].url
+                                ? multiplePosts[currentImgIndex]?.url
                                 : viewUserMediaData.singlePostImgURL
                             }
                             alt=""
@@ -502,7 +528,14 @@ const ViewUserMedia = () => {
                           </span>
                         </>
                       )}
-                      <div className="viewUserMedia-meta-more-action-btn">
+                      <div
+                        className="viewUserMedia-meta-more-action-btn"
+                        onClick={() => {
+                          setIsActivePostMore(true);
+                          setCurrentPostUserId(postUser.userId);
+                          setViewUserMedia(false);
+                        }}
+                      >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           aria-label="More options"
@@ -524,9 +557,28 @@ const ViewUserMedia = () => {
                   <section className="viewUserMedia-meta-comment-section">
                     <div className="viewUserMedia-meta-comment-section-content">
                       {postComments?.map((elem, i) => {
-                        return <PostComment key={i} commentData={elem} setShowDeleteCommentDailog={setShowDeleteCommentDailog} />;
+                        return (
+                          <PostComment
+                            key={i}
+                            commentData={elem}
+                            setShowDeleteCommentDailog={
+                              setShowDeleteCommentDailog
+                            }
+                            setDeleteCommentId={setDeleteCommentId}
+                          />
+                        );
                       })}
                     </div>
+                    {postComments.length === 0 && (
+                      <div className="no-comment-alert">
+                        <h1 className="no-comment-alert-heading">
+                          No comments yet.
+                        </h1>
+                        <h3 className="no-comment-alert-sub-heading">
+                          Start the conversation.
+                        </h3>
+                      </div>
+                    )}
                   </section>
                   <div className="viewUserMedia-meta-post-intractions">
                     <div className="viewUserMedia-meta-post-intraction-content">
@@ -706,7 +758,12 @@ const ViewUserMedia = () => {
         </div>
       </div>
 
-      {showDeleteCommentDailog && <DeleteCommentAlert setShowDeleteCommentDailog={setShowDeleteCommentDailog}/>}
+      {showDeleteCommentDailog && (
+        <DeleteCommentAlert
+          setShowDeleteCommentDailog={setShowDeleteCommentDailog}
+          deleteComment={deleteComment}
+        />
+      )}
     </>
   );
 };

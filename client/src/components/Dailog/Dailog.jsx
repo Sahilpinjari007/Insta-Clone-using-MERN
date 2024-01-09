@@ -1,14 +1,8 @@
 import React, { useContext, useRef } from "react";
 import "./Dailog.css";
 import { AppContext } from "../../Context/context";
-import { storage } from "../../Firebase/firebase";
-import { v4 } from 'uuid'
-import {
-  ref,
-  uploadBytesResumable,
-  getDownloadURL
-} from "firebase/storage";
 import { profileImgUpdate } from "../../api/Api";
+import { uploadMedia } from "../../action/storage";
 
 
 
@@ -16,7 +10,7 @@ const Dailog = () => {
 
 
   const imgInput = useRef()
-  const { setShowProfileDailog, authUser, getCurrentUser } = useContext(AppContext);
+  const { setShowProfileDailog, authUser, getCurrentUser, setIsAlert, setAleartData } = useContext(AppContext);
 
   const handleUploadImgBtn = () => {
     imgInput.current.click();
@@ -27,26 +21,22 @@ const Dailog = () => {
     uploadImgToServer(e.target.files[0]);
   }
 
-  const uploadImgToServer = async (imageUpload) => {
-    if (imageUpload == null) return;
+  const uploadImgToServer = async (media) => {
 
-    const storageRef = ref(storage, `images/profileImage/${imageUpload.name + v4()}`);
-    const uploadTask = uploadBytesResumable(storageRef, imageUpload);
+    const response = await uploadMedia(media);
+    const result = await response.json();
 
-    uploadTask.on('state_changed', (snapshot) => {
-    }, (err) => console.log(err),
-      () => {
-        getDownloadURL(uploadTask.snapshot.ref).then(async (url) => {
+    if (result.code === 200) {
+      const { data } = await profileImgUpdate({ userId: authUser.userId, profileImgUrl: result.url });
 
-          const { data } = await profileImgUpdate({ userId: authUser.userId, profileImgUrl: url });
-
-          if (data.code == 200) {
-            alert('Profile Image uploaded successfull!');
-            getCurrentUser(authUser.userId)
-          }
-        });
-      })
+      if (data.code == 200) {
+        setIsAlert(true);
+        setAleartData({ message: 'Profile Image uploaded successfull!', type: 'Success' })
+        getCurrentUser(authUser.userId)
+      }
+    }
   }
+
 
 
   return (
@@ -55,7 +45,8 @@ const Dailog = () => {
         <div className="dailog-header">
           <div className="profile-img">
             <img
-              src="../../../../../../../public/insta imgs/asset 2.jpeg"
+              draggable={false}
+              src={authUser.userProfileImg}
               alt="profile pic"
             />
           </div>

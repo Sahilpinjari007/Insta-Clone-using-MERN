@@ -9,8 +9,35 @@ const Nav = () => {
   const [isProfileActive, setIsProfileActive] = useState(false);
   const [showCreateMediaDropDown, setShowCreateMediaDropDown] = useState(false);
 
+  const [activeSearchSection, setActiveSearchSection] = useState(false);
+
+  const handleSearchUsers = () => {
+    console.log(!activeSearchSection);
+    setActiveSearchSection(!activeSearchSection);
+  };
+
+  const handleProfileClick = () => {
+    setIsProfileActive(true);
+  };
+
+  const allLinkBtnProfile = Array.from(document.querySelectorAll(".nav-link-btn-profile"));
+
+  allLinkBtnProfile.forEach((elem) => {
+    elem.addEventListener("click", () => {
+      setIsProfileActive(false);
+    });
+  });
+
+  const allLinkBtn = Array.from(document.querySelectorAll(".nav-link-btn-profile"));
+
+  allLinkBtn.forEach((elem) => {
+    elem.addEventListener("click", () => {
+      setActiveSearchSection(false);
+    });
+  });
+
   return (
-    <nav className="nav">
+    <nav className={activeSearchSection ? "nav active" : "nav"}>
       <div className="nav-content">
         <Link className="hide-nav" to="/">
           <div className="logo">
@@ -50,7 +77,7 @@ const Nav = () => {
 
         <div className="nav-links">
           <ul className="nav-ul">
-            <li onClick={() => setIsProfileActive(false)}>
+            <li className="nav-link-btn-profile nav-link-btn-search">
               <Link to="/">
                 <div className="nav-item">
                   <div className="nav-item-icon">
@@ -74,10 +101,16 @@ const Nav = () => {
               </Link>
             </li>
 
-            <li className="hide-nav" onClick={() => setIsProfileActive(false)}>
+            <li className="nav-link-btn-profile hide-nav" onClick={handleSearchUsers}>
               <Link to="/">
                 <div className="nav-item">
-                  <div className="nav-item-icon">
+                  <div
+                    className={
+                      activeSearchSection
+                        ? "nav-item-icon active"
+                        : "nav-item-icon"
+                    }
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       aria-label="Search"
@@ -115,7 +148,7 @@ const Nav = () => {
               </Link>
             </li>
 
-            <li onClick={() => setIsProfileActive(false)}>
+            <li className="nav-link-btn-profile nav-link-btn-search">
               <Link to="/">
                 <div className="nav-item">
                   <div className="nav-item-icon">
@@ -159,7 +192,7 @@ const Nav = () => {
               </Link>
             </li>
 
-            <li onClick={() => setIsProfileActive(false)}>
+            <li className="nav-link-btn-profile nav-link-btn-search">
               <Link to="/">
                 <div className="nav-item">
                   <div className="nav-item-icon">
@@ -225,7 +258,7 @@ const Nav = () => {
               </Link>
             </li>
 
-            <li onClick={() => setIsProfileActive(false)}>
+            <li className="nav-link-btn-profile nav-link-btn-search">
               <Link to="/">
                 <div className="nav-item">
                   <div className="nav-item-icon">
@@ -264,7 +297,7 @@ const Nav = () => {
               </Link>
             </li>
 
-            <li className="hide-nav" onClick={() => setIsProfileActive(false)}>
+            <li className="nav-link-btn-profile nav-link-btn-search hide-nav">
               <Link to="/">
                 <div className="nav-item">
                   <div className="nav-item-icon">
@@ -287,11 +320,13 @@ const Nav = () => {
               </Link>
             </li>
 
-            <li
-              className="nav-link-li"
-              onClick={() => setIsProfileActive(false)}
-            >
-              <div className="nav-item" onClick={()=>setShowCreateMediaDropDown(priValue => !priValue)}>
+            <li className="nav-link-li nav-link-btn-profile nav-link-btn-search">
+              <div
+                className="nav-item"
+                onClick={() =>
+                  setShowCreateMediaDropDown((priValue) => !priValue)
+                }
+              >
                 <div className="nav-item-icon">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -343,7 +378,13 @@ const Nav = () => {
                 <div className="create-media-container">
                   <div className="create-media-container-content">
                     <ul>
-                      <li onClick={()=>{setCreatePostDailog(priVal => !priVal); setShowCreateMediaDropDown(priVal => !priVal)}} className="media-item">
+                      <li
+                        onClick={() => {
+                          setCreatePostDailog((priVal) => !priVal);
+                          setShowCreateMediaDropDown((priVal) => !priVal);
+                        }}
+                        className="media-item"
+                      >
                         <div className="media-item-content">
                           <span className="media-item-title">Post</span>
                           <svg
@@ -384,7 +425,7 @@ const Nav = () => {
               )}
             </li>
 
-            <li onClick={() => setIsProfileActive(true)}>
+            <li className="nav-link-btn-profile nav-link-btn-search" onClick={handleProfileClick}>
               <Link to={`/${authUser.userName}/`}>
                 <div className="nav-item">
                   <div className="nav-item-icon">
@@ -406,7 +447,7 @@ const Nav = () => {
               </Link>
             </li>
 
-            <li className="hide-nav" onClick={() => setIsProfileActive(false)}>
+            <li className="nav-link-btn-profile hide-nav nav-link-btn-search">
               <Link to="/">
                 <div className="nav-item thread-visit-link">
                   <div className="nav-item-icon">
@@ -447,7 +488,7 @@ const Nav = () => {
               </Link>
             </li>
 
-            <li className="hide-nav" onClick={() => setIsProfileActive(false)}>
+            <li className="nav-link-btn-profile hide-nav nav-link-btn-search">
               <Link to="/">
                 <div className="nav-item">
                   <div className="nav-item-icon">
@@ -504,6 +545,15 @@ const Nav = () => {
             </li>
           </ul>
         </div>
+      </div>
+      <div className="search-pepole-nav-section">
+        <div
+          className={
+            activeSearchSection
+              ? "search-pepole-nav-section-content active"
+              : "search-pepole-nav-section-content"
+          }
+        ></div>
       </div>
     </nav>
   );

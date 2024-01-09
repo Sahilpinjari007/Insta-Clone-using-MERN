@@ -14,7 +14,7 @@ import {
 import { AppContext } from "../../../../../../Context/context";
 
 const Post = ({ postData }) => {
-  const { authUser, setIsAlert, setAleartData, setSendPostDailog, setViewUserMedia, setViewUserMediaData } = useContext(AppContext);
+  const { authUser, setIsAlert, setAleartData, setSendPostDailog, setViewUserMedia, setViewUserMediaData, setCurrentPostUserId, setIsActivePostMore } = useContext(AppContext);
 
   const [comment, setComment] = useState("");
   const [songSituation, setSongSituation] = useState(false);
@@ -236,7 +236,7 @@ const Post = ({ postData }) => {
             </span>
           </div>
 
-          <div className="post-more">
+          <div className="post-more" onClick={()=>{setIsActivePostMore(true); setCurrentPostUserId(postData.postUserUserId);}}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               aria-label="More options"

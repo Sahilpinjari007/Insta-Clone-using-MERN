@@ -20,6 +20,9 @@ export const AppProvider = ({ children }) => {
     const [viewUserMedia, setViewUserMedia] = useState(false);
     const [viewUserMediaData, setViewUserMediaData] = useState({});
 
+    const [isActivePostMore, setIsActivePostMore] = useState(false);
+    const [currentPostUserId, setCurrentPostUserId] = useState('');
+
 
     const getCurrentUser = async (curUserID) => {
         const response = await getUser(curUserID);
@@ -51,7 +54,7 @@ export const AppProvider = ({ children }) => {
         profileUser,
         setProfileUser, fromDailog, setFromDailog, createPostDailog, setCreatePostDailog
         ,aleartData, setAleartData, isAlert, setIsAlert, sendPostDailog, setSendPostDailog, viewUserMedia, setViewUserMedia,
-        viewUserMediaData, setViewUserMediaData
+        viewUserMediaData, setViewUserMediaData, isActivePostMore, setIsActivePostMore, currentPostUserId, setCurrentPostUserId
     }}>
         {children}
     </AppContext.Provider>

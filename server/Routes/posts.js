@@ -1,5 +1,5 @@
 import express from 'express';
-import { checkPostLiked, checkPostSaved, createPost, getComments, getPostLikedUsers, getPosts, insertComment, postLike, savePost } from '../controllers/post.js';
+import { checkPostLiked, checkPostSaved, createPost, deleteComment, getComments, getPostLikedUsers, getPosts, insertComment, postLike, savePost } from '../controllers/post.js';
 
 const router = express.Router();
 
@@ -14,6 +14,7 @@ router.post('/save', savePost)
 router.post('/checkPostSaved', checkPostSaved);
 router.post('/insertComment', insertComment);
 router.get('/getPostComments/:postId', getComments)
+router.delete('/deleteComment/:commentId', deleteComment);
 
 
 export default router;

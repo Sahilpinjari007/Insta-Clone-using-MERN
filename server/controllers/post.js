@@ -297,3 +297,26 @@ export const getComments = async (req, res) =>{
         return res.status(500).json({message: 'Unable to Featch Comments!', code: 400, err});
     }
 }
+
+export const deleteComment = async (req, res)=>{
+
+    const commentId = req.params.commentId;
+
+    try{
+        const query = `DELETE FROM Postcomments WHERE commentId = '${commentId}'`;
+
+        conn.query(query, (err, result) => {
+            if(err) return res.status(500).json({message: 'Unable to Delete Comment!', code: 400, err})
+
+            if(result.affectedRows >= 1){
+                return res.status(200).json({message: 'Comment Deleted SuccessFul!', code: 200});
+            }
+            else{
+                return res.status(200).json({message: 'Unable to Delete Comment!', code: 201});
+            }
+        })
+    }
+    catch(err){
+        return res.status(500).json({message: 'Unable to Delete Comment!', code: 400, err})
+    }
+}

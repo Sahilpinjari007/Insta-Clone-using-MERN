@@ -95,3 +95,13 @@ export const getPostComments = async (postId) =>{
     }
 }
 
+export const deleteUserComment = async (commentId) =>{
+    try {
+        const { data } = await api.deleteComment(commentId);
+        return data;
+    } 
+    catch (err) {
+        return err?.response?.data;
+    }
+}
+

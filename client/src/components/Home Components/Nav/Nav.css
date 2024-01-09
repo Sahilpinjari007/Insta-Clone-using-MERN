@@ -225,8 +225,6 @@ ul li {
         transition: .2s ease-in;
     }
 
-     
-
     .nav {
         width: 100vw !important;
         height: max-content !important;
@@ -348,3 +346,111 @@ ul li {
 
 
 
+.nav.active {
+    width: max-content;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    z-index: 99999;
+    overflow: hidden;
+    border-top-right-radius: 16px;
+    border-bottom-right-radius: 16px;
+    transition: .2s ease;
+}
+
+.nav.active .nav-content {
+    padding: 8px 10px 20px 10px;
+    box-sizing: border-box;
+    max-width: 68px;
+    border-right: 1px solid var(--border-color);
+    transition: .2s ease;
+}
+
+.active .nav-content .logo {
+    width: 48px;
+    height: 48px;
+    margin: 4px 0;
+    padding: 0px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-block: 15px 23px;
+    transition: ease-in .2s;
+}
+
+.active .nav-content .logo:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.active .nav-content .logo:hover .insta-icon {
+    transform: scale(1.1);
+}
+
+.active .nav-content .nav-links {
+    margin: 0px;
+    transition: .2s ease;
+}
+
+.active .nav-links .nav-item {
+    width: 48px;
+    height: 48px;
+    margin: 4px 0;
+    padding: 0px;
+    transition: .2s ease;
+}
+
+.active .nav-item .nav-item-icon {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: .2s ease;
+}
+
+.nav-item-icon.active{
+    border: 1px solid white;
+}
+
+.active .logo .insta-name {
+    display: none;
+    transition: .2s ease;
+}
+
+.active .logo .insta-icon {
+    height: 24px;
+    display: block;
+    transition: ease-in .2s;
+}
+
+.active .nav-links .nav-item .nav-title {
+    display: none;
+    transition: .2s ease;
+}
+
+.active .thread-visit-link :nth-child(3) {
+    display: none;
+    transition: .2s ease;
+}
+
+
+
+
+.active .search-pepole-nav-section{
+    height: 100%;
+    width: max-content;
+    position: static;
+}
+
+.search-pepole-nav-section .search-pepole-nav-section-content{
+    height: 100%;
+    width: 0px;
+    background-color: red;
+    transition: .2s ease;
+}
+
+.search-pepole-nav-section-content.active{
+    width: 397px;
+}

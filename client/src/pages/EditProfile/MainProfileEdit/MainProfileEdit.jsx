@@ -88,6 +88,7 @@ const MainProfileEdit = () => {
                 <div className="user-details">
                   <div className="user-profile-pic-layout">
                     <img
+                      draggable={false}
                       src={authUser.userProfileImg}
                       alt="user pic"
                       className="user-profile-pic"
@@ -260,8 +261,8 @@ const MainProfileEdit = () => {
                           <div
                             className={
                               authUser.userGender != "Female" &&
-                              authUser.userGender != "Male" &&
-                              authUser.userGender != "Prefer not to say"
+                                authUser.userGender != "Male" &&
+                                authUser.userGender != "Prefer not to say"
                                 ? "selector-check-box active"
                                 : "selector-check-box"
                             }

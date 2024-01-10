@@ -9,7 +9,7 @@ const RemoveFollowDailog = ({ from, data, setShowRemoveFollowDailog }) => {
   const [cardUser, setCardUser] = useState({});
 
   const getCardUserData = async () => {
-    const response = await getUser(from === 'follow' ? data.followingUserId : data.followerUserId);
+    const response = await getUser(from === 'follow' ? data?.followingUserId : from === 'home' ? data : data?.followerUserId);
     setCardUser(response.result);
   }
 
@@ -43,6 +43,8 @@ const RemoveFollowDailog = ({ from, data, setShowRemoveFollowDailog }) => {
         followingUserFollwingCount: authUser.Following,
       })
 
+      console.log(response);
+
       if (response.code === 200)
         setAleartData({ message: 'UnFollowed User!', type: 'Success' });
       else
@@ -64,19 +66,19 @@ const RemoveFollowDailog = ({ from, data, setShowRemoveFollowDailog }) => {
       <div className="remove-dailog-content">
         <div className="remove-dailog-header">
           <div className="remove-profile-img">
-            <img src={cardUser.userProfileImg} alt="profile pic" />
+            <img src={cardUser?.userProfileImg} alt="profile pic" />
           </div>
 
           {from === "follow" ? (
             <>
               <h1 className="dailog-heading">Remove follower?</h1>
               <span className="dailog-sub-heading">
-                Instagram won't tell {cardUser.fullName} they were removed from your
+                Instagram won't tell {cardUser?.fullName} they were removed from your
                 followers.
               </span>
             </>
           ) : (
-            <h2 className="dailog-heading">Unfollow @{cardUser.userName}?</h2>
+            <h2 className="dailog-heading">Unfollow @{cardUser?.userName}?</h2>
           )}
         </div>
         <div className="dailog-btns">

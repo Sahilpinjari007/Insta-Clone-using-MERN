@@ -1,13 +1,15 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import "./ProfileDetails.css";
 import ActionButton from "../../ActionButton/ActionButton";
-import { AppContext } from '../../../Context/context'
-import { checkUserFollowed, followUser, unfollowUser } from "../../../action/curUser";
+import { AppContext } from "../../../Context/context";
+import {
+  checkUserFollowed,
+  followUser,
+  unfollowUser,
+} from "../../../action/curUser";
 import { useNavigate } from "react-router-dom";
 
-
 const ProfileHighlight = () => {
-
   return (
     <div className="profile-highlight-component">
       <div className="profile-highlight-cover">
@@ -32,9 +34,9 @@ const ProfileHighlight = () => {
   );
 };
 
-const ProfileDetails = ({getUserData}) => {
-
-  const { authUser, setLoading, profileUser, setIsAlert, setAleartData } = useContext(AppContext);
+const ProfileDetails = ({ getUserData }) => {
+  const { authUser, setLoading, profileUser, setIsAlert, setAleartData } =
+    useContext(AppContext);
   const navigate = useNavigate();
 
   const [leftHighlightScrollBtn, setLeftHighlightScrollBtn] = useState(false);
@@ -64,13 +66,12 @@ const ProfileDetails = ({getUserData}) => {
     highlightRef.current.scrollTo(
       highlightRef.current.scrollLeft + 465.6000061035156,
       0
-    )
+    );
 
     setLeftHighlightScrollBtn(true);
   };
 
   const handleFollowBtn = async () => {
-
     if (!isFollowed) {
       const currentdate = new Date();
 
@@ -79,56 +80,58 @@ const ProfileDetails = ({getUserData}) => {
         followingUserId: authUser.userId,
         timeStamp: currentdate,
         followerUserFollowerCount: profileUser.Followers,
-        followingUserFollwingCount: authUser.Following
-      })
+        followingUserFollwingCount: authUser.Following,
+      });
 
       if (response.code !== 200) {
-        setAleartData({message: 'Unable to Follow User', type: 'Error'});
-      }
-      else {
-        setIsFollowed(oldValue => !oldValue);
-        setAleartData({message: 'User Followed!', type: 'Success'});
+        setAleartData({ message: "Unable to Follow User", type: "Error" });
+      } else {
+        setIsFollowed((oldValue) => !oldValue);
+        setAleartData({ message: "User Followed!", type: "Success" });
       }
       setIsAlert(true);
-    }
-    else {
-
+    } else {
       const response = await unfollowUser({
         followerUserId: profileUser.userId,
         followingUserId: authUser.userId,
         followerUserFollowerCount: profileUser.Followers,
-        followingUserFollwingCount: authUser.Following
+        followingUserFollwingCount: authUser.Following,
       });
 
       if (response.code !== 200) {
-        setAleartData({message: 'Unable to UnFollow User', type: 'Error'});
+        setAleartData({ message: "Unable to UnFollow User", type: "Error" });
       } else {
-        setIsFollowed(oldValue => !oldValue);
-        setAleartData({message: 'UnFollowed User', type: 'Success'});
+        setIsFollowed((oldValue) => !oldValue);
+        setAleartData({ message: "UnFollowed User", type: "Success" });
       }
       setIsAlert(true);
     }
 
     getUserData(profileUser.userName);
-  }
+  };
 
   const checkUserFollowedOrNOt = async () => {
-
     const response = await checkUserFollowed({
       followerUserId: profileUser.userId,
       followingUserId: authUser.userId,
     });
 
     setIsFollowed(response.value);
-  }
+  };
 
   const handleShowFollowersBtn = () => {
-    if (profileUser.Followers != 0) { setLoading(true); navigate('followers') }
-  }
+    if (profileUser.Followers != 0) {
+      setLoading(true);
+      navigate("followers");
+    }
+  };
 
   const handleShowFollowingBtn = () => {
-    if (profileUser.Following != 0) { setLoading(true); navigate('following') }
-  }
+    if (profileUser.Following != 0) {
+      setLoading(true);
+      navigate("following");
+    }
+  };
 
   useEffect(() => {
     if (profileUser.userId !== authUser.userId) {
@@ -140,12 +143,13 @@ const ProfileDetails = ({getUserData}) => {
     <div className="profile-content">
       <div className="profile-details">
         <div className="profile-img-section">
-          <div className="profile-img-layout">
-            <img
-              src={profileUser.userProfileImg}
-              alt=""
-              className="profile-img"
-            />
+          <div className={profileUser.isHaveStory === 'true' ? "profile-img-layout active" : "profile-img-layout"}>
+            <div className="profile-img-pic">
+              <img
+                src={profileUser.userProfileImg}
+                alt={profileUser.userName}
+              />
+            </div>
           </div>
         </div>
         <div className="profile-meta-data">
@@ -153,24 +157,36 @@ const ProfileDetails = ({getUserData}) => {
             <div className="profile-username-action-btns">
               <span className="profile-username">{profileUser.userName}</span>
               <div className="profile-action-btns">
-                {
-                  (authUser.userId === profileUser.userId) ?
-                    (<><ActionButton path={'/accounts/edit/'} title={"Edit profile"} isUrlBtn={true} />
-                      <ActionButton path={''} title={"View archive"} isUrlBtn={true} /></>)
-                    : (
-                      <>
-                        <ActionButton path={''} title={isFollowed ? 'Following' : "Follow"} onclick={handleFollowBtn} isUrlBtn={false} color={isFollowed ? '#363636' : "#0095F6"} />
-                        <ActionButton path={''} title={"Message"} isUrlBtn={true} />
-                      </>
-                    )
-                }
-
+                {authUser.userId === profileUser.userId ? (
+                  <>
+                    <ActionButton
+                      path={"/accounts/edit/"}
+                      title={"Edit profile"}
+                      isUrlBtn={true}
+                    />
+                    <ActionButton
+                      path={""}
+                      title={"View archive"}
+                      isUrlBtn={true}
+                    />
+                  </>
+                ) : (
+                  <>
+                    <ActionButton
+                      path={""}
+                      title={isFollowed ? "Following" : "Follow"}
+                      onclick={handleFollowBtn}
+                      isUrlBtn={false}
+                      color={isFollowed ? "#363636" : "#0095F6"}
+                    />
+                    <ActionButton path={""} title={"Message"} isUrlBtn={true} />
+                  </>
+                )}
               </div>
 
               <div className="setting-icon">
-
-                {
-                  (authUser.userId === profileUser.userId) ? (<svg
+                {authUser.userId === profileUser.userId ? (
+                  <svg
                     xmlns="http://www.w3.org/2000/svg"
                     aria-label="Options"
                     className="x1lliihq x1n2onr6 x5n08af"
@@ -198,7 +214,9 @@ const ProfileDetails = ({getUserData}) => {
                       strokeLinejoin="round"
                       strokeWidth={2}
                     />
-                  </svg>) : (<svg
+                  </svg>
+                ) : (
+                  <svg
                     aria-label="Options"
                     className="x1lliihq x1n2onr6 x5n08af"
                     fill="currentColor"
@@ -212,21 +230,27 @@ const ProfileDetails = ({getUserData}) => {
                     <circle cx={6} cy={12} r="1.5" />
                     <circle cx={18} cy={12} r="1.5" />
                   </svg>
-                  )
-                }
+                )}
               </div>
             </div>
             <div className="profile-user-intraction">
               <span className="user-post">
-                <span className="user-post-count">{profileUser.Posts}</span> posts
+                <span className="user-post-count">{profileUser.Posts}</span>{" "}
+                posts
               </span>
 
               <span className="user-followers" onClick={handleShowFollowersBtn}>
-                <span className="user-followers-count">{profileUser.Followers}</span> followers
+                <span className="user-followers-count">
+                  {profileUser.Followers}
+                </span>{" "}
+                followers
               </span>
 
               <span className="user-following" onClick={handleShowFollowingBtn}>
-                <span className="user-following-count">{profileUser.Following}</span> following
+                <span className="user-following-count">
+                  {profileUser.Following}
+                </span>{" "}
+                following
               </span>
             </div>
             <span className="profile-sub-username">{profileUser.fullName}</span>

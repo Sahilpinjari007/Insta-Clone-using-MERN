@@ -5,6 +5,8 @@
 
 :root {
   --app-bg-color: #000000;
+  --story-avilable-color: linear-gradient(180deg, orange, rgb(249, 70, 100), rgb(244, 43, 244));
+  --viewd-story-border-color: #222222;
 }
 
 html {
@@ -34,6 +36,8 @@ p {
 }
 
 
+
+
 *::-webkit-scrollbar {
   background: white;
   width: min-content;
@@ -51,26 +55,24 @@ p {
   background: #a8a8a8;
 }
 
+
 .home-content {
   width: 100%;
   height: max-content;
   overflow: hidden;
-  display: flex;
-  flex-direction: row;
   background: var(--app-bg-color);
   position: relative;
-}
-
-.home-content.active{
-  max-height: 100vh;
 }
 
 .home-content .app-pages{
   width: 100%;
   min-height: 100vh;
   display: flex;
+  /* background: green; */
+  height: 1000vh;
   margin-left: 244px;
 }
+
 
 @media (max-width: 765px) {
   .home-content {

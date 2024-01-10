@@ -1,350 +1,266 @@
-:root {
-
+:root{
     --text-color: #737373;
     --border-color: rgb(38, 38, 38);
 }
 
-a {
-    text-decoration: none;
-    width: max-content;
-    height: max-content;
+.app-nav{
+    width: 100%;
+    max-width: 244px;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
 }
 
-.nav {
-    width: 244px;
-    height: 100vh;
-    max-width: 100%;
-    padding: 35px 15px 10px 18px;
+.app-nav .app-nav-content{
+    width: 100%;
+    height: 100%;
+    padding: 8px 12px 20px 12px;
     box-sizing: border-box;
     border-right: 1px solid var(--border-color);
-    position: fixed;
-    top: 0;
-    left: 0;
-    background: black;
 }
 
-.nav .nav-content {
+.app-nav-content .app-nav-content-intractions{
     width: 100%;
     height: 100%;
-    display: flex;
-    flex-direction: column;
-    box-sizing: border-box;
 }
 
-.nav-content .logo {
+.app-nav-content-intractions .nav-intraction-logo{
     width: 100%;
-    padding: 5px;
+    height: 92px;
+    flex-shrink: 0;
+}
+
+.nav-intraction-logo .nav-intraction-logo-content{
+    width: 100%;
+    height: 100%;
+    margin-bottom: 19px;
+    padding: 25px 12px 16px 12px;
     box-sizing: border-box;
 }
 
-.logo .insta-name {
+.nav-intraction-logo-content .nav-logo{
+ opacity: 1;
+ width: 100%;
+}
+
+.nav-logo svg{
+    color: white;
+    cursor: pointer;
+    margin-top: 7px;;
+}
+
+.nav-logo .insta-name{
     display: block;
-    color: white;
 }
 
-.logo .insta-icon {
+.nav-logo .insta-icon{
     display: none;
-    color: white;
 }
 
-.nav-content .nav-links {
-    margin-top: 20px;
+.app-nav-content-intractions .nav-intraction-btns{
+    width: 100%;
+    height: 497px;
+    flex-grow: 1;
 }
 
-.nav-links .thread-visit-link {
-    /* margin-top: 30px; */
+.nav-intraction-btn{
+   position: relative;
 }
 
-.nav-links .nav-ul{
-    list-style: none;
+.nav-intraction-btn .nav-intraction-btn-layout{
+    width: inherit;
+    max-width: inherit;
+    height: inherit;
+    max-height: inherit;
+    min-height: inherit;
 }
 
-ul li {
-    margin-block: 8px;
-}
-
-.nav-links .nav-item {
-    padding: 11px 10px;
-    border-radius: 10px;
-    display: flex;
+.nav-intraction-btn-layout .nav-intraction-btn-content{
+    width: 100%;
+    padding: 12px;
+    display: inline-flex;
+    flex-direction: row;
     align-items: center;
-    transition: ease-in .2s;
+    margin-block: 4px;
+    border-radius: 8px;
+    box-sizing: border-box;
+    cursor: pointer;
+    text-align: inherit;
+}
+
+.nav-intraction-btn-content:hover{
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.nav-intraction-btn-content .nav-intraction-btn-icon{
     position: relative;
+    align-content: stretch;
+    background: transparent;
     box-sizing: border-box;
+    display: flex;
 }
 
-.nav-links .nav-item:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-}
-
-.nav-item .nav-item-icon {
-    border-radius: 5px;
-}
-
-.thread-visit-link :nth-child(3) {
-    color: rgba(255, 255, 255, 0.2);
-    position: absolute;
-    right: 10px;
-    visibility: hidden;
-    transition: ease-in .2s;
-}
-
-.nav-links .nav-item:hover svg {
-    transform: scale(1.1);
-}
-
-.nav-links .nav-item:hover :nth-child(3) {
-    visibility: visible;
-    transform: scale(1);
-}
-
-.nav-links .nav-item svg {
-    color: white;
-    transition: ease-in .2s;
-}
-
-.nav-links .nav-item .nav-title {
-    margin-left: 15px;
-    text-decoration: none;
-    color: white;
-    font-weight: 400;
-}
-
-.nav-item-icon .nav-profile-img {
-    width: 26px;
-    height: 26px;
-    border-radius: 50%;
-    transition: ease-in .2s;
+.nav-intraction-btn-icon .nav-intraction-btn-icon-layout{
+    width: 24px;
+    height: 24px;
     box-sizing: border-box;
+    transition-duration: 200ms;
+    transition-property: transform;
+    transition-timing-function: cubic-bezier(0.17, 0.17, 0, 1);;
 }
 
-.nav-profile-img.profileActive {
-    border: 2px solid white;
+.nav-intraction-btn-content:hover .nav-intraction-btn-icon-layout{
+    transform: scale(105%);
 }
 
-.nav-profile-img img {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-}
-
-.nav-links .nav-item:hover .nav-item-icon .nav-profile-img {
-    transform: scale(1.1);
-}
-
-
-.nav-link-li {
+.nav-intraction-btn-icon-layout svg{
+    color: rgb(245, 245, 245);
     position: relative;
-    cursor: pointer;;
-}
-
-.nav-link-li .create-media-container{
-    width: 100%;
-    min-width: 200px;
-    max-width: 200px;
-    height: max-content;
-    margin: 0;
-    padding: 0;
-    background: rgb(38, 38, 38);
-    border-radius: 5px;
-    position: absolute;
-    z-index: 99;
-    left: 0;
-    box-sizing: border-box;
-    transition: .2s ease-in;
-    margin-top: 5px;;
-}
-
-.create-media-container .create-media-container-content{
-    width: 100%;
-    height: 100%;
+    display: block;
+    width: 24px;
+    height: 24px;
+    overflow-clip-margin: content-box;
     overflow: hidden;
 }
 
-.create-media-container-content ul{
-    width: 100% !important;
-    list-style: none;
-}
-
-.create-media-container-content ul li{
-    margin: 0;
-    padding: 0;
-}
-
-.create-media-container-content .media-item{
-    width: 100%;
-    padding: 8px 16px !important;;
-    box-sizing: border-box;
-    transition: .2s ease-out;
-}
-
-.media-item:hover{
-    background-color: rgba(255, 255, 255, 0.1);
-}
-
-.create-media-container-content .media-item-content{
-   height: 28px;
-   display: flex;
-   align-items: center;
-   justify-content: space-between;
-}
-
-.media-item-content .media-item-title{
-    display: block;
-    font-size: 16px;
-    color: #F5F5F5;
-    font-weight: 500;
-}
-
-.media-item-content svg{
+.nav-intraction-btn-icon-layout .user-profile-img{
     width: 24px;
     height: 24px;
-    margin-left: 12px;
-    color: white;
+    border-radius: 50%;
+}
+
+.user-profile-img img{
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+.user-profile-img.active{
+    border: 2px solid white;
+}
+
+.nav-intraction-btn-content .nav-intraction-btn-lable{
+    opacity: 1;
+    display: flex;
+    height: 24px;
+    width: fit-content;
+    align-items: center;
+    overflow-x: hidden;
+    box-sizing: border-box;
+    padding-left: 16px;
+    color: rgb(245, 245, 245);
+    text-align: inherit;
+}
+
+.nav-intraction-btn-lable .nav-intraction-btn-lable-content{
+    width: 100%;
+}
+
+.nav-intraction-btn-lable-content span{
+    line-height: 20px;
+    min-width: 0;
+    max-width: 100%;
+    font-size: 16px;
+    color: rgb(245, 245, 245);
+    word-wrap: break-word;
+    display: block;
+    white-space: pre-line;
+    /* font-weight: 700; */
+}
+
+.app-nav-content-intractions .nav-intraction-other-btns{
+    width: 100%;
+    height: 112px;
+    box-sizing: border-box;
+}
+
+/* active nav in small  */
+.activeNavSmall.app-nav{
+    width: max-content;
+    max-width: unset;
+}
+
+.activeNavSmall .app-nav-content{
+    max-width: 72px;
+    transition: .1s ease-in-out;
+    z-index: 9999;
+    display: flex;
+    position: relative;
+}
+
+.activeNavSmall .nav-logo .insta-name{
+    display: none;
+}
+
+.activeNavSmall .nav-logo .insta-icon{
+    display: block;
+}
+
+.activeNavSmall .nav-intraction-btn-content .nav-intraction-btn-lable{
+    display: none;
+}
+
+.activeNavSmall .app-nav-content-sections{
+    height: 100%;
+    transition: .1s ease-in-out;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.app-nav-content-sections .app-nav-content-section-content{
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.app-nav-content-sections .app-nav-search-section{
+    height: 100%;
+    width: 0px;
+    transition: .2s ease-in-out;
+    border-right: 1px solid var(--border-color);
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background: green;
+}
+
+.activeNavSmall .app-nav-search-section.active{
+    width: 397px;
 }
 
 
-
-@media (max-width: 765px) {
-
-    .nav-link-li .create-media-container{
-        width: 100%;
-        min-width: 200px;
-        max-width: 200px;
-        height: 88px;
-        margin: 0;
-        padding: 0;
-        background: rgb(38, 38, 38);
-        border-radius: 5px;
-        position: absolute;
-        z-index: 99;
-        bottom: 50px;
-        left: -100px;
-        margin-left: -20px;
-        margin-bottom: 10px;
-        transition: .2s ease-in;
-    }
-
-     
-
-    .nav {
-        width: 100vw !important;
-        height: max-content !important;
-        z-index: 9999;
-        top: unset;
-        position: fixed;
-        bottom: 0px;
-        left: 0;
-        border-top: 1px solid var(--border-color);
-    }
-
-    .nav .nav-content {
-        flex-direction: row !important;
-        padding: 0 !important;
-    }
-
-    .nav-content .nav-links {
-        width: 100%;
-        margin: 0 !important;
-        padding: 0 !important;
-    }
-
-    .nav-links .nav-ul {
-        width: 100% !important;
-        max-height: 48px;
-        display: flex;
-        margin: 0 !important;
-        padding: 0 !important;
-        box-sizing: border-box;
-        justify-content: space-evenly;
-    }
-
-    .nav-links .nav-ul li {
-        margin: 0;
-    }
-
-    .nav .hide-nav {
-        display: none;
-    }
-
-    .nav-links .nav-item {
-        margin: 0 !important;
-        background: transparent!important;
-    }
-
+.app-nav-content-sections .app-nav-message-section{
+    height: 100%;
+    width: 0px;
+    transition: .2s ease-in-out;
+    border-right: 1px solid var(--border-color);
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background: red;
 }
 
-@media (max-width: 1260px) {
+.activeNavSmall .app-nav-message-section.active{
+    width: 397px;
+}
 
-    .nav {
+
+@media (max-width: 1265px) {
+    .app-nav{
         width: max-content;
-        padding: 0;
+        max-width: unset;
     }
 
-    .nav .nav-content {
-        padding: 8px 10px 20px 10px;
-        box-sizing: border-box;
-    }
-
-    .nav-content .logo {
-        width: 48px;
-        height: 48px;
-        margin: 4px 0;
-        padding: 0px;
-        border-radius: 10px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-block: 15px 23px;
-        transition: ease-in .2s;
-    }
-
-    .nav-content .logo:hover {
-        background-color: rgba(255, 255, 255, 0.1);
-    }
-
-    .nav-content .logo:hover .insta-icon {
-        transform: scale(1.1);
-    }
-
-    .nav-content .nav-links {
-        margin: 0px;
-    }
-
-    .nav-links .nav-item {
-        width: 48px;
-        height: 48px;
-        margin: 4px 0;
-        padding: 0px;
-    }
-
-    .nav-item .nav-item-icon {
-        width: 100%;
-        height: 100%;
-        border-radius: 5px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .logo .insta-name {
+    .nav-logo .insta-name{
         display: none;
     }
 
-    .logo .insta-icon {
-        height: 24px;
+    .nav-logo .insta-icon{
         display: block;
-        transition: ease-in .2s;
     }
-
-    .nav-links .nav-item .nav-title {
-        display: none;
-    }
-
-    .thread-visit-link :nth-child(3) {
+    .nav-intraction-btn-content .nav-intraction-btn-lable{
         display: none;
     }
 }
-
-
-

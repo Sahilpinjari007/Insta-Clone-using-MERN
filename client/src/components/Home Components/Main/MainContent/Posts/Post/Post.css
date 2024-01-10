@@ -27,29 +27,39 @@
     position: relative;
 }
 
-/* .post-header .post-user-img{
-
-} */
 
 .post-user-img .post-user-img-layout {
-    width: 32px;
-    height: 32px;
-    padding: 2px;
+    width: max-content;
+    height: max-content;
     overflow: hidden;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
+    border: 2px solid var(--viewd-story-border-color);
 }
 
-.post-user-img-layout.activeStory {
-    border: 3px solid green;
-}
-
-.post-user-img-layout img {
+.post-user-img-layout .post-user-img-container{
     width: 32px;
     height: 32px;
     border-radius: 50%;
+    padding: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: black;
+}
+
+.post-user-img-layout img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;;
+}
+
+.post-user-img-layout.active {
+    background: var(--story-avilable-color);
+    padding: 2px;
+    border: none;
 }
 
 .post-header .post-user-details {
@@ -244,11 +254,11 @@
     height: 6px;
     border-radius: 50%;
     background: white;
+    opacity: .4;
 }
 
 .current-post-count-thumb.active {
-    width: 8px;
-    height: 8px;
+    opacity: 1;
     background: var(--post-comment-btn-color);
 }
 
@@ -343,24 +353,31 @@
 .post-footer .post-title-area {
     width: 100%;
     height: max-content;
-    display: block;
     margin-top: 8px;
-    overflow: hidden;
+    display: block;
 }
 
-.post-title-area.active {
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+.post-title-area.active .post-title {
+    overflow: unset;
+    white-space: unset;
+    text-overflow: unset;
+    display: inline;
 }
 
 .post-title-area .post-user-username {
     color: white;
-    font-weight: bold;
+    font-weight: 500;
+    font-size: 14px;
 }
 
 .post-title-area .post-title {
+    display: inline-block;
+    max-width: 77% !important;
     font-size: 14px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-bottom: -3px;
 }
 
 .post-footer .remove-hided-title-btn {
@@ -370,6 +387,16 @@
     background: transparent !important;
     cursor: pointer;
 }
+
+.post-footer .view-all-comment-section{
+    margin-top: 8px;
+}
+
+.post-footer .view-all-commends-txt-btn{
+    color: #A8A8A8;
+    font-size: 14px;
+}
+
 
 .post-footer .add-comment-section {
     width: 100%;

@@ -1,9 +1,12 @@
 import axios from 'axios';
-import FormData from 'form-data';
-import fs from 'fs';
 
 
 const API = axios.create({ baseURL: 'http://localhost:5000' });
+
+
+// storage
+export const mediaUpload = (requestOptions) => fetch("http://localhost:5000/storage/upload", requestOptions);
+
 
 
 // it is return direct api response
@@ -28,6 +31,12 @@ export const getPosts = () => API.get(`/insgaram/posts/fetch`);
 export const createPost = (formData) => API.post('/insgaram/posts/create', formData)
 export const likePost = (formData) => API.post(`insgaram/posts/like`, formData);
 export const checkPostLiked = (formData) => API.post(`/insgaram/posts/checkPostLiked`, formData);
+export const fetchPostLikedUsers = (formData) => API.post(`/insgaram/posts/fetchPostLikedUsers`, formData);
+export const savePost = (formData) => API.post(`/insgaram/posts/save`, formData);
+export const checkPostSaved = (formData) => API.post(`/insgaram/posts/checkPostSaved`, formData);
+export const insertComment = (formData) => API.post(`/insgaram/posts/insertComment`, formData);
+export const getPostComments = (postId) => API.get(`/insgaram/posts/getPostComments/${postId}`);
+export const deleteComment = (commentId) => API.delete(`/insgaram/posts/deleteComment/${commentId}`);
 
 
 

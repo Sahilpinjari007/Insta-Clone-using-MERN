@@ -1,0 +1,76 @@
+.delete-comment-alert {
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1001;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.delete-comment-alert .delete-comment-alert-content {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.delete-comment-alert-content .delete-comment-alert-popup{
+    width: 100%;
+    max-width: 400px;
+    height: max-content;
+    max-height: calc(100% - 40px);
+    animation-name: dailogAnimation;
+    animation-timing-function: ease-out;
+    animation-iteration-count: 1;
+    animation-duration: .1s;
+    background: rgb(38, 38, 38);
+    margin: 20px;
+    box-sizing: border-box;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+
+@keyframes dailogAnimation {
+    0% {
+        opacity: 0;
+        transform: scale(1.2);
+        transform-origin: center;
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+        transform-origin: center;
+    }
+}
+
+
+.delete-comment-alert-popup button{
+    width: 100%;
+    background-color: transparent;
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 0;
+    min-height: 48px;
+    padding: 4px 8px;
+    text-align: center;
+    outline: none;
+    border: none;
+    border-top: 1px solid rgb(54, 54, 54);
+    color: #ED4956;
+    font-weight: bold;
+    z-index: 999
+}
+
+.delete-comment-alert-popup button:last-child{
+    color: white;
+    font-weight: normal;
+}

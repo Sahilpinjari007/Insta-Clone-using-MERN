@@ -2,17 +2,33 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import "./Post.css";
 import { Link } from "react-router-dom";
 import { getUser } from "../../../../../../action/curUser";
-import moment from 'moment';
-import { checkPostLiked, likePost } from "../../../../../../action/post";
-import { AppContext } from '../../../../../../Context/context'
+import moment from "moment";
+import {
+  checkPostLiked,
+  checkPostSaved,
+  commentOnPost,
+  fetchPostLikedUsers,
+  likePost,
+  savePost,
+} from "../../../../../../action/post";
+import { AppContext } from "../../../../../../Context/context";
 
 const Post = ({ postData }) => {
+  const {
+    authUser,
+    setIsAlert,
+    setAleartData,
+    setSendPostDailog,
+    setViewUserMedia,
+    setViewUserMediaData,
+    setCurrentPostUserId,
+    setIsActivePostMore,
+  } = useContext(AppContext);
 
-  const { authUser } = useContext(AppContext);
-
-  const [comment, setcomment] = useState("");
+  const [comment, setComment] = useState("");
   const [songSituation, setSongSituation] = useState(false);
   const [postLike, setPostLike] = useState(false);
+  const [postSave, setPostSave] = useState(false);
   const [videoSituation, setVideoSituation] = useState(true);
   const [showMoreTitle, setShowMoreTitle] = useState(false);
   const [showLeftPostScrollBtn, setShowLeftPostScrollBtn] = useState(false);
@@ -20,17 +36,33 @@ const Post = ({ postData }) => {
   const [postScrollValue, setPostScrollValue] = useState(0);
   const [activeMultiplePost, setActiveMultiplePost] = useState(0);
   const [postUser, setPostUser] = useState({});
+  const [postLikedUsers, setPostLikedUsers] = useState([]);
 
   const videoElement = useRef();
   const audioElement = useRef();
   const MultiplePostsSection = useRef();
 
-  const handleCommentOnChange = (e) => {
-    setcomment(e.target.value);
-  };
+  const handleCommentPost = async () => {
+    if (comment !== "") {
+      const response = await commentOnPost({
+        postId: postData.postId,
+        postUserId: postData.postUserUserId,
+        commentedUserId: authUser.userId,
+        message: comment,
+        timeStamp: new Date(),
+      });
 
-  const handleCommentPost = () => {
-    console.log(postData);
+      if (response.code !== 200) {
+        setIsAlert(true);
+        setAleartData({ message: "Unable to Post Comment!", type: "Error" });
+      }
+
+      setComment("");
+      console.log(response);
+    } else {
+      setIsAlert(true);
+      setAleartData({ message: "Unable to Post Comment!", type: "Error" });
+    }
   };
 
   const playPauseSong = () => {
@@ -56,20 +88,36 @@ const Post = ({ postData }) => {
   };
 
   const handlePostLike = async () => {
-
     const response = await likePost({
       postId: postData.postId,
       likedUserId: authUser.userId,
       postUserId: postData.postUserUserId,
-      postLikes: postData.postLikes
-    })
+      postLikes: postData.postLikes,
+    });
 
-    setPostLike(response.value);
+    if (response.code === 200) {
+      setPostLike(response?.value);
 
-    if (response.value) postData.postLikes = postData.postLikes + 1;
-    else postData.postLikes = postData.postLikes - 1;
+      if (response.value) postData.postLikes = postData.postLikes + 1;
+      else postData.postLikes = postData.postLikes - 1;
+    } else {
+      setIsAlert(true);
+      setAleartData({ message: "Unable to Like Post!", type: "Error" });
+    }
+  };
 
-    console.log(response);
+  const handlePostSave = async () => {
+    const response = await savePost({
+      postId: postData.postId,
+      userId: authUser.userId,
+    });
+
+    if (response.code === 200) {
+      setPostSave(response?.value);
+    } else {
+      setIsAlert(true);
+      setAleartData({ message: "Unable to Save Post!", type: "Error" });
+    }
   };
 
   const handleVideoSituation = () => {
@@ -82,12 +130,7 @@ const Post = ({ postData }) => {
     }
   };
 
-  const handlShowMoreTitle = () => {
-    setShowMoreTitle(!showMoreTitle);
-  };
-
   const handlePostRightScroll = () => {
-
     setPostScrollValue(postScrollValue + 465.6000061035156);
     MultiplePostsSection.current.scrollTo(
       postScrollValue + 465.6000061035156,
@@ -120,16 +163,41 @@ const Post = ({ postData }) => {
   const getPostUser = async () => {
     const response = await getUser(postData.postUserUserId);
     setPostUser(response.result);
-  }
+  };
 
   const checkPostLikedOrNot = async () => {
     const response = await checkPostLiked({
       postId: postData.postId,
       likedUserId: authUser.userId,
       postUserId: postData.postUserUserId,
-    })
+    });
     setPostLike(response.value);
-  }
+  };
+
+  const checkPostSavedOrNot = async () => {
+    const response = await checkPostSaved({
+      postId: postData.postId,
+      userId: authUser.userId,
+    });
+
+    if (response.code === 200) {
+      setPostSave(response?.value);
+    }
+  };
+
+  const getPostLikedUsers = async () => {
+    const response = await fetchPostLikedUsers({
+      postId: postData.postId,
+      authUserId: authUser.userId,
+    });
+
+    setPostLikedUsers(response.result);
+  };
+
+  const handleViewComment = () => {
+    setViewUserMedia(true);
+    setViewUserMediaData(postData);
+  };
 
   useEffect(() => {
     if (postScrollValue > 0) {
@@ -140,7 +208,8 @@ const Post = ({ postData }) => {
 
     getPostUser();
     checkPostLikedOrNot();
-
+    getPostLikedUsers();
+    checkPostSavedOrNot();
   }, [postData, postScrollValue]);
 
   return (
@@ -154,29 +223,37 @@ const Post = ({ postData }) => {
           <div className="post-user-img">
             <div
               className={
-                postUser.isHaveStory
-                  ? "post-user-img-layout activeStory"
+                postUser.isHaveStory === 'true'
+                  ? "post-user-img-layout active"
                   : "post-user-img-layout"
               }
             >
-              <img src={postUser.userProfileImg} alt="img not found" />
+              <div className="post-user-img-container">
+                <img src={postUser.userProfileImg} alt="img not found" />
+              </div>
             </div>
           </div>
 
           <div className="post-user-details">
             <div className="post-user-username-time">
-              <span className="post-user-username">
-                {postUser.userName}
-              </span>
+              <span className="post-user-username">{postUser.userName}</span>
               <span className="post-sapretor">•</span>
-              <span className="post-time">{moment().from(postData.postTimeStamp)}</span>
+              <span className="post-time">
+                {moment().from(postData.postTimeStamp)}
+              </span>
             </div>
             <span className="post-other-meta-data">
               {postData.postMetaData}
             </span>
           </div>
 
-          <div className="post-more">
+          <div
+            className="post-more"
+            onClick={() => {
+              setIsActivePostMore(true);
+              setCurrentPostUserId(postData.postUserUserId);
+            }}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               aria-label="More options"
@@ -198,12 +275,12 @@ const Post = ({ postData }) => {
         <div className="main-post">
           {postData.postType === "img" ? (
             <div className="main-post-layout" ref={MultiplePostsSection}>
-              {postData.isMultiplePost === 'false' ? (
+              {postData.isMultiplePost === "false" ? (
                 <div className="post-img-layout">
                   <img src={postData.singlePostImgURL} alt="No image Found!" />
                 </div>
               ) : (
-                postData.multipleImgPostURLS.map((elem, i) => {
+                postData.multipleImgPostURLS?.map((elem, i) => {
                   return (
                     <div className="post-img-layout" key={i}>
                       <img src={elem.url} alt={postData.postTitle} />
@@ -225,7 +302,7 @@ const Post = ({ postData }) => {
             </div>
           )}
 
-          {postData.isMultiplePost === 'true' && (
+          {postData.isMultiplePost === "true" && (
             <>
               {showLeftPostScrollBtn && (
                 <div
@@ -244,7 +321,7 @@ const Post = ({ postData }) => {
 
           <div className="bottom-post-navigation">
             <div className="bottom-post-navigation-section">
-              {postData.isPostTaged === 'true' && (
+              {postData.isPostTaged === "true" && (
                 <div className="tag-icon">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -264,9 +341,9 @@ const Post = ({ postData }) => {
             </div>
 
             <div className="bottom-post-navigation-section">
-              {postData.isMultiplePost === 'true' && (
+              {postData.isMultiplePost === "true" && (
                 <div className="posts-count-thumb">
-                  {postData.multipleImgPostURLS.map((elem, i) => {
+                  {postData.multipleImgPostURLS?.map((elem, i) => {
                     return (
                       <div
                         key={i}
@@ -284,43 +361,43 @@ const Post = ({ postData }) => {
 
             <div className="bottom-post-navigation-section">
               {(postData.postType === "video" ||
-                postData.isPostContainSong === 'true') && (
-                  <div className="play-pause-mp3-icon" onClick={playPauseSong}>
-                    {songSituation ? (
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        aria-label="Audio is playing"
-                        className="x1lliihq x1n2onr6 x9bdzbf"
-                        fill="currentColor"
-                        height="12"
-                        role="img"
-                        viewBox="0 0 24 24"
-                        width="12"
-                      >
-                        <title>Audio is playing</title>
-                        <path d="M16.636 7.028a1.5 1.5 0 1 0-2.395 1.807 5.365 5.365 0 0 1 1.103 3.17 5.378 5.378 0 0 1-1.105 3.176 1.5 1.5 0 1 0 2.395 1.806 8.396 8.396 0 0 0 1.71-4.981 8.39 8.39 0 0 0-1.708-4.978Zm3.73-2.332A1.5 1.5 0 1 0 18.04 6.59 8.823 8.823 0 0 1 20 12.007a8.798 8.798 0 0 1-1.96 5.415 1.5 1.5 0 0 0 2.326 1.894 11.672 11.672 0 0 0 2.635-7.31 11.682 11.682 0 0 0-2.635-7.31Zm-8.963-3.613a1.001 1.001 0 0 0-1.082.187L5.265 6H2a1 1 0 0 0-1 1v10.003a1 1 0 0 0 1 1h3.265l5.01 4.682.02.021a1 1 0 0 0 1.704-.814L12.005 2a1 1 0 0 0-.602-.917Z" />
-                      </svg>
-                    ) : (
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        aria-label="Audo is muted."
-                        className="x1lliihq x1n2onr6 x9bdzbf"
-                        fill="currentColor"
-                        height="12"
-                        role="img"
-                        viewBox="0 0 48 48"
-                        width="12"
-                      >
-                        <title>Audo is muted.</title>
-                        <path
-                          clipRule="evenodd"
-                          d="M1.5 13.3c-.8 0-1.5.7-1.5 1.5v18.4c0 .8.7 1.5 1.5 1.5h8.7l12.9 12.9c.9.9 2.5.3 2.5-1v-9.8c0-.4-.2-.8-.4-1.1l-22-22c-.3-.3-.7-.4-1.1-.4h-.6zm46.8 31.4-5.5-5.5C44.9 36.6 48 31.4 48 24c0-11.4-7.2-17.4-7.2-17.4-.6-.6-1.6-.6-2.2 0L37.2 8c-.6.6-.6 1.6 0 2.2 0 0 5.7 5 5.7 13.8 0 5.4-2.1 9.3-3.8 11.6L35.5 32c1.1-1.7 2.3-4.4 2.3-8 0-6.8-4.1-10.3-4.1-10.3-.6-.6-1.6-.6-2.2 0l-1.4 1.4c-.6.6-.6 1.6 0 2.2 0 0 2.6 2 2.6 6.7 0 1.8-.4 3.2-.9 4.3L25.5 22V1.4c0-1.3-1.6-1.9-2.5-1L13.5 10 3.3-.3c-.6-.6-1.5-.6-2.1 0L-.2 1.1c-.6.6-.6 1.5 0 2.1L4 7.6l26.8 26.8 13.9 13.9c.6.6 1.5.6 2.1 0l1.4-1.4c.7-.6.7-1.6.1-2.2z"
-                          fillRule="evenodd"
-                        />
-                      </svg>
-                    )}
-                  </div>
-                )}
+                postData.isPostContainSong === "true") && (
+                <div className="play-pause-mp3-icon" onClick={playPauseSong}>
+                  {songSituation ? (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      aria-label="Audio is playing"
+                      className="x1lliihq x1n2onr6 x9bdzbf"
+                      fill="currentColor"
+                      height="12"
+                      role="img"
+                      viewBox="0 0 24 24"
+                      width="12"
+                    >
+                      <title>Audio is playing</title>
+                      <path d="M16.636 7.028a1.5 1.5 0 1 0-2.395 1.807 5.365 5.365 0 0 1 1.103 3.17 5.378 5.378 0 0 1-1.105 3.176 1.5 1.5 0 1 0 2.395 1.806 8.396 8.396 0 0 0 1.71-4.981 8.39 8.39 0 0 0-1.708-4.978Zm3.73-2.332A1.5 1.5 0 1 0 18.04 6.59 8.823 8.823 0 0 1 20 12.007a8.798 8.798 0 0 1-1.96 5.415 1.5 1.5 0 0 0 2.326 1.894 11.672 11.672 0 0 0 2.635-7.31 11.682 11.682 0 0 0-2.635-7.31Zm-8.963-3.613a1.001 1.001 0 0 0-1.082.187L5.265 6H2a1 1 0 0 0-1 1v10.003a1 1 0 0 0 1 1h3.265l5.01 4.682.02.021a1 1 0 0 0 1.704-.814L12.005 2a1 1 0 0 0-.602-.917Z" />
+                    </svg>
+                  ) : (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      aria-label="Audo is muted."
+                      className="x1lliihq x1n2onr6 x9bdzbf"
+                      fill="currentColor"
+                      height="12"
+                      role="img"
+                      viewBox="0 0 48 48"
+                      width="12"
+                    >
+                      <title>Audo is muted.</title>
+                      <path
+                        clipRule="evenodd"
+                        d="M1.5 13.3c-.8 0-1.5.7-1.5 1.5v18.4c0 .8.7 1.5 1.5 1.5h8.7l12.9 12.9c.9.9 2.5.3 2.5-1v-9.8c0-.4-.2-.8-.4-1.1l-22-22c-.3-.3-.7-.4-1.1-.4h-.6zm46.8 31.4-5.5-5.5C44.9 36.6 48 31.4 48 24c0-11.4-7.2-17.4-7.2-17.4-.6-.6-1.6-.6-2.2 0L37.2 8c-.6.6-.6 1.6 0 2.2 0 0 5.7 5 5.7 13.8 0 5.4-2.1 9.3-3.8 11.6L35.5 32c1.1-1.7 2.3-4.4 2.3-8 0-6.8-4.1-10.3-4.1-10.3-.6-.6-1.6-.6-2.2 0l-1.4 1.4c-.6.6-.6 1.6 0 2.2 0 0 2.6 2 2.6 6.7 0 1.8-.4 3.2-.9 4.3L25.5 22V1.4c0-1.3-1.6-1.9-2.5-1L13.5 10 3.3-.3c-.6-.6-1.5-.6-2.1 0L-.2 1.1c-.6.6-.6 1.5 0 2.1L4 7.6l26.8 26.8 13.9 13.9c.6.6 1.5.6 2.1 0l1.4-1.4c.7-.6.7-1.6.1-2.2z"
+                        fillRule="evenodd"
+                      />
+                    </svg>
+                  )}
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -360,6 +437,7 @@ const Post = ({ postData }) => {
               </div>
 
               <svg
+                onClick={handleViewComment}
                 xmlns="http://www.w3.org/2000/svg"
                 aria-label="Comment"
                 className="x1lliihq x1n2onr6 x5n08af svgHover"
@@ -380,6 +458,7 @@ const Post = ({ postData }) => {
               </svg>
 
               <svg
+                onClick={() => setSendPostDailog((priVal) => !priVal)}
                 xmlns="http://www.w3.org/2000/svg"
                 aria-label="Share Post"
                 className="x1lliihq x1n2onr6 x1roi4f4 svgHover"
@@ -410,83 +489,104 @@ const Post = ({ postData }) => {
               </svg>
             </div>
 
-            <div className="right-post-intraction">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                aria-label="Save"
-                className="x1lliihq x1n2onr6 x5n08af svgHover"
-                fill="currentColor"
-                height="24"
-                role="img"
-                viewBox="0 0 24 24"
-                width="24"
-              >
-                <title>Save</title>
-                <polygon
-                  fill="none"
-                  points="20 21 12 13.44 4 21 4 3 20 3 20 21"
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                />
-              </svg>
+            <div className="right-post-intraction" onClick={handlePostSave}>
+              {postSave ? (
+                <svg
+                  aria-label="Remove"
+                  className="x1lliihq x1n2onr6 x5n08af"
+                  fill="currentColor"
+                  height={24}
+                  role="img"
+                  viewBox="0 0 24 24"
+                  width={24}
+                >
+                  <title>Remove</title>
+                  <path d="M20 22a.999.999 0 0 1-.687-.273L12 14.815l-7.313 6.912A1 1 0 0 1 3 21V3a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1Z" />
+                </svg>
+              ) : (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  aria-label="Save"
+                  className="x1lliihq x1n2onr6 x5n08af svgHover"
+                  fill="currentColor"
+                  height="24"
+                  role="img"
+                  viewBox="0 0 24 24"
+                  width="24"
+                >
+                  <title>Save</title>
+                  <polygon
+                    fill="none"
+                    points="20 21 12 13.44 4 21 4 3 20 3 20 21"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                  />
+                </svg>
+              )}
             </div>
           </div>
 
-          <div className="post-liked-profiles">
-            <div className="liked-profiles">
-              <div className="profile-img-layout">
-                <img src="/public/insta imgs/asset 20.jpeg" alt="" />
+          {postLikedUsers.length > 0 && (
+            <div className="post-liked-profiles">
+              <div className="liked-profiles">
+                {postLikedUsers.map((elem, i) => {
+                  return (
+                    <div className="profile-img-layout" key={i}>
+                      <img src={elem.userProfileImg} alt={elem.userName} />
+                    </div>
+                  );
+                })}
               </div>
-              <div className="profile-img-layout">
-                <img src="/public/insta imgs/asset 18.jpeg" alt="" />
-              </div>
-              <div className="profile-img-layout">
-                <img src="/public/insta imgs/asset 11.jpeg" alt="" />
-              </div>
-            </div>
-            <span className="post-liked-by">
-              {" "}
-              Liked by <span className="post-liked-user-name">
-                mujmil__01
-              </span>{" "}
-              and{" "}
-              <Link to="">
+              <span className="post-liked-by">
                 {" "}
-                <span className="post-liked-others">others</span>{" "}
-              </Link>
-            </span>
-          </div>
+                Liked by{" "}
+                <span className="post-liked-user-name">
+                  {postLikedUsers[0]?.userName}
+                </span>{" "}
+                and{" "}
+                <Link to="">
+                  {" "}
+                  <span className="post-liked-others">others</span>{" "}
+                </Link>
+              </span>
+            </div>
+          )}
 
           <span
             className={
-              !showMoreTitle ? "post-title-area active" : "post-title-area"
+              showMoreTitle && postData.postTitle.length > 130
+                ? "post-title-area active"
+                : "post-title-area"
             }
           >
-            <Link to="">
-              <span className="post-user-username">
-                {postData.userName}
-              </span>
+            <Link to={`/${postUser.userName}/`}>
+              <span className="post-user-username">{postUser?.userName}</span>
             </Link>{" "}
             <span className="post-title">{postData.postTitle}</span>
+            {!showMoreTitle && postData.postTitle.length > 130 && (
+              <button
+                onClick={() => setShowMoreTitle((priVal) => !priVal)}
+                className="remove-hided-title-btn"
+              >
+                more
+              </button>
+            )}{" "}
           </span>
-          {
-            !showMoreTitle &&
-            <button
-              onClick={handlShowMoreTitle}
-              className="remove-hided-title-btn"
-            >
-              more...
-            </button>
-          }
+
+          <div className="view-all-comment-section">
+            <span className="view-all-commends-txt-btn">
+              View all 15 comments
+            </span>
+          </div>
 
           <div className="add-comment-section">
             <input
               placeholder="Add a comment..."
               type="text"
               className="comment-input"
-              onChange={(e) => handleCommentOnChange(e)}
+              onChange={(e) => setComment(e.target.value)}
               value={comment}
             />
 

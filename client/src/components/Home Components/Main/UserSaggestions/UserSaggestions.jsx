@@ -2,10 +2,9 @@ import React, { useContext } from "react";
 import "./UserSaggestions.css";
 import SaggestedUserAc from "./SaggestedUserAc/SaggestedUserAc";
 import { Link } from "react-router-dom";
-import { AppContext } from '../../../../Context/context'
+import { AppContext } from "../../../../Context/context";
 
 const UserSaggestions = () => {
-
   const { authUser } = useContext(AppContext);
 
   return (
@@ -14,15 +13,22 @@ const UserSaggestions = () => {
         <div className="current-user">
           <div className="currentUserAc">
             <div className="currentUserAc-content">
-              <div className={authUser.isHaveStory === "true" ? "currentUserAc-img active" : "currentUserAc-img"}>
-                <img
-                  src={'/assets/userProfilePic.jpg'}
-                  alt="img not found"
-                />
+              <div
+                className={
+                  authUser.isHaveStory === 'true'
+                    ? "currentUserAc-img-layout active"
+                    : "currentUserAc-img-layout"
+                }
+              >
+                <div className="currentUserAc-img">
+                  <img src={authUser.userProfileImg} alt="img not found" />
+                </div>
               </div>
 
               <div className="currentUserAc-info">
-                <span className="currentUserAc-username">{authUser.userName}</span>
+                <span className="currentUserAc-username">
+                  {authUser.userName}
+                </span>
                 <span className="currentUserAc-name">{authUser.fullName}</span>
               </div>
               <button className="currentUserAc-switch-ac-btn">Switch</button>

@@ -1,7 +1,6 @@
 :root {
     --follow-btn-color: #0095f6;
     --low-opacity-text-color: #A8A8A8;
-    --viewd-story-border-color: #222222;
     --footer-text-color: #737373;
 }
 
@@ -35,22 +34,38 @@
     position: relative;
 }
 
-.currentUserAc-content .currentUserAc-img {
+.currentUserAc-content .currentUserAc-img-layout{
+    width: max-content;
+    height: max-content;
+    overflow: hidden;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--viewd-story-border-color);
+}
+
+.currentUserAc-img-layout .currentUserAc-img {
     width: 44px;
     height: 44px;
     border-radius: 50%;
-    border: 2px solid var(--viewd-story-border-color);
     padding: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: black;
 }
 
 .currentUserAc-img img {
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;;
 }
 
-.currentUserAc-img.active{
-    border: 3px solid green;
+.currentUserAc-img-layout.active{
+    background: var(--story-avilable-color);
+    padding: 2px;
+    border: none;
 }
 
 .currentUserAc-content .currentUserAc-info {

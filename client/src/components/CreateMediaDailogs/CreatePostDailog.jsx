@@ -6,6 +6,7 @@ import { v4 } from "uuid";
 import { getMediaDownloadUrl } from "../../action/getMediaDownloadURL";
 import { searchUsers } from "../../action/curUser";
 import { createPost } from "../../action/post";
+import { uploadMedia } from "../../action/storage";
 
 const CreatePostDailog = () => {
   const imgInput = useRef(null);
@@ -59,13 +60,13 @@ const CreatePostDailog = () => {
     postSongTitle: "",
     postSongURL: "",
     isMultiplePost: false,
-    multipleImgPostURLS: [],
+    multipleImgPostURLS: '[]',
     isPostTaged: false,
-    postTagList: [],
+    postTagList: '[]',
     postLikes: 0,
   });
 
-  const handleImgInputChnge = async (e) => {
+  const handleImgInputChnge =  (e) => {
     setShowDisplayLoader(true);
     setShowUserIntraction(false);
     getImgDownloadURL(e.target.files[0]);
@@ -99,33 +100,25 @@ const CreatePostDailog = () => {
   };
 
   const getImgDownloadURL = async (media) => {
-    const data = new FormData();
-    data.append("myfile", media);
 
-    const xhr = new XMLHttpRequest();
+    const response = await uploadMedia(media);
+    const result = await response.json();
 
-    xhr.addEventListener("readystatechange", function () {
-      if (this.readyState === 4) {
-        const response = JSON.parse(this.response);
+    if (result.code === 200) {
+      if (media.type === "video/mp4" || media.type === "video/x-m4v") {
+        setIsVideoMedia(true);
+        setVideoUrl(result.url);
+        setMediaType("video");
 
-        if (media.type === "video/mp4" || media.type === "video/x-m4v") {
-          setIsVideoMedia(true);
-          setVideoUrl(response.url);
-          setMediaType("video");
-
-        } else {
-          setIsVideoMedia(false);
-          setMediaType("img");
-          setMultiMediaPath((priVal) => [...priVal, { url: response.url }]);
-        }
-
-        setShowMediaView(true);
-        setShowDisplayLoader(false);
+      } else {
+        setIsVideoMedia(false);
+        setMediaType("img");
+        setMultiMediaPath((priVal) => [...priVal, { url: result.url }]);
       }
-    });
+    }
 
-    xhr.open("POST", "http://localhost:5000/storage/upload");
-    xhr.send(data);
+    setShowMediaView(true);
+    setShowDisplayLoader(false);
   };
 
   const handleSelectMediaBtn = () => {
@@ -187,7 +180,7 @@ const CreatePostDailog = () => {
         postSongTitle: selectedMusicTitle,
         postSongURL: selectedMusicUrl,
         isMultiplePost: multiMediaPath.length > 1 ? true : false,
-        multipleImgPostURLS: multiMediaPath.length > 1 ? JSON.stringify(multiMediaPath) : '[]',
+        multipleImgPostURLS: JSON.stringify(multiMediaPath),
         isPostTaged: tagList.length >= 1 ? true : false,
         postTagList: JSON.stringify(tagList),
       });
@@ -459,7 +452,6 @@ const CreatePostDailog = () => {
                         onClick={handleVideoMediaControl}
                       >
                         <video
-                          poster="url/to/image.jpeg"
                           onPause={() => setPlayVideoMedia(false)}
                           src={videoUrl}
                           ref={videoMedia}

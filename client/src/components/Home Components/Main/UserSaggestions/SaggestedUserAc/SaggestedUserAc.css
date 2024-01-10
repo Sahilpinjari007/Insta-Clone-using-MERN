@@ -21,16 +21,39 @@
     position: relative;
 }
 
-.saggestedUserAc-content .saggestedUserAc-img {
+.saggestedUserAc-content .saggestionUserAc-img-layout{
+    width: max-content;
+    height: max-content;
+    overflow: hidden;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--viewd-story-border-color);
+}
+
+.saggestionUserAc-img-layout .saggestedUserAc-img {
     width: 44px;
     height: 44px;
+    border-radius: 50%;
+    padding: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: black;
     border-radius: 50%;
 }
 
 .saggestedUserAc-img img {
-    width: 44px;
-    height: 44px;
+    width: 100%;
+    height: 100%;
     border-radius: 50%;
+}
+
+.saggestionUserAc-img-layout.active{
+    background: var(--story-avilable-color);
+    padding: 2px;
+    border: none;
 }
 
 .saggestedUserAc-content .saggestedUserAc-info {

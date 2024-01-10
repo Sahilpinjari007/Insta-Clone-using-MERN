@@ -54,7 +54,6 @@ export const getUser = async (req, res) => {
 export const updateProfile = async (req, res) => {
 
     const data = req.body;
-    console.log(data);
 
     try {
         const query = `UPDATE users SET userGender = '${data.gender}', userBio = '${data.userBio}' WHERE userId = '${data.userId}'`;

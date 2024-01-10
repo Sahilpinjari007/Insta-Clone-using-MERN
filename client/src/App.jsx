@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 import NewUser from "./pages/newUser/NewUser";
 import LoginPage from "./pages/logIn/LoginPage";
@@ -21,22 +21,35 @@ import CheckFollowerDailog from "./components/CheckFollowerDailog/CheckFollowerD
 import CheckFollowingDailog from "./components/CheckFollowingDailog/CheckFollowingDailog";
 import CreatePostDailog from "./components/CreateMediaDailogs/CreatePostDailog";
 import AleartMessage from "./components/AleartMessage/AleartMessage";
+import SendPostDailog from "./components/SendPostDailog/SendPostDailog";
+import ViewUserMedia from "./components/ViewUserMedia/ViewUserMedia";
+import PostMore from "./components/PostMore/PostMore";
+import RemoveFollowDailog from "./components/RemoveFollowDailog/RemoveFollowDailog";
 
 const CombineHome = () => {
 
-  const { showProfileDailog, createPostDailog } = useContext(AppContext);
+  const { showProfileDailog, createPostDailog, sendPostDailog, viewUserMedia, isActivePostMore, currentPostUserId } = useContext(AppContext);
+  const [showRemoveFollowDailog, setShowRemoveFollowDailog] = useState(false)
+
+  if ((showProfileDailog || createPostDailog || sendPostDailog || viewUserMedia)) {
+    document.body.style['overflow-y'] = 'hidden';
+  }
+  else {
+    document.body.style['overflow-y'] = 'scroll';
+  }
 
   return (
-    <div className={showProfileDailog || createPostDailog ? "home-content active" : "home-content"}>
+    <div className="home-content">
       <Nav />
       <div className="app-pages">
-        <Outlet />
+        {/* <Outlet /> */}
       </div>
-      {showProfileDailog &&
-        <Dailog />}
-      {
-        createPostDailog && <CreatePostDailog />
-      }
+      {showProfileDailog && <Dailog />}
+      {createPostDailog && <CreatePostDailog />}
+      {viewUserMedia && <ViewUserMedia />}
+      {sendPostDailog && <SendPostDailog />}
+      {isActivePostMore && <PostMore setShowRemoveFollowDailog={setShowRemoveFollowDailog} />}
+      {showRemoveFollowDailog && <RemoveFollowDailog from={'home'} data={currentPostUserId} setShowRemoveFollowDailog={setShowRemoveFollowDailog} />}
     </div>
   );
 };

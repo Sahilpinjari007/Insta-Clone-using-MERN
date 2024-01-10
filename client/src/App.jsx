@@ -42,7 +42,7 @@ const CombineHome = () => {
     <div className="home-content">
       <Nav />
       <div className="app-pages">
-        <Outlet />
+        {/* <Outlet /> */}
       </div>
       {showProfileDailog && <Dailog />}
       {createPostDailog && <CreatePostDailog />}

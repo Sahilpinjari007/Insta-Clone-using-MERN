@@ -27,29 +27,39 @@
     position: relative;
 }
 
-/* .post-header .post-user-img{
-
-} */
 
 .post-user-img .post-user-img-layout {
-    width: 32px;
-    height: 32px;
-    padding: 2px;
+    width: max-content;
+    height: max-content;
     overflow: hidden;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
+    border: 2px solid var(--viewd-story-border-color);
 }
 
-.post-user-img-layout.activeStory {
-    border: 3px solid green;
-}
-
-.post-user-img-layout img {
+.post-user-img-layout .post-user-img-container{
     width: 32px;
     height: 32px;
     border-radius: 50%;
+    padding: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: black;
+}
+
+.post-user-img-layout img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;;
+}
+
+.post-user-img-layout.active {
+    background: var(--story-avilable-color);
+    padding: 2px;
+    border: none;
 }
 
 .post-header .post-user-details {

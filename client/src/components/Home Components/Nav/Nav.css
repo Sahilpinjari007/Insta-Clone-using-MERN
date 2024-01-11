@@ -1,9 +1,9 @@
-:root{
+:root {
     --text-color: #737373;
     --border-color: rgb(38, 38, 38);
 }
 
-.app-nav{
+.app-nav {
     width: 100%;
     max-width: 244px;
     height: 100vh;
@@ -12,7 +12,7 @@
     top: 0;
 }
 
-.app-nav .app-nav-content{
+.app-nav .app-nav-content {
     width: 100%;
     height: 100%;
     padding: 8px 12px 20px 12px;
@@ -20,18 +20,18 @@
     border-right: 1px solid var(--border-color);
 }
 
-.app-nav-content .app-nav-content-intractions{
+.app-nav-content .app-nav-content-intractions {
     width: 100%;
     height: 100%;
 }
 
-.app-nav-content-intractions .nav-intraction-logo{
+.app-nav-content-intractions .nav-intraction-logo {
     width: 100%;
     height: 92px;
     flex-shrink: 0;
 }
 
-.nav-intraction-logo .nav-intraction-logo-content{
+.nav-intraction-logo .nav-intraction-logo-content {
     width: 100%;
     height: 100%;
     margin-bottom: 19px;
@@ -39,44 +39,55 @@
     box-sizing: border-box;
 }
 
-.nav-intraction-logo-content .nav-logo{
- opacity: 1;
- width: 100%;
+.nav-intraction-logo-content .nav-logo {
+    opacity: 1;
+    width: 100%;
+    margin-top: 7px;;
+    padding: 12px;
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    margin-block: 4px;
+    border-radius: 8px;
+    box-sizing: border-box;
+    cursor: pointer;
+    text-align: inherit;
+    background: red;
 }
 
-.nav-logo svg{
+.nav-logo svg {
     color: white;
     cursor: pointer;
-    margin-top: 7px;;
 }
 
-.nav-logo .insta-name{
+.nav-logo .insta-name {
     display: block;
 }
 
-.nav-logo .insta-icon{
+.nav-logo .insta-icon {
     display: none;
 }
 
-.app-nav-content-intractions .nav-intraction-btns{
+.app-nav-content-intractions .nav-intraction-btns {
     width: 100%;
     height: 497px;
     flex-grow: 1;
 }
 
-.nav-intraction-btn{
-   position: relative;
+.nav-intraction-btn {
+    position: relative;
 }
 
-.nav-intraction-btn .nav-intraction-btn-layout{
+.nav-intraction-btn .nav-intraction-btn-layout {
     width: inherit;
     max-width: inherit;
     height: inherit;
     max-height: inherit;
     min-height: inherit;
+    position: relative;
 }
 
-.nav-intraction-btn-layout .nav-intraction-btn-content{
+.nav-intraction-btn-layout .nav-intraction-btn-content {
     width: 100%;
     padding: 12px;
     display: inline-flex;
@@ -89,11 +100,11 @@
     text-align: inherit;
 }
 
-.nav-intraction-btn-content:hover{
-    background-color: rgba(255, 255, 255, 0.05);
+.nav-intraction-btn-content:hover {
+    background-color: rgba(61, 61, 61, 0.5)
 }
 
-.nav-intraction-btn-content .nav-intraction-btn-icon{
+.nav-intraction-btn-content .nav-intraction-btn-icon {
     position: relative;
     align-content: stretch;
     background: transparent;
@@ -101,20 +112,21 @@
     display: flex;
 }
 
-.nav-intraction-btn-icon .nav-intraction-btn-icon-layout{
+.nav-intraction-btn-icon .nav-intraction-btn-icon-layout {
     width: 24px;
     height: 24px;
     box-sizing: border-box;
     transition-duration: 200ms;
     transition-property: transform;
-    transition-timing-function: cubic-bezier(0.17, 0.17, 0, 1);;
+    transition-timing-function: cubic-bezier(0.17, 0.17, 0, 1);
+    ;
 }
 
-.nav-intraction-btn-content:hover .nav-intraction-btn-icon-layout{
+.nav-intraction-btn-content:hover .nav-intraction-btn-icon-layout {
     transform: scale(105%);
 }
 
-.nav-intraction-btn-icon-layout svg{
+.nav-intraction-btn-icon-layout svg {
     color: rgb(245, 245, 245);
     position: relative;
     display: block;
@@ -124,23 +136,26 @@
     overflow: hidden;
 }
 
-.nav-intraction-btn-icon-layout .user-profile-img{
+.nav-intraction-btn-icon-layout .user-profile-img {
     width: 24px;
     height: 24px;
     border-radius: 50%;
+    border: 2px solid transparent;
+    margin-top: -2px;
+    margin-left: -2px;
 }
 
-.user-profile-img img{
+.user-profile-img img {
     width: 100%;
     height: 100%;
     border-radius: 50%;
 }
 
-.user-profile-img.active{
+.user-profile-img.active {
     border: 2px solid white;
 }
 
-.nav-intraction-btn-content .nav-intraction-btn-lable{
+.nav-intraction-btn-content .nav-intraction-btn-lable {
     opacity: 1;
     display: flex;
     height: 24px;
@@ -153,11 +168,11 @@
     text-align: inherit;
 }
 
-.nav-intraction-btn-lable .nav-intraction-btn-lable-content{
+.nav-intraction-btn-lable .nav-intraction-btn-lable-content {
     width: 100%;
 }
 
-.nav-intraction-btn-lable-content span{
+.nav-intraction-btn-lable-content span {
     line-height: 20px;
     min-width: 0;
     max-width: 100%;
@@ -169,19 +184,19 @@
     /* font-weight: 700; */
 }
 
-.app-nav-content-intractions .nav-intraction-other-btns{
+.app-nav-content-intractions .nav-intraction-other-btns {
     width: 100%;
     height: 112px;
     box-sizing: border-box;
 }
 
 /* active nav in small  */
-.activeNavSmall.app-nav{
+.activeNavSmall.app-nav {
     width: max-content;
     max-width: unset;
 }
 
-.activeNavSmall .app-nav-content{
+.activeNavSmall .app-nav-content {
     max-width: 72px;
     transition: .1s ease-in-out;
     z-index: 9999;
@@ -189,19 +204,19 @@
     position: relative;
 }
 
-.activeNavSmall .nav-logo .insta-name{
+.activeNavSmall .nav-logo .insta-name {
     display: none;
 }
 
-.activeNavSmall .nav-logo .insta-icon{
+.activeNavSmall .nav-logo .insta-icon {
     display: block;
 }
 
-.activeNavSmall .nav-intraction-btn-content .nav-intraction-btn-lable{
+.activeNavSmall .nav-intraction-btn-content .nav-intraction-btn-lable {
     display: none;
 }
 
-.activeNavSmall .app-nav-content-sections{
+.activeNavSmall .app-nav-content-sections {
     height: 100%;
     transition: .1s ease-in-out;
     position: absolute;
@@ -209,13 +224,13 @@
     top: 0;
 }
 
-.app-nav-content-sections .app-nav-content-section-content{
+.app-nav-content-sections .app-nav-content-section-content {
     width: 100%;
     height: 100%;
     position: relative;
 }
 
-.app-nav-content-sections .app-nav-search-section{
+.app-nav-content-sections .app-nav-search-section {
     height: 100%;
     width: 0px;
     transition: .2s ease-in-out;
@@ -226,12 +241,12 @@
     background: green;
 }
 
-.activeNavSmall .app-nav-search-section.active{
+.activeNavSmall .app-nav-search-section.active {
     width: 397px;
 }
 
 
-.app-nav-content-sections .app-nav-message-section{
+.app-nav-content-sections .app-nav-message-section {
     height: 100%;
     width: 0px;
     transition: .2s ease-in-out;
@@ -242,25 +257,128 @@
     background: red;
 }
 
-.activeNavSmall .app-nav-message-section.active{
+.activeNavSmall .app-nav-message-section.active {
     width: 397px;
 }
 
+.nav-intraction-btn-layout .create-media-container {
+    width: 200px;
+    height: max-content;
+    background-color: rgb(38, 38, 38);
+    z-index: 3;
+    border-radius: 6px;
+    filter: drop-shadow(0 0 5px rgba(0, 0, 0, .0975));
+    position: absolute;
+    transition: opacity .075s linear, transform .038s ease-out;
+    opacity: 1;
+    overflow: hidden;
+    transform: translateY(0);
+}
+
+.create-media-container .create-media-container-content {
+    width: 100%;
+    height: max-content;
+}
+
+.create-media-container-content .media-item {
+    width: 100%;
+    height: max-content;
+}
+
+.media-item .media-item-content {
+    width: 100%;
+    height: 44px;
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+.media-item-content .media-item-title {
+    font-weight: 400;
+    font-size: 16px;
+    word-wrap: break-word;
+    color: white;
+}
+
+.media-item-content svg {
+    color: white;
+}
+
+.media-item:hover{
+    background: #3d3d3d;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 @media (max-width: 1265px) {
-    .app-nav{
+    .app-nav {
         width: max-content;
         max-width: unset;
     }
 
-    .nav-logo .insta-name{
+    .nav-logo .insta-name {
         display: none;
     }
 
-    .nav-logo .insta-icon{
+    .nav-logo .insta-icon {
         display: block;
     }
-    .nav-intraction-btn-content .nav-intraction-btn-lable{
+
+    .nav-intraction-btn-content .nav-intraction-btn-lable {
         display: none;
+    }
+
+    .app-nav-content-intractions .nav-intraction-logo {
+        width: 100%;        
+        height: 92px;
+        flex-shrink: 0;
+    }
+
+    .nav-intraction-logo .nav-intraction-logo-content {
+        width: 100%;
+        height: 72px;
+        padding: 0px;
+        margin: 0px;
+        padding-bottom: 23px;
+        margin-top: 12px;
+        box-sizing: border-box;
+    }
+    
+    .nav-intraction-logo-content .nav-logo {
+        opacity: 1;
+        width: 100%;
+        margin-top: 7px;;
+        padding: 12px;
+        display: inline-flex;
+        flex-direction: row;
+        align-items: center;
+        margin-block: 4px;
+        border-radius: 8px;
+        box-sizing: border-box;
+        cursor: pointer;
+        text-align: inherit;
+        background: red;
     }
 }

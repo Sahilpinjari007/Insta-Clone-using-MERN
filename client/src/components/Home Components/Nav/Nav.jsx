@@ -11,14 +11,6 @@ import "./Nav.css";
 
 //   const [activeSearchSection, setActiveSearchSection] = useState(false);
 
-//   const handleSearchUsers = () => {
-//     setActiveSearchSection(priVal => !priVal);
-//   };
-
-//   const handleProfileClick = () => {
-//     setIsProfileActive(true);
-//   };
-
 //   return (
 //     <nav className={activeSearchSection ? "nav active" : "nav"}>
 //       <div className="nav-content">
@@ -545,10 +537,10 @@ import "./Nav.css";
 // export default Nav;
 
 const Nav = () => {
-  const { authUser } = useContext(AppContext);
+  const { authUser, setCreatePostDailog } = useContext(AppContext);
 
   const [activePage, setActivePage] = useState({
-    Home: false,
+    Home: true,
     Search: false,
     Explore: false,
     Reels: false,
@@ -558,21 +550,31 @@ const Nav = () => {
     Profile: false,
   });
 
-  const [priviousState, setPriViousState] = useState("Home");
+  const [showCreateMediaDropDown, setShowCreateMediaDropDown] = useState(false);
 
   const handleNavItemClick = (key) => {
+    setShowCreateMediaDropDown(false);
     setActivePage({
-      ...activePage,
-      [key]: !activePage[`${key}`],
+      ...{
+        Home: false,
+        Search: false,
+        Explore: false,
+        Reels: false,
+        Messages: false,
+        Notifications: false,
+        Create: false,
+        Profile: false,
+      },
+      [key]: !activePage[key],
     });
   };
 
-  useEffect(() => {
-    console.log(activePage);
-  }, [activePage]);
-
   return (
-    <div className={`app-nav ${activePage.Search || activePage.Notifications ? "activeNavSmall" : ""} `}>
+    <div
+      className={`app-nav ${
+        activePage.Search || activePage.Notifications ? "activeNavSmall" : ""
+      } `}
+    >
       <div className="app-nav-content">
         <div className="app-nav-content-intractions">
           <div className="nav-intraction-logo">
@@ -616,7 +618,7 @@ const Nav = () => {
           </div>
 
           <div className="nav-intraction-btns">
-            <div onClick={(e) => handleNavItemClick("Home")}>
+            <div onClick={() => handleNavItemClick("Home")}>
               <div className="nav-intraction-btn">
                 <span className="nav-intraction-btn-layout">
                   <Link>
@@ -672,7 +674,7 @@ const Nav = () => {
               </div>
             </div>
 
-            <div onClick={(e) => handleNavItemClick("Search")}>
+            <div onClick={() => handleNavItemClick("Search")}>
               <div className="nav-intraction-btn">
                 <span className="nav-intraction-btn-layout">
                   <Link>
@@ -680,37 +682,70 @@ const Nav = () => {
                       <div>
                         <div className="nav-intraction-btn-icon">
                           <div className="nav-intraction-btn-icon-layout">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              aria-label="Search"
-                              className="x1lliihq x1n2onr6 x5n08af"
-                              fill="currentColor"
-                              height={24}
-                              role="img"
-                              viewBox="0 0 24 24"
-                              width={24}
-                            >
-                              <title>Search</title>
-                              <path
-                                d="M19 10.5A8.5 8.5 0 1 1 10.5 2a8.5 8.5 0 0 1 8.5 8.5Z"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                              />
-                              <line
-                                fill="none"
-                                stroke="currentColor"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                x1="16.511"
-                                x2={22}
-                                y1="16.511"
-                                y2={22}
-                              />
-                            </svg>
+                            {activePage.Search ? (
+                              <svg
+                                aria-label="Search"
+                                class="x1lliihq x1n2onr6 x5n08af"
+                                fill="currentColor"
+                                height="24"
+                                role="img"
+                                viewBox="0 0 24 24"
+                                width="24"
+                              >
+                                <title>Search</title>
+                                <path
+                                  d="M18.5 10.5a8 8 0 1 1-8-8 8 8 0 0 1 8 8Z"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  stroke-width="3"
+                                ></path>
+                                <line
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  stroke-width="3"
+                                  x1="16.511"
+                                  x2="21.643"
+                                  y1="16.511"
+                                  y2="21.643"
+                                ></line>
+                              </svg>
+                            ) : (
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                aria-label="Search"
+                                className="x1lliihq x1n2onr6 x5n08af"
+                                fill="currentColor"
+                                height={24}
+                                role="img"
+                                viewBox="0 0 24 24"
+                                width={24}
+                              >
+                                <title>Search</title>
+                                <path
+                                  d="M19 10.5A8.5 8.5 0 1 1 10.5 2a8.5 8.5 0 0 1 8.5 8.5Z"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                />
+                                <line
+                                  fill="none"
+                                  stroke="currentColor"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  x1="16.511"
+                                  x2={22}
+                                  y1="16.511"
+                                  y2={22}
+                                />
+                              </svg>
+                            )}
                           </div>
                         </div>
                       </div>
@@ -725,7 +760,7 @@ const Nav = () => {
               </div>
             </div>
 
-            <div onClick={(e) => handleNavItemClick("Explore")}>
+            <div onClick={() => handleNavItemClick("Explore")}>
               <div className="nav-intraction-btn">
                 <span className="nav-intraction-btn-layout">
                   <Link>
@@ -733,40 +768,55 @@ const Nav = () => {
                       <div>
                         <div className="nav-intraction-btn-icon">
                           <div className="nav-intraction-btn-icon-layout">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              aria-label="Explore"
-                              className="x1lliihq x1n2onr6 x5n08af"
-                              fill="currentColor"
-                              height={24}
-                              role="img"
-                              viewBox="0 0 24 24"
-                              width={24}
-                            >
-                              <title>Explore</title>
-                              <polygon
-                                fill="none"
-                                points="13.941 13.953 7.581 16.424 10.06 10.056 16.42 7.585 13.941 13.953"
-                                stroke="currentColor"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                              />
-                              <polygon
-                                fillRule="evenodd"
-                                points="10.06 10.056 13.949 13.945 7.581 16.424 10.06 10.056"
-                              />
-                              <circle
-                                cx="12.001"
-                                cy="12.005"
-                                fill="none"
-                                r="10.5"
-                                stroke="currentColor"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                              />
-                            </svg>
+                            {activePage.Explore ? (
+                              <svg
+                                aria-label="Explore"
+                                class="x1lliihq x1n2onr6 x5n08af"
+                                fill="currentColor"
+                                height="24"
+                                role="img"
+                                viewBox="0 0 24 24"
+                                width="24"
+                              >
+                                <title>Explore</title>
+                                <path d="m13.173 13.164 1.491-3.829-3.83 1.49ZM12.001.5a11.5 11.5 0 1 0 11.5 11.5A11.513 11.513 0 0 0 12.001.5Zm5.35 7.443-2.478 6.369a1 1 0 0 1-.57.569l-6.36 2.47a1 1 0 0 1-1.294-1.294l2.48-6.369a1 1 0 0 1 .57-.569l6.359-2.47a1 1 0 0 1 1.294 1.294Z"></path>
+                              </svg>
+                            ) : (
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                aria-label="Explore"
+                                className="x1lliihq x1n2onr6 x5n08af"
+                                fill="currentColor"
+                                height={24}
+                                role="img"
+                                viewBox="0 0 24 24"
+                                width={24}
+                              >
+                                <title>Explore</title>
+                                <polygon
+                                  fill="none"
+                                  points="13.941 13.953 7.581 16.424 10.06 10.056 16.42 7.585 13.941 13.953"
+                                  stroke="currentColor"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                />
+                                <polygon
+                                  fillRule="evenodd"
+                                  points="10.06 10.056 13.949 13.945 7.581 16.424 10.06 10.056"
+                                />
+                                <circle
+                                  cx="12.001"
+                                  cy="12.005"
+                                  fill="none"
+                                  r="10.5"
+                                  stroke="currentColor"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                />
+                              </svg>
+                            )}
                           </div>
                         </div>
                       </div>
@@ -781,7 +831,7 @@ const Nav = () => {
               </div>
             </div>
 
-            <div onClick={(e) => handleNavItemClick("Reels")}>
+            <div onClick={() => handleNavItemClick("Reels")}>
               <div className="nav-intraction-btn">
                 <span className="nav-intraction-btn-layout">
                   <Link>
@@ -789,62 +839,80 @@ const Nav = () => {
                       <div>
                         <div className="nav-intraction-btn-icon">
                           <div className="nav-intraction-btn-icon-layout">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              aria-label="Reels"
-                              className="x1lliihq x1n2onr6 x5n08af"
-                              fill="currentColor"
-                              height={24}
-                              role="img"
-                              viewBox="0 0 24 24"
-                              width={24}
-                            >
-                              <title>Reels</title>
-                              <line
-                                fill="none"
-                                stroke="currentColor"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                x1="2.049"
-                                x2="21.95"
-                                y1="7.002"
-                                y2="7.002"
-                              />
-                              <line
-                                fill="none"
-                                stroke="currentColor"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                x1="13.504"
-                                x2="16.362"
-                                y1="2.001"
-                                y2="7.002"
-                              />
-                              <line
-                                fill="none"
-                                stroke="currentColor"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                x1="7.207"
-                                x2="10.002"
-                                y1="2.11"
-                                y2="7.002"
-                              />
-                              <path
-                                d="M2 12.001v3.449c0 2.849.698 4.006 1.606 4.945.94.908 2.098 1.607 4.946 1.607h6.896c2.848 0 4.006-.699 4.946-1.607.908-.939 1.606-2.096 1.606-4.945V8.552c0-2.848-.698-4.006-1.606-4.945C19.454 2.699 18.296 2 15.448 2H8.552c-2.848 0-4.006.699-4.946 1.607C2.698 4.546 2 5.704 2 8.552Z"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                              />
-                              <path
-                                d="M9.763 17.664a.908.908 0 0 1-.454-.787V11.63a.909.909 0 0 1 1.364-.788l4.545 2.624a.909.909 0 0 1 0 1.575l-4.545 2.624a.91.91 0 0 1-.91 0Z"
-                                fillRule="evenodd"
-                              />
-                            </svg>
+                            {activePage.Reels ? (
+                              <svg
+                                aria-label="Reels"
+                                class="x1lliihq x1n2onr6 x5n08af"
+                                fill="currentColor"
+                                height="24"
+                                role="img"
+                                viewBox="0 0 24 24"
+                                width="24"
+                              >
+                                <title>Reels</title>
+                                <path
+                                  d="m12.823 1 2.974 5.002h-5.58l-2.65-4.971c.206-.013.419-.022.642-.027L8.55 1Zm2.327 0h.298c3.06 0 4.468.754 5.64 1.887a6.007 6.007 0 0 1 1.596 2.82l.07.295h-4.629L15.15 1Zm-9.667.377L7.95 6.002H1.244a6.01 6.01 0 0 1 3.942-4.53Zm9.735 12.834-4.545-2.624a.909.909 0 0 0-1.356.668l-.008.12v5.248a.91.91 0 0 0 1.255.84l.109-.053 4.545-2.624a.909.909 0 0 0 .1-1.507l-.1-.068-4.545-2.624Zm-14.2-6.209h21.964l.015.36.003.189v6.899c0 3.061-.755 4.469-1.888 5.64-1.151 1.114-2.5 1.856-5.33 1.909l-.334.003H8.551c-3.06 0-4.467-.755-5.64-1.889-1.114-1.15-1.854-2.498-1.908-5.33L1 15.45V8.551l.003-.189Z"
+                                  fill-rule="evenodd"
+                                ></path>
+                              </svg>
+                            ) : (
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                aria-label="Reels"
+                                className="x1lliihq x1n2onr6 x5n08af"
+                                fill="currentColor"
+                                height={24}
+                                role="img"
+                                viewBox="0 0 24 24"
+                                width={24}
+                              >
+                                <title>Reels</title>
+                                <line
+                                  fill="none"
+                                  stroke="currentColor"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  x1="2.049"
+                                  x2="21.95"
+                                  y1="7.002"
+                                  y2="7.002"
+                                />
+                                <line
+                                  fill="none"
+                                  stroke="currentColor"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  x1="13.504"
+                                  x2="16.362"
+                                  y1="2.001"
+                                  y2="7.002"
+                                />
+                                <line
+                                  fill="none"
+                                  stroke="currentColor"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  x1="7.207"
+                                  x2="10.002"
+                                  y1="2.11"
+                                  y2="7.002"
+                                />
+                                <path
+                                  d="M2 12.001v3.449c0 2.849.698 4.006 1.606 4.945.94.908 2.098 1.607 4.946 1.607h6.896c2.848 0 4.006-.699 4.946-1.607.908-.939 1.606-2.096 1.606-4.945V8.552c0-2.848-.698-4.006-1.606-4.945C19.454 2.699 18.296 2 15.448 2H8.552c-2.848 0-4.006.699-4.946 1.607C2.698 4.546 2 5.704 2 8.552Z"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                />
+                                <path
+                                  d="M9.763 17.664a.908.908 0 0 1-.454-.787V11.63a.909.909 0 0 1 1.364-.788l4.545 2.624a.909.909 0 0 1 0 1.575l-4.545 2.624a.91.91 0 0 1-.91 0Z"
+                                  fillRule="evenodd"
+                                />
+                              </svg>
+                            )}
                           </div>
                         </div>
                       </div>
@@ -859,7 +927,7 @@ const Nav = () => {
               </div>
             </div>
 
-            <div onClick={(e) => handleNavItemClick("Messages")}>
+            <div onClick={() => handleNavItemClick("Messages")}>
               <div className="nav-intraction-btn">
                 <span className="nav-intraction-btn-layout">
                   <Link>
@@ -867,35 +935,53 @@ const Nav = () => {
                       <div>
                         <div className="nav-intraction-btn-icon">
                           <div className="nav-intraction-btn-icon-layout">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              aria-label="Direct"
-                              className="x1lliihq x1n2onr6 x5n08af"
-                              fill="currentColor"
-                              height={24}
-                              role="img"
-                              viewBox="0 0 24 24"
-                              width={24}
-                            >
-                              <title>Direct</title>
-                              <line
-                                fill="none"
-                                stroke="currentColor"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                x1={22}
-                                x2="9.218"
-                                y1={3}
-                                y2="10.083"
-                              />
-                              <polygon
-                                fill="none"
-                                points="11.698 20.334 22 3.001 2 3.001 9.218 10.084 11.698 20.334"
-                                stroke="currentColor"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                              />
-                            </svg>
+                            {activePage.Messages ? (
+                              <svg
+                                aria-label="Direct"
+                                class="x1lliihq x1n2onr6 x5n08af"
+                                fill="currentColor"
+                                height="24"
+                                role="img"
+                                viewBox="0 0 24 24"
+                                width="24"
+                              >
+                                <title>Direct</title>
+                                <path
+                                  d="M22.91 2.388a.69.69 0 0 0-.597-.347l-20.625.002a.687.687 0 0 0-.482 1.178L7.26 9.16a.686.686 0 0 0 .778.128l7.612-3.657a.723.723 0 0 1 .937.248.688.688 0 0 1-.225.932l-7.144 4.52a.69.69 0 0 0-.3.743l2.102 8.692a.687.687 0 0 0 .566.518.655.655 0 0 0 .103.008.686.686 0 0 0 .59-.337L22.903 3.08a.688.688 0 0 0 .007-.692"
+                                  fill-rule="evenodd"
+                                ></path>
+                              </svg>
+                            ) : (
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                aria-label="Direct"
+                                className="x1lliihq x1n2onr6 x5n08af"
+                                fill="currentColor"
+                                height={24}
+                                role="img"
+                                viewBox="0 0 24 24"
+                                width={24}
+                              >
+                                <title>Direct</title>
+                                <line
+                                  fill="none"
+                                  stroke="currentColor"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  x1={22}
+                                  x2="9.218"
+                                  y1={3}
+                                  y2="10.083"
+                                />
+                                <polygon
+                                  fill="none"
+                                  points="11.698 20.334 22 3.001 2 3.001 9.218 10.084 11.698 20.334"
+                                  stroke="currentColor"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                />
+                              </svg>
+                            )}
                           </div>
                         </div>
                       </div>
@@ -910,7 +996,7 @@ const Nav = () => {
               </div>
             </div>
 
-            <div onClick={(e) => handleNavItemClick("Notifications")}>
+            <div onClick={() => handleNavItemClick("Notifications")}>
               <div className="nav-intraction-btn">
                 <span className="nav-intraction-btn-layout">
                   <Link>
@@ -918,19 +1004,34 @@ const Nav = () => {
                       <div>
                         <div className="nav-intraction-btn-icon">
                           <div className="nav-intraction-btn-icon-layout">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              aria-label="Notifications"
-                              className="x1lliihq x1n2onr6 x5n08af"
-                              fill="currentColor"
-                              height={24}
-                              role="img"
-                              viewBox="0 0 24 24"
-                              width={24}
-                            >
-                              <title>Notifications</title>
-                              <path d="M16.792 3.904A4.989 4.989 0 0 1 21.5 9.122c0 3.072-2.652 4.959-5.197 7.222-2.512 2.243-3.865 3.469-4.303 3.752-.477-.309-2.143-1.823-4.303-3.752C5.141 14.072 2.5 12.167 2.5 9.122a4.989 4.989 0 0 1 4.708-5.218 4.21 4.21 0 0 1 3.675 1.941c.84 1.175.98 1.763 1.12 1.763s.278-.588 1.11-1.766a4.17 4.17 0 0 1 3.679-1.938m0-2a6.04 6.04 0 0 0-4.797 2.127 6.052 6.052 0 0 0-4.787-2.127A6.985 6.985 0 0 0 .5 9.122c0 3.61 2.55 5.827 5.015 7.97.283.246.569.494.853.747l1.027.918a44.998 44.998 0 0 0 3.518 3.018 2 2 0 0 0 2.174 0 45.263 45.263 0 0 0 3.626-3.115l.922-.824c.293-.26.59-.519.885-.774 2.334-2.025 4.98-4.32 4.98-7.94a6.985 6.985 0 0 0-6.708-7.218Z" />
-                            </svg>
+                            {activePage.Notifications ? (
+                              <svg
+                                aria-label="Notifications"
+                                class="x1lliihq x1n2onr6 x5n08af"
+                                fill="currentColor"
+                                height="24"
+                                role="img"
+                                viewBox="0 0 24 24"
+                                width="24"
+                              >
+                                <title>Notifications</title>
+                                <path d="M17.075 1.987a5.852 5.852 0 0 0-5.07 2.66l-.008.012-.01-.014a5.878 5.878 0 0 0-5.062-2.658A6.719 6.719 0 0 0 .5 8.952c0 3.514 2.581 5.757 5.077 7.927.302.262.607.527.91.797l1.089.973c2.112 1.89 3.149 2.813 3.642 3.133a1.438 1.438 0 0 0 1.564 0c.472-.306 1.334-1.07 3.755-3.234l.978-.874c.314-.28.631-.555.945-.827 2.478-2.15 5.04-4.372 5.04-7.895a6.719 6.719 0 0 0-6.425-6.965Z"></path>
+                              </svg>
+                            ) : (
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                aria-label="Notifications"
+                                className="x1lliihq x1n2onr6 x5n08af"
+                                fill="currentColor"
+                                height={24}
+                                role="img"
+                                viewBox="0 0 24 24"
+                                width={24}
+                              >
+                                <title>Notifications</title>
+                                <path d="M16.792 3.904A4.989 4.989 0 0 1 21.5 9.122c0 3.072-2.652 4.959-5.197 7.222-2.512 2.243-3.865 3.469-4.303 3.752-.477-.309-2.143-1.823-4.303-3.752C5.141 14.072 2.5 12.167 2.5 9.122a4.989 4.989 0 0 1 4.708-5.218 4.21 4.21 0 0 1 3.675 1.941c.84 1.175.98 1.763 1.12 1.763s.278-.588 1.11-1.766a4.17 4.17 0 0 1 3.679-1.938m0-2a6.04 6.04 0 0 0-4.797 2.127 6.052 6.052 0 0 0-4.787-2.127A6.985 6.985 0 0 0 .5 9.122c0 3.61 2.55 5.827 5.015 7.97.283.246.569.494.853.747l1.027.918a44.998 44.998 0 0 0 3.518 3.018 2 2 0 0 0 2.174 0 45.263 45.263 0 0 0 3.626-3.115l.922-.824c.293-.26.59-.519.885-.774 2.334-2.025 4.98-4.32 4.98-7.94a6.985 6.985 0 0 0-6.708-7.218Z" />
+                              </svg>
+                            )}
                           </div>
                         </div>
                       </div>
@@ -945,7 +1046,9 @@ const Nav = () => {
               </div>
             </div>
 
-            <div onClick={(e) => handleNavItemClick(Create)}>
+            <div
+              onClick={() => setShowCreateMediaDropDown((priVal) => !priVal)}
+            >
               <div className="nav-intraction-btn">
                 <span className="nav-intraction-btn-layout">
                   <Link>
@@ -1005,19 +1108,72 @@ const Nav = () => {
                       </div>
                     </div>
                   </Link>
+
+                  {showCreateMediaDropDown && (
+                    <div className="create-media-container">
+                      <div className="create-media-container-content">
+                        <div className="media-item">
+                          <div
+                            className="media-item-content"
+                            onClick={() => {
+                              setCreatePostDailog(true);
+                            }}
+                          >
+                            <span className="media-item-title">Post</span>
+                            <svg
+                              aria-label="Post"
+                              className="x1lliihq x1n2onr6 x5n08af"
+                              fill="currentColor"
+                              height={24}
+                              role="img"
+                              viewBox="0 0 24 24"
+                              width={24}
+                            >
+                              <title>Post</title>
+                              <path d="m18.509 14.757-4.285-2.474a.857.857 0 0 0-1.286.743v4.948a.857.857 0 0 0 1.286.742l4.285-2.474a.857.857 0 0 0 0-1.485ZM5.225 3.977a1.25 1.25 0 1 0 1.25 1.25 1.25 1.25 0 0 0-1.25-1.25ZM19.5 7.5h-3v-3a4.004 4.004 0 0 0-4-4h-8a4.004 4.004 0 0 0-4 4v8a4.004 4.004 0 0 0 4 4h3v3a4.004 4.004 0 0 0 4 4h8a4.004 4.004 0 0 0 4-4v-8a4.004 4.004 0 0 0-4-4Zm-12 7h-3a1.997 1.997 0 0 1-1.882-1.349l2.607-2.607L7.5 12.819Zm.23-4.28L6.41 8.9a1.679 1.679 0 0 0-2.37 0L2.5 10.44V4.5a2.003 2.003 0 0 1 2-2h8a2.003 2.003 0 0 1 2 2v3h-3a3.992 3.992 0 0 0-3.77 2.72ZM21.5 19.5a2.003 2.003 0 0 1-2 2h-8a2.003 2.003 0 0 1-2-2v-8a2.003 2.003 0 0 1 2-2h8a2.003 2.003 0 0 1 2 2Z" />
+                            </svg>
+                          </div>
+                        </div>
+
+                        <div className="media-item">
+                          <div className="media-item-content">
+                            <span className="media-item-title">Story</span>
+                            <svg
+                              aria-label="Post"
+                              className="x1lliihq x1n2onr6 x5n08af"
+                              fill="currentColor"
+                              height={24}
+                              role="img"
+                              viewBox="0 0 24 24"
+                              width={24}
+                            >
+                              <title>Post</title>
+                              <path d="m18.509 14.757-4.285-2.474a.857.857 0 0 0-1.286.743v4.948a.857.857 0 0 0 1.286.742l4.285-2.474a.857.857 0 0 0 0-1.485ZM5.225 3.977a1.25 1.25 0 1 0 1.25 1.25 1.25 1.25 0 0 0-1.25-1.25ZM19.5 7.5h-3v-3a4.004 4.004 0 0 0-4-4h-8a4.004 4.004 0 0 0-4 4v8a4.004 4.004 0 0 0 4 4h3v3a4.004 4.004 0 0 0 4 4h8a4.004 4.004 0 0 0 4-4v-8a4.004 4.004 0 0 0-4-4Zm-12 7h-3a1.997 1.997 0 0 1-1.882-1.349l2.607-2.607L7.5 12.819Zm.23-4.28L6.41 8.9a1.679 1.679 0 0 0-2.37 0L2.5 10.44V4.5a2.003 2.003 0 0 1 2-2h8a2.003 2.003 0 0 1 2 2v3h-3a3.992 3.992 0 0 0-3.77 2.72ZM21.5 19.5a2.003 2.003 0 0 1-2 2h-8a2.003 2.003 0 0 1-2-2v-8a2.003 2.003 0 0 1 2-2h8a2.003 2.003 0 0 1 2 2Z" />
+                            </svg>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </span>
               </div>
             </div>
 
-            <div onClick={(e) => handleNavItemClick("Profile")}>
+            <div onClick={() => handleNavItemClick("Profile")}>
               <div className="nav-intraction-btn">
                 <span className="nav-intraction-btn-layout">
                   <Link>
                     <div className="nav-intraction-btn-content">
                       <div>
                         <div className="nav-intraction-btn-icon">
-                          <div className="nav-intraction-btn-icon-layout">
-                            <div className="user-profile-img">
+                          <div className="nav-intraction-btn-icon-layout profile">
+                            <div
+                              className={
+                                activePage.Profile
+                                  ? "user-profile-img active"
+                                  : "user-profile-img"
+                              }
+                            >
                               <img
                                 src={authUser.userProfileImg}
                                 alt={authUser.userName}

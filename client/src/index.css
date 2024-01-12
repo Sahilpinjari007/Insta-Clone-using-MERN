@@ -20,7 +20,7 @@ body {
   overflow-y: scroll;
 }
 
-a{
+a {
   color: white;
 }
 
@@ -64,29 +64,33 @@ p {
   position: relative;
 }
 
-.home-content .app-pages{
+.home-content .app-pages {
   width: 100%;
+  max-width: calc(100% - 244px);
   min-height: 100vh;
   display: flex;
-  /* background: green; */
-  height: 1000vh;
-  margin-left: 244px;
+  margin-left: auto;
 }
 
+
+@media (max-width: 1260px) {
+  .home-content .app-pages {
+    max-width: calc(100% - 72px);
+  }
+}
 
 @media (max-width: 765px) {
   .home-content {
     display: flex;
     flex-direction: column-reverse;
   }
-  .home-content .app-pages{
-    margin-left: 0px !important;
-    margin-bottom: 44px;
-  }
-}
 
-@media (max-width: 1260px) {
-  .home-content .app-pages{
-    margin-left: 68px;
+  .home-content .app-pages {
+    width: 100% !important;
+    max-width: unset;
+    max-height: calc(100% - 50px);
+    flex-grow: 1;
+    display: block;
+    margin-left: auto;
   }
 }

@@ -135,7 +135,20 @@ export const addFollowe = async (req, res) => {
                                     if (err) return res.status(500).json({ message: "Unable to Update Following Count User!", code: 502, err });
 
                                     if (result.affectedRows >= 1) {
-                                        return res.status(200).json({ message: "User Followed SuccessFul!", code: 200 });
+
+                                        // insert notification
+                                        query = `INSERT INTO notification(notificationId, userId, notifyByUserId, postId, action, isRead, TimeStamp) VALUES ('${v4()}', '${data.followerUserId}', '${data.followingUserId}', '', 'follow','false','${new Date()}')`
+
+                                        conn.query(query, (err, result) => {
+                                            if (err) return res.status(500).json({ message: 'Unable to add Notification Of Follow', code: 502, err });
+
+                                            if (result.affectedRows >= 1) {
+                                                return res.status(200).json({ message: "User Followed SuccessFul!", code: 200 });
+                                            }
+                                            else {
+                                                return res.status(500).json({ message: 'Unable to add Notification Of Follow', code: 502, err });
+                                            }
+                                        })
                                     }
                                     else {
                                         return res.status(500).json({ message: "Unable to Update Following Count User!", code: 502, err });
@@ -196,7 +209,21 @@ export const removeFollow = async (req, res) => {
                                     if (err) return res.status(500).json({ message: "Unable to Update Following Count User!", code: 502, err });
 
                                     if (result.affectedRows >= 1) {
-                                        return res.status(200).json({ message: "User UnFollowed SuccessFul!", code: 200 });
+
+                                        // delete follow message
+                                        query = `DELETE FROM notification WHERE userId='${data.followerUserId}' AND notifyByUserId='${data.followingUserId}' AND action='follow';`
+
+                                        conn.query(query, (err, result) => {
+                                            if (err) return res.status(500).json({ message: 'Unable to Remove Notification Of Follow!', code: 502, err });
+
+                                            if (result.affectedRows >= 1) {
+                                                return res.status(200).json({ message: "User UnFollowed SuccessFul!", code: 200 });
+                                            }
+                                            else {
+                                                return res.status(500).json({ message: 'Unable to Remove Notification Of Follow!', code: 502, err });
+                                            }
+                                        })
+
                                     }
                                     else {
                                         return res.status(500).json({ message: "Unable to Update Following Count User!", code: 502, err });

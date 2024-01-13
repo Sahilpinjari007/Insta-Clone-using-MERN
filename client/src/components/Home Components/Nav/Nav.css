@@ -294,10 +294,14 @@
     top: 0px;
     left: 0px;
     background: black;
+    opacity: 0;
+    visibility: hidden;
 }
 
 .activeNavSmall .app-nav-search-section.active {
     width: 397px;
+    opacity: 1;
+    visibility: visible;
 }
 
 .app-nav-search-section .app-nav-search-section-content{
@@ -451,6 +455,7 @@
 
 .recent-tab-content .clear-search-history-btn{
     color: #0095F6;
+    cursor: pointer;
 }
 
 .search-history .searched-users{
@@ -499,11 +504,95 @@
     position: absolute;
     top: 0px;
     left: 0px;
+    background-color: black;
+    opacity: 0;
+    visibility: hidden;
 }
 
 .activeNavSmall .app-nav-message-section.active {
     width: 397px;
+    opacity: 1;
+    visibility: visible;
 }
+
+.app-nav-message-section .app-nav-message-section-content{
+    width: 100%;
+    height: 100%;
+    padding-block: 8px;
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+
+.app-nav-message-section-content .app-nav-message-heading{
+    width: 100%;
+    height: max-content;
+    padding: 8px 24px 24px 24px;
+    box-sizing: border-box;
+}
+
+.app-nav-message-heading .app-nav-message-heading-content{
+    width: 100%;
+}
+
+.app-nav-message-heading-content span{
+    color: rgb(245, 245, 245);
+    font-weight: 700;
+    font-size: 24px;
+}
+
+.app-nav-message-section-content .app-nav-message-contry-section{
+    width: 100%;
+    height: max-content;
+}
+
+.app-nav-message-contry-section .app-nav-message-contry-section-hr{
+    margin-block: 12px;
+    width: 100%;
+    height: 1px;
+    background-color: rgb(38, 38, 38);
+}
+
+.app-nav-message-contry-section .app-nav-message-contry-heading{
+    width: 100%;
+    height: max-content;
+    box-sizing: border-box;
+    margin-bottom: 18px;
+    padding-inline: 24px;
+}
+
+.app-nav-message-contry-section span{
+    width: 100%;
+    font-size: 16px;
+    color: rgb(245, 245, 245);
+    font-weight: 700;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 .activeNavSmall .app-nav-content-intractions .nav-intraction-logo {
@@ -679,9 +768,14 @@
     width: 100%;
     height: max-content;
     cursor: pointer;
+    padding: 8px 24px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
 }
 
 .search-user-card a{
+    width: 100%;
     text-decoration: none;
 }
 
@@ -690,9 +784,7 @@
 }
 
 .search-user-card-content{
-    width: 100%;
-    padding: 8px 24px;
-    box-sizing: border-box;
+    width: 100% ;
     display: flex;
     align-items: center;
 }
@@ -700,7 +792,8 @@
 .search-user-card-content .search-user-img-layout{
     width: max-content;
     height: max-content;
-    padding: 2px;
+    min-width: max-content;
+    min-height: max-content;
     overflow: hidden;
     border-radius: 50%;
     background: var(--story-avilable-color);
@@ -708,6 +801,7 @@
     align-items: center;
     justify-content: center;
     margin-right: 10px;
+    border: 2px solid var(--viewd-story-border-color);
 }
 
 .search-user-img-layout .search-user-img{
@@ -727,8 +821,14 @@
     border-radius: 50%;
 }
 
+.search-user-img-layout.active {
+    background: var(--story-avilable-color);
+    padding: 2px;
+    border: none;
+}
+
 .search-user-card-content .search-user-meta{
-    width: calc(100% - 100px);
+    width: 100%;
 }
 
 .search-user-meta div{
@@ -750,10 +850,14 @@
     display: block;
 }
 
-.search-user-card-content .clear-search-user-btn-layout{
+.clear-search-user-btn-layout{
     height: 100%;
-    display: flex;
+    display: none;
     justify-content: end;
+}
+
+.search-history .clear-search-user-btn-layout{
+    display: flex;
 }
 
 .clear-search-user-btn-layout .clear-search-user-btn{
@@ -769,4 +873,78 @@
     width: 16px;
     height: 16px;
     color: rgb(168, 168, 168);
+}
+
+
+
+
+
+
+.user-notification-message {
+    width: 100%;
+    height: max-content;
+    padding: 8px 24px;
+    box-sizing: border-box;
+}
+
+.user-notification-message .user-notification-message-content{
+    width: 100%;
+    height: max-content;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+}
+
+.user-notification-message-content .user-notification-userImg{
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
+    border-radius: 50%;
+    margin-right: 12px;
+}
+
+.user-notification-userImg img{
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+.user-notification-message-content .user-notification-user-meta{
+    width: 100%;
+    height: max-content;
+}
+
+.user-notification-user-meta .user-notification-notification-massage{
+    width: 100%;
+    max-width: 100%;
+    display: inline-block;
+    font-weight: normal;
+    font-size: 14px;
+}
+
+.user-notification-notification-massage .user-notification-username{
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.user-notification-notification-massage .message-time{
+    font-weight: 400;
+    font-size: 14px;
+    color: rgb(168, 168, 168);
+}
+
+.user-notification-message-content .user-notification-main-content{
+    width: max-content;
+    height: 100%;
+}
+
+.user-notification-main-content .user-notification-main{
+    margin-left: 12px;
+    display: flex;
+}
+
+.user-notification-main img{
+    width: 44px;
+    height: 44px;
 }

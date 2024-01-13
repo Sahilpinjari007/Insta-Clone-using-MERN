@@ -3,13 +3,27 @@ import { Link } from "react-router-dom";
 import { AppContext } from "../../../Context/context";
 import "./Nav.css";
 import { searchUsers } from "../../../action/curUser";
+import ActionButton from "../../ActionButton/ActionButton";
 
-const SearchUserCard = ({ data }) => {
+const SearchUserCard = ({
+  handleUserCardClick,
+  data,
+  handleClearCardClick,
+}) => {
   return (
     <div className="search-user-card">
       <Link to={`/${data.userName}/`}>
-        <div className="search-user-card-content">
-          <div className="search-user-img-layout">
+        <div
+          className="search-user-card-content"
+          onClick={() => handleUserCardClick(data)}
+        >
+          <div
+            className={
+              data.isHaveStory === "true"
+                ? "search-user-img-layout active"
+                : "search-user-img-layout"
+            }
+          >
             <div className="search-user-img">
               <img
                 draggable={false}
@@ -24,42 +38,77 @@ const SearchUserCard = ({ data }) => {
               {data.fullName} • {data.Followers} followers
             </span>
           </div>
-          <div className="clear-search-user-btn-layout">
-            <div className="clear-search-user-btn">
-              <svg
-                aria-label="Close"
-                className="x1lliihq x1n2onr6 x1roi4f4"
-                fill="currentColor"
-                height={16}
-                role="img"
-                viewBox="0 0 24 24"
-                width={16}
-              >
-                <title>Close</title>
-                <polyline
-                  fill="none"
-                  points="20.643 3.357 12 12 3.353 20.647"
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={3}
-                />
-                <line
-                  fill="none"
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={3}
-                  x1="20.649"
-                  x2="3.354"
-                  y1="20.649"
-                  y2="3.354"
-                />
-              </svg>
-            </div>
-          </div>
         </div>
       </Link>
+      <div className="clear-search-user-btn-layout">
+        <div
+          className="clear-search-user-btn"
+          onClick={() => handleClearCardClick(data)}
+        >
+          <svg
+            aria-label="Close"
+            className="x1lliihq x1n2onr6 x1roi4f4"
+            fill="currentColor"
+            height={16}
+            role="img"
+            viewBox="0 0 24 24"
+            width={16}
+          >
+            <title>Close</title>
+            <polyline
+              fill="none"
+              points="20.643 3.357 12 12 3.353 20.647"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={3}
+            />
+            <line
+              fill="none"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={3}
+              x1="20.649"
+              x2="3.354"
+              y1="20.649"
+              y2="3.354"
+            />
+          </svg>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const UserNotificationMessage = () => {
+  return (
+    <div className="user-notification-message">
+      <div className="user-notification-message-content">
+        <div className="user-notification-userImg">
+          <img
+            src="http://localhost:5000/storage/a69c161c-9d18-4100-84ba-19cae1a7fb9f.jpeg"
+            alt=""
+          />
+        </div>
+        <div className="user-notification-user-meta">
+          <span className="user-notification-notification-massage">
+            <span className="user-notification-username">
+              _prasan_bangar_17
+            </span>{" "}
+            liked your story <span className="message-time">2d</span>
+          </span>
+        </div>
+        <div className="user-notification-main-content">
+          <div className="user-notification-main">
+            {/* <ActionButton isUrlBtn={false} title={'follow'} color="#0095F6"/> */}
+            <img
+              src="http://localhost:5000/storage/a69c161c-9d18-4100-84ba-19cae1a7fb9f.jpeg"
+              alt=""
+            />
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
@@ -73,6 +122,9 @@ const Nav = () => {
   const [showSearchTxt, setShowSearchTxt] = useState(true);
   const [showCancleSearchQuery, setShowCanlceSearchQuery] = useState(false);
   const [searchedUsers, setSearchedUsers] = useState([]);
+  const [searchHistoryUsers, setSearchHistoryUsers] = useState([]);
+
+  const searchInput = useRef(null);
 
   const [activePage, setActivePage] = useState({
     Home: true,
@@ -139,6 +191,10 @@ const Nav = () => {
     setShowCanlceSearchQuery(true);
   };
 
+  const handlePlaceHolderClick = () => {
+    searchInput?.current?.focus();
+  };
+
   const handleCancleQueryClick = () => {
     setShowSearchIcon(true);
     setShowSearchTxt(true);
@@ -146,6 +202,73 @@ const Nav = () => {
     setSearchQuery("");
     setSearchedUsers([]);
   };
+
+  const handleUserCardClick = (user) => {
+    if (localStorage.getItem("InstaUserSearchHistory")) {
+      let getSearchHistory = JSON.parse(
+        localStorage.getItem("InstaUserSearchHistory")
+      );
+
+      getSearchHistory = getSearchHistory.filter(
+        (elem, i) => elem.userId !== user.userId
+      );
+
+      setSearchHistoryUsers([...getSearchHistory, user]);
+      localStorage.setItem(
+        "InstaUserSearchHistory",
+        JSON.stringify([...getSearchHistory, user])
+      );
+    } else {
+      setSearchHistoryUsers([...searchHistoryUsers, user]);
+      localStorage.setItem("InstaUserSearchHistory", JSON.stringify([user]));
+    }
+
+    setActivePage({
+      ...{
+        Home: false,
+        Search: false,
+        Explore: false,
+        Reels: false,
+        Messages: false,
+        Notifications: false,
+        Create: false,
+        Profile: false,
+      },
+    });
+    setSearchQuery("");
+    setShowSearchIcon(true);
+    setShowSearchTxt(true);
+    setShowCanlceSearchQuery(false);
+    setSearchedUsers([]);
+  };
+
+  const handleHistoryCardClick = (user) => {
+    handleUserCardClick(user);
+  };
+
+  const handleClearCardClick = (user) => {
+    let getSearchHistory = JSON.parse(
+      localStorage.getItem("InstaUserSearchHistory")
+    );
+
+    getSearchHistory = getSearchHistory.filter(
+      (elem, i) => elem.userId !== user.userId
+    );
+
+    setSearchHistoryUsers([...getSearchHistory]);
+    localStorage.setItem(
+      "InstaUserSearchHistory",
+      JSON.stringify([...getSearchHistory])
+    );
+  };
+
+  useEffect(() => {
+    if (localStorage.getItem("InstaUserSearchHistory")) {
+      setSearchHistoryUsers(
+        JSON.parse(localStorage.getItem("InstaUserSearchHistory")).reverse()
+      );
+    }
+  }, [searchedUsers]);
 
   return (
     <div
@@ -205,7 +328,7 @@ const Nav = () => {
                 }
               >
                 <span className="nav-intraction-btn-layout">
-                  <Link>
+                  <Link to="/">
                     <div className="nav-intraction-btn-content">
                       <div>
                         <div className="nav-intraction-btn-icon">
@@ -869,7 +992,7 @@ const Nav = () => {
                 }
               >
                 <span className="nav-intraction-btn-layout">
-                  <Link>
+                  <Link to={`/${authUser.userName}/`}>
                     <div className="nav-intraction-btn-content">
                       <div>
                         <div className="nav-intraction-btn-icon">
@@ -1026,7 +1149,10 @@ const Nav = () => {
 
                   <div className="search-section-input">
                     <div className="search-section-input-content">
-                      <div className="search-input-placeholder">
+                      <div
+                        className="search-input-placeholder"
+                        onClick={handlePlaceHolderClick}
+                      >
                         {showSearchIcon && (
                           <div className="search-input-placeholder-icon">
                             <svg
@@ -1068,6 +1194,7 @@ const Nav = () => {
                         )}
                       </div>
                       <input
+                        ref={searchInput}
                         value={searchQuery}
                         onChange={(e) => handleSearchOnChange(e)}
                         onFocus={handleSearchOnFocus}
@@ -1084,48 +1211,49 @@ const Nav = () => {
                   <hr />
                 </div>
                 <div className="search-result">
-                  {/* <div className="search-history">
-                    <div className="recent-tab">
-                      <div className="recent-tab-content">
-                        <span>Recent</span>
-                        <span className="clear-search-history-btn">
-                          Clear all
-                        </span>
+                  {searchedUsers.length === 0 && (
+                    <div className="search-history">
+                      <div className="recent-tab">
+                        <div className="recent-tab-content">
+                          <span>Recent</span>
+                          {searchHistoryUsers.length > 0 && (
+                            <span
+                              className="clear-search-history-btn"
+                              onClick={() => {
+                                setSearchHistoryUsers([]);
+                                localStorage.removeItem(
+                                  "InstaUserSearchHistory"
+                                );
+                              }}
+                            >
+                              Clear all
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                      <div className="searched-users">
+                        {searchHistoryUsers?.map((elem, i) => {
+                          return (
+                            <SearchUserCard
+                              handleUserCardClick={handleHistoryCardClick}
+                              handleClearCardClick={handleClearCardClick}
+                              data={elem}
+                              key={i}
+                            />
+                          );
+                        })}
                       </div>
                     </div>
-                    <div className="searched-users">
-                      <SearchUserCard />
-                      <SearchUserCard />
-                      <SearchUserCard />
-                      <SearchUserCard />
-                      <SearchUserCard />
-                      <SearchUserCard />
-                      <SearchUserCard />
-                      <SearchUserCard />
-                      <SearchUserCard />
-                      <SearchUserCard />
-                      <SearchUserCard />
-                      <SearchUserCard />
-                      <SearchUserCard />
-                      <SearchUserCard />
-                      <SearchUserCard />
-                      <SearchUserCard />
-                      <SearchUserCard />
-                      <SearchUserCard />
-                      <SearchUserCard />
-                      <SearchUserCard />
-                      <SearchUserCard />
-                      <SearchUserCard />
-                      <SearchUserCard />
-                      <SearchUserCard />
-                      <SearchUserCard />
-                      <SearchUserCard />
-                      <SearchUserCard />
-                    </div>
-                  </div> */}
+                  )}
                   <div className="search-result-users">
                     {searchedUsers?.map((elem, i) => {
-                      return <SearchUserCard data={elem} key={i} />;
+                      return (
+                        <SearchUserCard
+                          handleUserCardClick={handleUserCardClick}
+                          data={elem}
+                          key={i}
+                        />
+                      );
                     })}
                   </div>
                 </div>
@@ -1136,7 +1264,52 @@ const Nav = () => {
               className={`app-nav-message-section ${
                 activePage.Notifications ? "active" : ""
               } `}
-            ></div>
+            >
+              <div className="app-nav-message-section-content">
+                <div className="app-nav-message-heading">
+                  <div className="app-nav-message-heading-content">
+                    <span>Notifications</span>
+                  </div>
+                </div>
+                <section className="app-nav-message-contry-section">
+                  <div className="app-nav-message-contry-heading">
+                    <span>Today</span>
+                  </div>
+                  <UserNotificationMessage />
+                  <UserNotificationMessage />
+                  <UserNotificationMessage />
+                  <UserNotificationMessage />
+                  <UserNotificationMessage />
+                  <UserNotificationMessage />
+                </section>
+
+                <section className="app-nav-message-contry-section">
+                <div className="app-nav-message-contry-section-hr"></div>
+                  <div className="app-nav-message-contry-heading">
+                    <span>Yesterday</span>
+                  </div>
+                  <UserNotificationMessage />
+                  <UserNotificationMessage />
+                  <UserNotificationMessage />
+                  <UserNotificationMessage />
+                  <UserNotificationMessage />
+                  <UserNotificationMessage />
+                </section>
+
+                <section className="app-nav-message-contry-section">
+                <div className="app-nav-message-contry-section-hr"></div>
+                  <div className="app-nav-message-contry-heading">
+                    <span>This week</span>
+                  </div>
+                  <UserNotificationMessage />
+                  <UserNotificationMessage />
+                  <UserNotificationMessage />
+                  <UserNotificationMessage />
+                  <UserNotificationMessage />
+                  <UserNotificationMessage />
+                </section>
+              </div>
+            </div>
           </div>
         </div>
       </div>

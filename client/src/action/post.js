@@ -105,3 +105,24 @@ export const deleteUserComment = async (commentId) =>{
     }
 }
 
+export const getUserPosts = async (userId) =>{
+    try {
+        const { data } = await api.getUserAllPosts(userId);
+        return data;
+    } 
+    catch (err) {
+        return err?.response?.data;
+    }
+}
+
+export const getUserReels = async (userId) =>{
+    try {
+        const { data } = await api.getUserReels(userId);
+        return data;
+    } 
+    catch (err) {
+        return err?.response?.data;
+    }
+}
+
+

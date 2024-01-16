@@ -97,3 +97,12 @@ export const searchUsers = async (query) => {
         return err?.response?.data;
     }
 }
+
+export const getNotifications = async (userId) => {
+    try {
+        const { data } = await api.getNotifications(userId);
+        return data;
+    } catch (err) {
+        return err?.response?.data;
+    }
+}

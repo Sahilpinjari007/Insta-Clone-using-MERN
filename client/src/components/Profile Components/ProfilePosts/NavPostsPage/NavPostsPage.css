@@ -1,67 +1,65 @@
 .nav-post-page-card {
     width: 100%;
+    height: auto;
+    max-height: max-content;
+    position: relative;
+    display: flex;
+}
+
+.nav-post-page-card .reel-icon{
+    width: max-content;
+    height: max-content;
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: 8px;
+}
+
+.reel-icon svg{
+    color: white;
+}
+
+.nav-post-page-card .card-contain {
+    width: 100%;
     height: 100%;
     max-height: 309px;
     max-width: 309px;
-    position: relative;
-    margin: auto;
+    cursor: pointer;
 }
-
-/* height: (935px * 0.5625) */
 
 .card-contain img {
     width: 100%;
     height: 100%;
-    max-height: 309px;
-    max-width: 309px;
     object-fit: cover;
+    display: block;
 }
 
-
-.nav-post-page-card .card-hover {
+.card-contain video {
     width: 100%;
     height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    cursor: pointer;
+    object-fit: cover;
+    display: block;
 }
 
-.nav-post-page-card .card-hover:hover {
-    background: rgba(0, 0, 0, 0.3);
-}
-
-.card-hover .card-details {
-    height: 100%;
+.nav-post-page {
     width: 100%;
+    max-width: 100%;
+}
+
+.nav-post-page .nav-post-page-row{
+    width: 100%;
+    height: max-content;
+    max-height: 309px !important;
+    overflow: hidden;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 25px;
-    visibility: hidden;
-}
-
-.card-hover:hover .card-details,
-.post-card.cardClick .card-details {
-    visibility: visible;
-}
-
-.post-card.cardClick .card-hover {
-    background: rgba(0, 0, 0, 0.3);
+    gap: 3px;
+    margin-top: 3px;
 }
 
 
-.card-details .card-likes,
-.card-details .card-comments {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-}
 
-.card-details .like-icon {
+
+/* .card-details .like-icon {
     height: 18px;
     width: 18px;
     background-image: url('../../../../../public/profile imgs/asset 12.png');
@@ -73,33 +71,4 @@
     width: 18px;
     background-image: url('../../../../../public/profile imgs/asset 12.png');
     background-position: -382px -333px;
-}
-
-.card-details span {
-    font-weight: bold;
-    color: white;
-}
-
-.nav-post-page-card .card-contain {
-    width: 100%;
-    height: 100%;
-}
-
-
-.nav-post-page {
-    max-width: 100%;
-    display: grid;
-    gap: 3px;
-}
-
-@media (min-width: 600px) {
-    .nav-post-page {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media (min-width: 900px) {
-    .nav-post-page {
-        grid-template-columns: repeat(3, 1fr);
-    }
-}
+} */

@@ -1,5 +1,5 @@
 import express from 'express';
-import { checkPostLiked, checkPostSaved, createPost, deleteComment, getComments, getPostLikedUsers, getPosts, insertComment, postLike, savePost } from '../controllers/post.js';
+import { checkPostLiked, checkPostSaved, createPost, deleteComment, getComments, getPostLikedUsers, getPosts, getUserPosts, getUserReels, insertComment, postLike, savePost } from '../controllers/post.js';
 
 const router = express.Router();
 
@@ -15,6 +15,8 @@ router.post('/checkPostSaved', checkPostSaved);
 router.post('/insertComment', insertComment);
 router.get('/getPostComments/:postId', getComments)
 router.delete('/deleteComment/:commentId', deleteComment);
+router.get('/fetchUserPosts/:userId', getUserPosts);
+router.get('/getUserReels/:userId', getUserReels);
 
 
 export default router;

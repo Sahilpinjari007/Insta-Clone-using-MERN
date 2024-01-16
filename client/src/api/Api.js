@@ -25,6 +25,7 @@ export const checkUserFollowed = (data) => API.put('/user/operations/follow/chec
 export const getUserFollowers = (data) => API.post('/user/operations/followers/get', data);
 export const getUserFollowings = (data) => API.post('/user/operations/followings/get', data);
 export const searchUsers = (query) => API.get('/user/operations/getAll', {params: query});
+export const getNotifications = (userId) => API.get(`/user/operations/notifications/get/${userId}`);
 
 // post
 export const getPosts = () => API.get(`/insgaram/posts/fetch`);
@@ -37,6 +38,8 @@ export const checkPostSaved = (formData) => API.post(`/insgaram/posts/checkPostS
 export const insertComment = (formData) => API.post(`/insgaram/posts/insertComment`, formData);
 export const getPostComments = (postId) => API.get(`/insgaram/posts/getPostComments/${postId}`);
 export const deleteComment = (commentId) => API.delete(`/insgaram/posts/deleteComment/${commentId}`);
+export const getUserAllPosts = (userId) => API.get(`/insgaram/posts/fetchUserPosts/${userId}`);
+export const getUserReels = (userId) => API.get(`/insgaram/posts/getUserReels/${userId}`);
 
 
 

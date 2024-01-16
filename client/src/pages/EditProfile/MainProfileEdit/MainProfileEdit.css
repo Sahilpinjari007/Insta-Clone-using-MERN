@@ -1,7 +1,6 @@
 .main-profile-editor {
     width: 100%;
     height: 100%;
-    overflow-y: scroll;
 }
 
 .main-profile-editor .profile-editor-content {
@@ -11,7 +10,6 @@
     margin: auto;
     margin-block: 36px;
     box-sizing: border-box;
-    /* background: red; */
 }
 
 .profile-editor-content .editor-form {

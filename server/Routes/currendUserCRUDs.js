@@ -1,5 +1,5 @@
 import express from "express";
-import { getUser, getUserByUserName, addFollowe, updateProfile, updateProfileImg, removeFollow, checkUserFollowing, getUserFollowers, getUserFollowering, getUsers } from "../controllers/currendUserCRUD.js";
+import { getUser, getUserByUserName, addFollowe, updateProfile, updateProfileImg, removeFollow, checkUserFollowing, getUserFollowers, getUserFollowering, getUsers, getNotifications } from "../controllers/currendUserCRUD.js";
 
 const router = express.Router();
 
@@ -16,5 +16,6 @@ router.post('/followers/get', getUserFollowers);
 router.post('/followings/get', getUserFollowering);
 router.post('/followercount/get', getUserFollowers);
 router.get('/getAll', getUsers)
+router.get('/notifications/get/:userId', getNotifications)
 
 export default router;

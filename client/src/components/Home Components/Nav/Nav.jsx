@@ -1,9 +1,10 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { AppContext } from "../../../Context/context";
 import "./Nav.css";
-import { searchUsers } from "../../../action/curUser";
+import { checkUserFollowed, followUser, getNotifications, getUser, searchUsers, unfollowUser } from "../../../action/curUser";
 import ActionButton from "../../ActionButton/ActionButton";
+import moment from "moment";
 
 const SearchUserCard = ({
   handleUserCardClick,
@@ -81,31 +82,98 @@ const SearchUserCard = ({
   );
 };
 
-const UserNotificationMessage = () => {
+const UserNotificationMessage = ({ data }) => {
+
+  const { authUser, setAleartData, setIsAlert } = useContext(AppContext);
+
+  const [notifyByUser, setNotifyByUser] = useState({});
+  const [isUserFollowed, setIsUserFollowed] = useState(false);
+
+  const getNotifyByUser = async () => {
+    const response = await getUser(data.notifyByUserId);
+    if (response.code === 200) setNotifyByUser(response.result);
+  }
+
+  const checkUserFollowedOrNOt = async () => {
+    const response = await checkUserFollowed({
+      followerUserId: data.notifyByUserId,
+      followingUserId: authUser.userId,
+    });
+
+    setIsUserFollowed(response.value);
+  };
+
+  const handleNotificationBtn = async () => {
+
+    if (!isUserFollowed) {
+
+      const response = await followUser({
+        followerUserId: notifyByUser.userId,
+        followingUserId: authUser.userId,
+        timeStamp: new Date(),
+        followerUserFollowerCount: notifyByUser.Followers,
+        followingUserFollwingCount: authUser.Following,
+      });
+
+      if (response.code !== 200) {
+        setAleartData({ message: "Unable to Follow User", type: "Error" });
+      } else {
+        setIsUserFollowed((oldValue) => !oldValue);
+        setAleartData({ message: "User Followed!", type: "Success" });
+      }
+      setIsAlert(true);
+    }
+    else {
+      const response = await unfollowUser({
+        followerUserId: notifyByUser.userId,
+        followingUserId: authUser.userId,
+        followerUserFollowerCount: notifyByUser.Followers,
+        followingUserFollwingCount: authUser.Following,
+      });
+
+      if (response.code !== 200) {
+        setAleartData({ message: "Unable to UnFollow User", type: "Error" });
+      } else {
+        setIsUserFollowed((oldValue) => !oldValue);
+        setAleartData({ message: "UnFollowed User", type: "Success" });
+      }
+      setIsAlert(true);
+    }
+
+    getNotifyByUser();
+  }
+
+  useEffect(() => {
+    getNotifyByUser();
+    checkUserFollowedOrNOt();
+  }, [data]);
+
+
   return (
     <div className="user-notification-message">
       <div className="user-notification-message-content">
         <div className="user-notification-userImg">
           <img
-            src="http://localhost:5000/storage/a69c161c-9d18-4100-84ba-19cae1a7fb9f.jpeg"
-            alt=""
+            src={notifyByUser.userProfileImg}
+            alt={notifyByUser.userName}
           />
         </div>
         <div className="user-notification-user-meta">
           <span className="user-notification-notification-massage">
             <span className="user-notification-username">
-              _prasan_bangar_17
+              {notifyByUser.userName}
             </span>{" "}
-            liked your story <span className="message-time">2d</span>
+            {data.message} <span className="message-time">{moment().from(data.timeStamp)}</span>
           </span>
         </div>
         <div className="user-notification-main-content">
           <div className="user-notification-main">
-            {/* <ActionButton isUrlBtn={false} title={'follow'} color="#0095F6"/> */}
-            <img
-              src="http://localhost:5000/storage/a69c161c-9d18-4100-84ba-19cae1a7fb9f.jpeg"
-              alt=""
-            />
+            {data.action === 'userFollow' ? <ActionButton onclick={handleNotificationBtn} isUrlBtn={false} title={isUserFollowed ? 'Following' : 'Follow'} color={isUserFollowed ? "#363636" : "#0095F6"} />
+              : <img
+                src="http://localhost:5000/storage/a69c161c-9d18-4100-84ba-19cae1a7fb9f.jpeg"
+                alt=""
+              />
+            }
           </div>
         </div>
       </div>
@@ -123,6 +191,7 @@ const Nav = () => {
   const [showCancleSearchQuery, setShowCanlceSearchQuery] = useState(false);
   const [searchedUsers, setSearchedUsers] = useState([]);
   const [searchHistoryUsers, setSearchHistoryUsers] = useState([]);
+  const [notifiactions, setNotifications] = useState([]);
 
   const searchInput = useRef(null);
 
@@ -262,19 +331,26 @@ const Nav = () => {
     );
   };
 
+  const featchNotifications = async () => {
+    const response = await getNotifications(authUser.userId);
+    if (response.code === 200) setNotifications(Array.from(response.result).reverse());
+  }
+
+
   useEffect(() => {
     if (localStorage.getItem("InstaUserSearchHistory")) {
       setSearchHistoryUsers(
         JSON.parse(localStorage.getItem("InstaUserSearchHistory")).reverse()
       );
     }
-  }, [searchedUsers]);
+
+    featchNotifications();
+  }, [searchedUsers, authUser]);
 
   return (
     <div
-      className={`app-nav ${
-        activePage.Search || activePage.Notifications ? "activeNavSmall" : ""
-      } `}
+      className={`app-nav ${activePage.Search || activePage.Notifications ? "activeNavSmall" : ""
+        } `}
     >
       <div className="app-nav-content">
         <div className="app-nav-content-intractions">
@@ -1135,9 +1211,8 @@ const Nav = () => {
         <div className="app-nav-content-sections">
           <div className="app-nav-content-section-content">
             <div
-              className={`app-nav-search-section ${
-                activePage.Search ? "active" : ""
-              } `}
+              className={`app-nav-search-section ${activePage.Search ? "active" : ""
+                } `}
             >
               <div className="app-nav-search-section-content">
                 <div className="search-section-header">
@@ -1261,9 +1336,8 @@ const Nav = () => {
             </div>
 
             <div
-              className={`app-nav-message-section ${
-                activePage.Notifications ? "active" : ""
-              } `}
+              className={`app-nav-message-section ${activePage.Notifications ? "active" : ""
+                } `}
             >
               <div className="app-nav-message-section-content">
                 <div className="app-nav-message-heading">
@@ -1271,42 +1345,40 @@ const Nav = () => {
                     <span>Notifications</span>
                   </div>
                 </div>
+
                 <section className="app-nav-message-contry-section">
                   <div className="app-nav-message-contry-heading">
                     <span>Today</span>
                   </div>
-                  <UserNotificationMessage />
-                  <UserNotificationMessage />
-                  <UserNotificationMessage />
-                  <UserNotificationMessage />
-                  <UserNotificationMessage />
-                  <UserNotificationMessage />
+                  {
+                    notifiactions?.map((elem, i) => {
+                      return new Date(Date.parse(elem.timeStamp)).getDate() == new Date().getDate() && <UserNotificationMessage data={elem} key={i} />
+                    })
+                  }
                 </section>
 
                 <section className="app-nav-message-contry-section">
-                <div className="app-nav-message-contry-section-hr"></div>
+                  <div className="app-nav-message-contry-section-hr"></div>
                   <div className="app-nav-message-contry-heading">
                     <span>Yesterday</span>
                   </div>
-                  <UserNotificationMessage />
-                  <UserNotificationMessage />
-                  <UserNotificationMessage />
-                  <UserNotificationMessage />
-                  <UserNotificationMessage />
-                  <UserNotificationMessage />
+                  {
+                    notifiactions?.map((elem, i) => {
+                      return new Date(Date.parse(elem.timeStamp)).getDate() == new Date().getDate() - 1 && <UserNotificationMessage data={elem} key={i} />
+                    })
+                  }
                 </section>
 
                 <section className="app-nav-message-contry-section">
-                <div className="app-nav-message-contry-section-hr"></div>
+                  <div className="app-nav-message-contry-section-hr"></div>
                   <div className="app-nav-message-contry-heading">
                     <span>This week</span>
                   </div>
-                  <UserNotificationMessage />
-                  <UserNotificationMessage />
-                  <UserNotificationMessage />
-                  <UserNotificationMessage />
-                  <UserNotificationMessage />
-                  <UserNotificationMessage />
+                  {
+                    notifiactions?.map((elem, i) => {
+                      return new Date(Date.parse(elem.timeStamp)).getDate() < new Date().getDate() - 1 && <UserNotificationMessage data={elem} key={i} />
+                    })
+                  }
                 </section>
               </div>
             </div>

@@ -75,9 +75,7 @@ const App = () => {
               <Route path="/accounts/edit/" element={<EditProfile />} />
 
               <Route path="/:userName" element={<Profile />}>
-                <Route path="" index element={<NavPostPage />}>
-
-                </Route>
+                <Route path="" index element={<NavPostPage />}/>
                 <Route path="reels/" element={<NavReelsPage />} />
                 <Route path="saved/" element={<NavSavedPage />} />
                 <Route path="tagged/" element={<NavTagsPage />} />

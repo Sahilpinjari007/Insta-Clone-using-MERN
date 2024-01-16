@@ -137,7 +137,7 @@ export const addFollowe = async (req, res) => {
                                     if (result.affectedRows >= 1) {
 
                                         // insert notification
-                                        query = `INSERT INTO notification(notificationId, userId, notifyByUserId, postId, action, isRead, TimeStamp) VALUES ('${v4()}', '${data.followerUserId}', '${data.followingUserId}', '', 'follow','false','${new Date()}')`
+                                        query = `INSERT INTO notification(notificationId, userId, notifyByUserId, message, action, isRead, TimeStamp) VALUES ('${v4()}', '${data.followerUserId}', '${data.followingUserId}', 'started following you.', 'userFollow','false','${new Date()}')`
 
                                         conn.query(query, (err, result) => {
                                             if (err) return res.status(500).json({ message: 'Unable to add Notification Of Follow', code: 502, err });
@@ -161,7 +161,7 @@ export const addFollowe = async (req, res) => {
                         })
                     }
                     else {
-                        return res.status(500).json({ message: "Unable to Follow User!", code: 500, err: 'he he he' });
+                        return res.status(500).json({ message: "Unable to Follow User!", code: 500, err });
                     }
                 })
             }
@@ -210,8 +210,8 @@ export const removeFollow = async (req, res) => {
 
                                     if (result.affectedRows >= 1) {
 
-                                        // delete follow message
-                                        query = `DELETE FROM notification WHERE userId='${data.followerUserId}' AND notifyByUserId='${data.followingUserId}' AND action='follow';`
+                                        // delete follow notification
+                                        query = `DELETE FROM notification WHERE userId='${data.followerUserId}' AND notifyByUserId='${data.followingUserId}' AND action='userFollow';`
 
                                         conn.query(query, (err, result) => {
                                             if (err) return res.status(500).json({ message: 'Unable to Remove Notification Of Follow!', code: 502, err });
@@ -236,7 +236,7 @@ export const removeFollow = async (req, res) => {
                         })
                     }
                     else {
-                        return res.status(500).json({ message: "Unable to UnFollow User!", code: 500, err: 'he he he' });
+                        return res.status(500).json({ message: "Unable to UnFollow User!", code: 500, err });
                     }
                 })
             }
@@ -364,3 +364,26 @@ export const getUsers = async (req, res) => {
     }
 }
 
+export const getNotifications = async (req, res) =>{
+
+    const userId = req.params.userId;
+
+    try{
+
+        const query = `SELECT * FROM notification WHERE userId = '${userId}';`;
+
+        conn.query(query, (err, result)=>{
+            if(err) return res.status(500).json({message: 'Unable to featch Notifications!', code: 404, err});
+
+            if(Array.from(result).length > 0){
+                return res.status(200).json({message: 'Notifications are featched!', code: 200, result});
+            }
+            else{
+                return res.status(200).json({message: 'Notifications are not Avilable!', code: 201, result: []});
+            }
+        })
+    }
+    catch(err){
+        return res.status(500).json({message: 'Unable to featch Notifications!', code: 404, err});
+    }
+}

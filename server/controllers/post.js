@@ -77,7 +77,20 @@ export const postLike = async (req, res) => {
                             if (err) return res.status(500).json({ message: 'Unable to Decrease Post Likes!', code: 400, err });
 
                             if (result.affectedRows >= 1) {
-                                return res.status(200).json({ message: 'post Unliked SuccessFul!', code: 200, value: false });
+
+                                // delete notification of post liked
+                                query = `DELETE FROM notification WHERE LikedPostId = '${data.postId}' and 	notifyByUserId = '${data.likedUserId}' and userId  = '${data.postUserId}';`;
+
+                                conn.query(query, (err, result) => {
+                                    if (err) return res.status(500).json({ message: 'Unable to Remove Notification Of Post Liked!', code: 502, err });
+
+                                    if (result.affectedRows >= 1) {
+                                        return res.status(200).json({ message: 'post Unliked SuccessFul!', code: 200, value: false });
+                                    }
+                                    else {
+                                        return res.status(500).json({ message: 'Unable to Remove Notification Of Post Liked!', code: 502, err });
+                                    }
+                                })
                             }
                             else {
                                 return res.status(200).json({ message: 'Unable to Decrease Post Likes!', code: 400, err });
@@ -104,7 +117,20 @@ export const postLike = async (req, res) => {
                             if (err) return res.status(500).json({ message: 'Unable to Increase Post Likes!', code: 400, err });
 
                             if (result.affectedRows >= 1) {
-                                res.status(200).json({ message: 'Post liked SuccessFul!', code: 200, value: true });
+
+                                // insert notification of post liked
+                                query = `INSERT INTO notification(notificationId, userId, notifyByUserId, message, action, isRead, TimeStamp, LikedPostId) VALUES ('${v4()}', '${data.postUserId}', '${data.likedUserId}', 'liked your post.', 'postlike','false','${new Date()}', '${data.postId}')`;;
+
+                                conn.query(query, (err, result) => {
+                                    if (err) return res.status(500).json({ message: 'Unable to add Notification Of Post Liked!', code: 502, err });
+
+                                    if (result.affectedRows >= 1) {
+                                        return res.status(200).json({ message: 'Post liked SuccessFul!', code: 200, value: true });
+                                    }
+                                    else {
+                                        return res.status(500).json({ message: 'Unable to add Notification Of Post Liked!', code: 502, err });
+                                    }
+                                })
                             }
                             else {
                                 return res.status(200).json({ message: 'Unable to Increase Post Likes!', code: 400, err });
@@ -254,16 +280,30 @@ export const insertComment = async (req, res) => {
 
     //postId postUserId	commentedUserId	message	timeStamp	
     const data = req.body;
+    const commentId = v4();
 
     try {
 
-        const query = `INSERT INTO postComments(commentId, postId, postUserId, commentedUserId, message, timeStamp) VALUES ('${v4()}','${data.postId}','${data.postUserId}','${data.commentedUserId}','${data.message}','${data.timeStamp}')`
+        let query = `INSERT INTO postComments(commentId, postId, postUserId, commentedUserId, message, timeStamp) VALUES ('${commentId}','${data.postId}','${data.postUserId}','${data.commentedUserId}','${data.message}','${data.timeStamp}')`
 
         conn.query(query, (err, result) => {
             if (err) return res.status(500).json({ message: 'Unable to Comment on Post!', code: 400, err });
 
             if (result.affectedRows >= 1) {
-                return res.status(200).json({ message: 'Commented On Post!', code: 200 });
+
+                // insert notification
+                query = `INSERT INTO notification(notificationId, userId, notifyByUserId, message, action, isRead, TimeStamp, CommentId) VALUES ('${v4()}', '${data.postUserId}', '${data.commentedUserId}', 'commented on your post.', 'postComment','false','${new Date()}', '${commentId}')`;
+
+                conn.query(query, (err, result) => {
+                    if (err) return res.status(500).json({ message: 'Unable to add Notification Of Comment!', code: 502, err });
+
+                    if (result.affectedRows >= 1) {
+                        return res.status(200).json({ message: 'Commented On Post!', code: 200 });
+                    }
+                    else {
+                        return res.status(500).json({ message: 'Unable to add Notification Of Comment!', code: 502, err });
+                    }
+                })
             }
             else {
                 return res.status(200).json({ message: 'Unable to Comment on Post!', code: 201 });
@@ -275,48 +315,109 @@ export const insertComment = async (req, res) => {
     }
 }
 
-export const getComments = async (req, res) =>{
-    
+export const getComments = async (req, res) => {
+
     const postId = req.params.postId;
 
-    try{
+    try {
         const query = `SELECT * FROM postcomments WHERE postId = '${postId}'`;
 
-        conn.query(query, (err, result) =>{
-            if(err)  return res.status(500).json({message: 'Unable to Featch Comments!', code: 400, err});
+        conn.query(query, (err, result) => {
+            if (err) return res.status(500).json({ message: 'Unable to Featch Comments!', code: 400, err });
 
-            if(Array.from(result).length >= 1){
-                return res.status(200).json({message: 'All Comment Featched!', code: 200, result});
+            if (Array.from(result).length >= 1) {
+                return res.status(200).json({ message: 'All Comment Featched!', code: 200, result });
             }
-            else{
-                return res.status(200).json({message: 'Comments are not Available for This Post', code: 201, result: []});
+            else {
+                return res.status(200).json({ message: 'Comments are not Available for This Post', code: 201, result: [] });
             }
         })
     }
-    catch(err){
-        return res.status(500).json({message: 'Unable to Featch Comments!', code: 400, err});
+    catch (err) {
+        return res.status(500).json({ message: 'Unable to Featch Comments!', code: 400, err });
     }
 }
 
-export const deleteComment = async (req, res)=>{
+export const deleteComment = async (req, res) => {
 
     const commentId = req.params.commentId;
 
-    try{
-        const query = `DELETE FROM Postcomments WHERE commentId = '${commentId}'`;
+    try {
+        let query = `DELETE FROM Postcomments WHERE commentId = '${commentId}'`;
 
         conn.query(query, (err, result) => {
-            if(err) return res.status(500).json({message: 'Unable to Delete Comment!', code: 400, err})
+            if (err) return res.status(500).json({ message: 'Unable to Delete Comment!', code: 400, err })
 
-            if(result.affectedRows >= 1){
-                return res.status(200).json({message: 'Comment Deleted SuccessFul!', code: 200});
+            if (result.affectedRows >= 1) {
+
+                // delete comment notification
+                query = `DELETE FROM notification WHERE CommentId='${commentId}';`;
+
+                conn.query(query, (err, result) => {
+                    if (err) return res.status(500).json({ message: 'Unable to Remove Notification Of Comment!', code: 502, err });
+
+                    if (result.affectedRows >= 1) {
+                        return res.status(200).json({ message: 'Comment Deleted SuccessFul!', code: 200 });
+                    }
+                    else {
+                        return res.status(500).json({ message: 'Unable to Remove Notification Of Comment!', code: 502, err });
+                    }
+                })
+            }
+            else {
+                return res.status(200).json({ message: 'Unable to Delete Comment!', code: 201 });
+            }
+        })
+    }
+    catch (err) {
+        return res.status(500).json({ message: 'Unable to Delete Comment!', code: 400, err })
+    }
+}
+
+export const getUserPosts = async (req, res)=>{
+
+    const userId = req.params.userId;
+
+    try{
+
+        const query = `SELECT * FROM allposts WHERE postUserUserId = '${userId}';`;
+
+        conn.query(query, (err, result)=>{
+            if(err) return res.status(500).json({message: 'Unable To fetch user Posts!', code: 404, err});
+
+            if(Array.from(result).length > 0){
+                return res.status(200).json({message: 'All Posts Are Featched!', code: 200, result});
             }
             else{
-                return res.status(200).json({message: 'Unable to Delete Comment!', code: 201});
+                return res.status(200).json({message: 'Post Are not Available for this user!', code: 200, result: []});
             }
         })
     }
     catch(err){
-        return res.status(500).json({message: 'Unable to Delete Comment!', code: 400, err})
+        return res.status(500).json({message: 'Unable To fetch user Posts!', code: 404, err});
+    }
+}
+
+export const getUserReels = async (req, res)=>{
+
+    const userId = req.params.userId;
+
+    try{
+
+        const query = `SELECT * FROM allposts WHERE postUserUserId = '${userId}' and postType = 'video';`;
+
+        conn.query(query, (err, result)=>{
+            if(err) return res.status(500).json({message: 'Unable To fetch user Reels!', code: 404, err});
+
+            if(Array.from(result).length > 0){
+                return res.status(200).json({message: 'All Reels Are Featched!', code: 200, result});
+            }
+            else{
+                return res.status(200).json({message: 'Reels Are not Available for this user!', code: 200, result: []});
+            }
+        })
+    }
+    catch(err){
+        return res.status(500).json({message: 'Unable To fetch user Reels!', code: 404, err});
     }
 }

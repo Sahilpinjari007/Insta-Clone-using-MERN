@@ -4,13 +4,21 @@ import "./NavPostsPage.css";
 import { getUserPosts } from "../../../../action/post";
 
 const NavPostPageCard = ({ cardData }) => {
+
+  const { setViewUserMedia, setViewUserMediaData } = useContext(AppContext);
+
   cardData = {
     ...cardData,
     multipleImgPostURLS: JSON.parse(cardData.multipleImgPostURLS),
   };
 
+  const handlePostOnClick = () => {
+    setViewUserMediaData(cardData);
+    setViewUserMedia(true);
+  }
+
   return (
-    <div className="nav-post-page-card">
+    <div className="nav-post-page-card" onClick={handlePostOnClick}>
       {cardData.postType !== "img" && (
         <div className="reel-icon">
           <svg
@@ -54,29 +62,27 @@ const NavPostPageCard = ({ cardData }) => {
 };
 
 const NavPostsPage = () => {
-  const { authUser } = useContext(AppContext);
+  const { profileUser } = useContext(AppContext);
   const [userPosts, setUserPosts] = useState([]);
 
   const getUserAllPosts = async () => {
     const newArr = [];
-    const response = await getUserPosts(authUser.userId);
+    const response = await getUserPosts(profileUser.userId);
 
     while (response.result.length > 0) {
       newArr.push(response.result.splice(0, 3));
     }
-
-    console.log(newArr);
     setUserPosts(newArr)
   };
 
   useEffect(() => {
     getUserAllPosts();
-  }, [authUser]);
+  }, [profileUser]);
 
   return (
     <div className="nav-post-page">
       {userPosts?.map((elem, i) => {
-        return <div key={i} className="nav-post-page-row">{elem?.map((item, i) => <NavPostPageCard cardData={item} key={i}/>)}</div>;
+        return <div key={i} className="nav-post-page-row">{elem?.map((item, i) => <NavPostPageCard cardData={item} key={i} />)}</div>;
       })}
     </div>
   );

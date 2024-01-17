@@ -29,6 +29,7 @@ export const getNotifications = (userId) => API.get(`/user/operations/notificati
 
 // post
 export const getPosts = () => API.get(`/insgaram/posts/fetch`);
+export const getPost = (postId) => API.get(`/insgaram/posts/featchPost/${postId}`);
 export const createPost = (formData) => API.post('/insgaram/posts/create', formData)
 export const likePost = (formData) => API.post(`insgaram/posts/like`, formData);
 export const checkPostLiked = (formData) => API.post(`/insgaram/posts/checkPostLiked`, formData);
@@ -40,6 +41,8 @@ export const getPostComments = (postId) => API.get(`/insgaram/posts/getPostComme
 export const deleteComment = (commentId) => API.delete(`/insgaram/posts/deleteComment/${commentId}`);
 export const getUserAllPosts = (userId) => API.get(`/insgaram/posts/fetchUserPosts/${userId}`);
 export const getUserReels = (userId) => API.get(`/insgaram/posts/getUserReels/${userId}`);
+export const getSavedPosts = (userId) => API.get(`/insgaram/posts/getUserSavedPosts/${userId}`);
+export const getTaggedPosts = (userId) => API.get(`/insgaram/posts/getTaggedPosts/${userId}`);
 
 
 

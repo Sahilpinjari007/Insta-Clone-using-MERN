@@ -12,6 +12,17 @@ export const getPosts = async () => {
     }
 }
 
+export const getPost = async (postId) => {
+
+    try {
+        const { data } = await api.getPost(postId)
+        return data;
+    }
+    catch (err) {
+        return err?.response?.data;
+    }
+}
+
 export const createPost = async (formData) => {
 
     try {
@@ -118,6 +129,28 @@ export const getUserPosts = async (userId) =>{
 export const getUserReels = async (userId) =>{
     try {
         const { data } = await api.getUserReels(userId);
+        return data;
+    } 
+    catch (err) {
+        return err?.response?.data;
+    }
+}
+
+
+export const getUserSavedPosts = async (userId) =>{
+    try {
+        const { data } = await api.getSavedPosts(userId);
+        return data;
+    } 
+    catch (err) {
+        return err?.response?.data;
+    }
+}
+
+
+export const getUserTaggedPosts = async (userId) =>{
+    try {
+        const { data } = await api.getTaggedPosts(userId);
         return data;
     } 
     catch (err) {

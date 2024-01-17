@@ -1,5 +1,6 @@
 .nav-post-page-card {
     width: 100%;
+    max-width: calc((99% / 3));
     height: auto;
     max-height: max-content;
     position: relative;
@@ -21,9 +22,8 @@
 
 .nav-post-page-card .card-contain {
     width: 100%;
-    height: 100%;
-    max-height: 309px;
-    max-width: 309px;
+    height: auto;
+    aspect-ratio: 1;
     cursor: pointer;
 }
 
@@ -55,20 +55,3 @@
     gap: 3px;
     margin-top: 3px;
 }
-
-
-
-
-/* .card-details .like-icon {
-    height: 18px;
-    width: 18px;
-    background-image: url('../../../../../public/profile imgs/asset 12.png');
-    background-position: -340px -333px;
-}
-
-.card-details .comment-icon {
-    height: 18px;
-    width: 18px;
-    background-image: url('../../../../../public/profile imgs/asset 12.png');
-    background-position: -382px -333px;
-} */

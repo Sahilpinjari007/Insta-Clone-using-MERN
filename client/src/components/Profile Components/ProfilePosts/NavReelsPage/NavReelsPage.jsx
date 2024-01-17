@@ -4,8 +4,16 @@ import { AppContext } from "../../../../Context/context";
 import { getUserReels } from "../../../../action/post";
 
 const NavReelPageCard = ({ cardData }) => {
+
+  const { setViewUserMedia, setViewUserMediaData } = useContext(AppContext);
+
+  const handlePostOnClick = () => {
+    setViewUserMediaData(cardData);
+    setViewUserMedia(true);
+  }
+
   return (
-    <div className="nav-reel-page-card">
+    <div className="nav-reel-page-card" onClick={handlePostOnClick}>
       <div className="reel-page-card-content">
         <video src={cardData.postVideoURL}></video>
       </div>
@@ -30,12 +38,12 @@ const NavReelPageCard = ({ cardData }) => {
 };
 
 const NavReelsPage = () => {
-  const { authUser } = useContext(AppContext);
+  const { profileUser } = useContext(AppContext);
   const [userReels, setUserReels] = useState([]);
 
   const getUserAllReels = async () => {
     const newArr = [];
-    const response = await getUserReels(authUser.userId);
+    const response = await getUserReels(profileUser.userId);
 
     while (response.result.length > 0) {
       newArr.push(response.result.splice(0, 4));
@@ -46,7 +54,7 @@ const NavReelsPage = () => {
 
   useEffect(() => {
     getUserAllReels();
-  }, [authUser]);
+  }, [profileUser]);
 
   return (
     <div className="nav-reel-page">

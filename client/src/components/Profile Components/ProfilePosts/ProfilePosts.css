@@ -67,7 +67,7 @@
 }
 
 /* nav active classes */
-.post-nav-item .activeNav{
+.post-nav-item:has(.activeNav){
     border-top: 1px solid white;
     margin-top: -1px;
 }

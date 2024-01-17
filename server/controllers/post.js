@@ -24,6 +24,29 @@ export const getPosts = async (req, res) => {
     }
 }
 
+export const getPost = async (req, res) => {
+
+    const postId = req.params.postId;
+
+    try {
+        const query = `SELECT * FROM allposts WHERE postId = '${postId}';`;
+
+        conn.query(query, (err, result) => {
+            if (err) return res.status(500).json({ message: 'Unable to featch Post!', code: 400, err });
+
+            if (Array.from(result).length >= 1) {
+                return res.status(200).json({ message: 'Post are Available!', code: 200, result: result[0] });
+            }
+            else {
+                return res.status(200).json({ message: 'Post are not Available!', code: 201, result: {} });
+            }
+        })
+    }
+    catch (err) {
+        return res.status(500).json({ message: 'Unable to featch Post!', code: 400, err });
+    }
+}
+
 export const createPost = async (req, res) => {
 
     const data = req.body;
@@ -292,7 +315,7 @@ export const insertComment = async (req, res) => {
             if (result.affectedRows >= 1) {
 
                 // insert notification
-                query = `INSERT INTO notification(notificationId, userId, notifyByUserId, message, action, isRead, TimeStamp, CommentId) VALUES ('${v4()}', '${data.postUserId}', '${data.commentedUserId}', 'commented on your post.', 'postComment','false','${new Date()}', '${commentId}')`;
+                query = `INSERT INTO notification(notificationId, userId, notifyByUserId, message, action, isRead, TimeStamp, CommentId, LikedPostId) VALUES ('${v4()}', '${data.postUserId}', '${data.commentedUserId}', 'commented on your post.', 'postComment','false','${new Date()}', '${commentId}', '${data.postId}')`;
 
                 conn.query(query, (err, result) => {
                     if (err) return res.status(500).json({ message: 'Unable to add Notification Of Comment!', code: 502, err });
@@ -374,50 +397,107 @@ export const deleteComment = async (req, res) => {
     }
 }
 
-export const getUserPosts = async (req, res)=>{
+export const getUserPosts = async (req, res) => {
 
     const userId = req.params.userId;
 
-    try{
+    try {
 
         const query = `SELECT * FROM allposts WHERE postUserUserId = '${userId}';`;
 
-        conn.query(query, (err, result)=>{
-            if(err) return res.status(500).json({message: 'Unable To fetch user Posts!', code: 404, err});
+        conn.query(query, (err, result) => {
+            if (err) return res.status(500).json({ message: 'Unable To fetch user Posts!', code: 404, err });
 
-            if(Array.from(result).length > 0){
-                return res.status(200).json({message: 'All Posts Are Featched!', code: 200, result});
+            if (Array.from(result).length > 0) {
+                return res.status(200).json({ message: 'All Posts Are Featched!', code: 200, result });
             }
-            else{
-                return res.status(200).json({message: 'Post Are not Available for this user!', code: 200, result: []});
+            else {
+                return res.status(200).json({ message: 'Post Are not Available for this user!', code: 200, result: [] });
             }
         })
     }
-    catch(err){
-        return res.status(500).json({message: 'Unable To fetch user Posts!', code: 404, err});
+    catch (err) {
+        return res.status(500).json({ message: 'Unable To fetch user Posts!', code: 404, err });
     }
 }
 
-export const getUserReels = async (req, res)=>{
+export const getUserReels = async (req, res) => {
 
     const userId = req.params.userId;
 
-    try{
+    try {
 
         const query = `SELECT * FROM allposts WHERE postUserUserId = '${userId}' and postType = 'video';`;
 
-        conn.query(query, (err, result)=>{
-            if(err) return res.status(500).json({message: 'Unable To fetch user Reels!', code: 404, err});
+        conn.query(query, (err, result) => {
+            if (err) return res.status(500).json({ message: 'Unable To fetch user Reels!', code: 404, err });
 
-            if(Array.from(result).length > 0){
-                return res.status(200).json({message: 'All Reels Are Featched!', code: 200, result});
+            if (Array.from(result).length > 0) {
+                return res.status(200).json({ message: 'All Reels Are Featched!', code: 200, result });
             }
-            else{
-                return res.status(200).json({message: 'Reels Are not Available for this user!', code: 200, result: []});
+            else {
+                return res.status(200).json({ message: 'Reels Are not Available for this user!', code: 200, result: [] });
             }
         })
     }
-    catch(err){
-        return res.status(500).json({message: 'Unable To fetch user Reels!', code: 404, err});
+    catch (err) {
+        return res.status(500).json({ message: 'Unable To fetch user Reels!', code: 404, err });
+    }
+}
+
+export const getUserSavedPosts = async (req, res) => {
+
+    const userId = req.params.userId;
+
+    try {
+
+        const query = `SELECT * FROM savedposts WHERE userId = '${userId}';`
+
+        conn.query(query, (err, result) => {
+            if (err) return res.status(500).json({ message: 'Unable to featch User Saved Posts!', code: 500, err });
+
+            if (Array.from(result).length > 0) {
+                return res.status(200).json({ message: 'All Saved Posts are Featched!', code: 200, result });
+            }
+            else {
+                return res.status(200).json({ message: 'User are not Saved posts!', code: 201, result: [] });
+            }
+        })
+    }
+    catch (err) {
+        return res.status(500).json({ message: 'Unable to featch User Saved Posts!', code: 500, err });
+    }
+}
+
+export const getTaggedPost = async (req, res) => {
+
+    const authUserId = req.params.userId;
+
+    try {
+        const query = `SELECT * FROM allposts;`
+
+        conn.query(query, (err, result) => {
+            if (err) return res.status(500).json({ message: 'Enable to featch Posts!', code: 400, err });
+
+            if (Array.from(result).length > 1) {
+
+                const ourTaggedPosts = result.filter((post, i) => {
+
+                    const taggedUsers = JSON.parse(post.postTagList).filter((users, i) => {
+                        if(users.userId === authUserId) return users;
+                    });
+
+                    if(taggedUsers.length > 0) return post
+                })
+
+                return res.status(200).json({ message: 'All Posts are Featched!', code: 200, result: ourTaggedPosts });
+            }
+            else {
+                return res.status(200).json({ message: 'Posts are not Avialbel!', code: 201, result });
+            }
+        })
+    }
+    catch (err) {
+        return res.status(500).json({ message: 'Enable to featch Posts!', code: 400, err });
     }
 }

@@ -1,0 +1,57 @@
+.nav-tagged-post-page-card {
+    width: 100%;
+    max-width: calc((99% / 3));
+    height: auto;
+    max-height: max-content;
+    position: relative;
+    display: flex;
+}
+
+.nav-tagged-post-page-card .reel-icon{
+    width: max-content;
+    height: max-content;
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: 8px;
+}
+
+.reel-icon svg{
+    color: white;
+}
+
+.nav-tagged-post-page-card .card-contain {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1;
+    cursor: pointer;
+}
+
+.card-contain img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.card-contain video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.nav-tagged-post-page {
+    width: 100%;
+    max-width: 100%;
+}
+
+.nav-tagged-post-page .nav-tagged-post-page-row{
+    width: 100%;
+    height: max-content;
+    max-height: 309px !important;
+    overflow: hidden;
+    display: flex;
+    gap: 3px;
+    margin-top: 3px;
+}

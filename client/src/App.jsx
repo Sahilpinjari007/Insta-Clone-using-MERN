@@ -76,11 +76,11 @@ const App = () => {
 
               <Route path="/:userName" element={<Profile />}>
                 <Route path="" index element={<NavPostPage />}/>
-                <Route path="reels/" element={<NavReelsPage />} />
-                <Route path="saved/" element={<NavSavedPage />} />
-                <Route path="tagged/" element={<NavTagsPage />} />
-                <Route path="followers/" element={<CheckFollowerDailog />} />
-                <Route path="following/" element={<CheckFollowingDailog />} />
+                <Route path="reels" element={<NavReelsPage />} />
+                <Route path="saved" element={<NavSavedPage />} />
+                <Route path="tagged" element={<NavTagsPage />} />
+                <Route path="followers" element={<CheckFollowerDailog />} />
+                <Route path="following" element={<CheckFollowingDailog />} />
               </Route>
             </Route>
             <Route path="accounts/login" element={<LoginPage />} />

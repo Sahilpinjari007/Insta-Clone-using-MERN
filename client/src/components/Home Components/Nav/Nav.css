@@ -947,4 +947,11 @@
 .user-notification-main img{
     width: 44px;
     height: 44px;
+    object-fit: cover;
+}
+
+.user-notification-main video{
+    width: 44px;
+    height: 44px;
+    object-fit: cover;
 }

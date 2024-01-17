@@ -5,6 +5,7 @@ import "./Nav.css";
 import { checkUserFollowed, followUser, getNotifications, getUser, searchUsers, unfollowUser } from "../../../action/curUser";
 import ActionButton from "../../ActionButton/ActionButton";
 import moment from "moment";
+import { getPost } from "../../../action/post";
 
 const SearchUserCard = ({
   handleUserCardClick,
@@ -88,6 +89,7 @@ const UserNotificationMessage = ({ data }) => {
 
   const [notifyByUser, setNotifyByUser] = useState({});
   const [isUserFollowed, setIsUserFollowed] = useState(false);
+  const [notificationPost, setNotificationPost] = useState({})
 
   const getNotifyByUser = async () => {
     const response = await getUser(data.notifyByUserId);
@@ -143,9 +145,15 @@ const UserNotificationMessage = ({ data }) => {
     getNotifyByUser();
   }
 
+  const getNotificationPost = async (postId) => {
+    const response = await getPost(postId);
+    setNotificationPost(response.result);
+  }
+
   useEffect(() => {
     getNotifyByUser();
     checkUserFollowedOrNOt();
+    getNotificationPost(data.LikedPostId);
   }, [data]);
 
 
@@ -169,10 +177,10 @@ const UserNotificationMessage = ({ data }) => {
         <div className="user-notification-main-content">
           <div className="user-notification-main">
             {data.action === 'userFollow' ? <ActionButton onclick={handleNotificationBtn} isUrlBtn={false} title={isUserFollowed ? 'Following' : 'Follow'} color={isUserFollowed ? "#363636" : "#0095F6"} />
-              : <img
-                src="http://localhost:5000/storage/a69c161c-9d18-4100-84ba-19cae1a7fb9f.jpeg"
+              : notificationPost.postType === 'img' ? <img
+                src={notificationPost.isMultiplePost === 'true' ? notificationPost.multipleImgPostURLS[0].url  : notificationPost.singlePostImgURL}
                 alt=""
-              />
+              /> : <video src={notificationPost.postVideoURL}></video>
             }
           </div>
         </div>

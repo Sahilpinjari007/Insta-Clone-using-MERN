@@ -20,6 +20,10 @@
     justify-content: center;
 }
 
+.viewUserMedia-section audio{
+    display: none;
+}
+
 .viewUserMedia-section-content .close-viewUserMedia-dailog-btn {
     position: absolute;
     top: 10px;
@@ -204,8 +208,9 @@
 }
 
 .viewUserMedia-media-section-footer .viewUserMedia-media-section-footer-content {
+    width: 100%;
+    height: 28px;
     display: flex;
-    justify-content: space-between;
     align-items: center;
     position: relative;
 }
@@ -221,6 +226,15 @@
     justify-content: center;
     cursor: pointer;
     z-index: 999;
+    position: absolute;
+}
+
+.viewUserMedia-media-section-footer-content .tag-icon{
+    left: 0;
+}
+
+.viewUserMedia-media-section-footer-content .audio-icon {
+    right: 0;
 }
 
 .viewUserMedia-media-section-footer-content svg {
@@ -233,8 +247,6 @@
     display: flex;
     justify-content: center;
     gap: 4px;
-    position: absolute;
-
 }
 
 .current-post-active-thumbs .current-post-thumb {

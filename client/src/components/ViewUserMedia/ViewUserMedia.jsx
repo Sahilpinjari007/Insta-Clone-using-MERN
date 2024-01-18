@@ -105,6 +105,7 @@ const ViewUserMedia = () => {
 
   const videoMedia = useRef(null);
   const commentInput = useRef(null);
+  const audioElement = useRef(null);
 
   const [multiplePosts, setMultiplePosts] = useState([]);
   const [postComments, setPostComments] = useState([]);
@@ -206,12 +207,24 @@ const ViewUserMedia = () => {
   };
 
   const handleSongSituation = () => {
-    if (isSongPlay) {
-      setIsSongPlay(false);
-      videoMedia.current.muted = true;
+    if (viewUserMediaData.isPostContainSong === 'true') {
+      if (isSongPlay) {
+        setIsSongPlay(false);
+        audioElement.current.pause();
+      } else {
+        setIsSongPlay(true);
+        audioElement.current.play();
+      }
     } else {
-      setIsSongPlay(true);
-      videoMedia.current.muted = false;
+      if (viewUserMediaData.postType === "video") {
+        if (isSongPlay) {
+          setIsSongPlay(false);
+          videoMedia.current.muted = true;
+        } else {
+          setIsSongPlay(true);
+          videoMedia.current.muted = false;
+        }
+      }
     }
   };
 
@@ -285,6 +298,7 @@ const ViewUserMedia = () => {
     getComments();
   };
 
+
   useEffect(() => {
     getComments();
 
@@ -318,6 +332,7 @@ const ViewUserMedia = () => {
     <>
       <div className="viewUserMedia-section">
         <div className="viewUserMedia-section-content">
+        <audio ref={audioElement} src={viewUserMediaData.postSongURL}></audio>
           <div
             className="close-viewUserMedia-dailog-btn"
             onClick={() => setViewUserMedia(false)}
@@ -393,7 +408,7 @@ const ViewUserMedia = () => {
 
                     <div className="viewUserMedia-media-section-footer">
                       <div className="viewUserMedia-media-section-footer-content">
-                        {viewUserMediaData.isMultiplePost === "true" && (
+                        {viewUserMediaData.isPostTaged === "true" && (
                           <div className="tag-icon">
                             <svg
                               xmlns="http://www.w3.org/2000/svg"

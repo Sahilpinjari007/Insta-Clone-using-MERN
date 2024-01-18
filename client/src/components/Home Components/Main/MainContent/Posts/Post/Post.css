@@ -301,6 +301,29 @@
     align-self: center;
 }
 
+.left-post-intractions div .postLiked{
+    animation-name: dailogAnimation;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: 1;
+    animation-duration: .45s;
+    transform: scale(1);
+}
+
+@keyframes dailogAnimation {
+    0% {
+        transform: scale(1);
+    }
+    25% {
+        transform: scale(1.2);
+    }
+    50% {
+        transform: scale(.95);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
 .post-intractions svg {
     cursor: pointer;
 }

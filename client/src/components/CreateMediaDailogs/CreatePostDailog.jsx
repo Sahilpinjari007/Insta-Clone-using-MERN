@@ -7,14 +7,17 @@ import { getMediaDownloadUrl } from "../../action/getMediaDownloadURL";
 import { searchUsers } from "../../action/curUser";
 import { createPost } from "../../action/post";
 import { uploadMedia } from "../../action/storage";
+import { getSongBYId, searchSong } from "../../action/songs";
 
 const CreatePostDailog = () => {
   const imgInput = useRef(null);
   const imgViewr = useRef(null);
   const videoMedia = useRef(null);
+  const songElement = useRef(null);
   let currentImgIndex = 0;
 
-  const { setCreatePostDailog, authUser, setIsAlert, setAleartData } = useContext(AppContext);
+  const { setCreatePostDailog, authUser, setIsAlert, setAleartData } =
+    useContext(AppContext);
   const [isPostMetaUpdated, setIsPostMetaUpdated] = useState(false);
 
   const [multiMediaPath, setMultiMediaPath] = useState([]);
@@ -35,6 +38,7 @@ const CreatePostDailog = () => {
   const [selectedMusicUrl, setSelectedMusicUrl] = useState("");
   const [selectedMusicTitle, setSelectedMusicTitle] = useState("");
   const [isMusicSelected, setIsMusicSelected] = useState(false);
+  const [searchedSongs, setSearchedSongs] = useState([]);
 
   const [tagList, setTagList] = useState([]);
   const [searchTag, setSearchTag] = useState(false);
@@ -60,19 +64,19 @@ const CreatePostDailog = () => {
     postSongTitle: "",
     postSongURL: "",
     isMultiplePost: false,
-    multipleImgPostURLS: '[]',
+    multipleImgPostURLS: "[]",
     isPostTaged: false,
-    postTagList: '[]',
+    postTagList: "[]",
     postLikes: 0,
   });
 
-  const handleImgInputChnge =  (e) => {
+  const handleImgInputChnge = (e) => {
     setShowDisplayLoader(true);
     setShowUserIntraction(false);
     getImgDownloadURL(e.target.files[0]);
   };
 
-  const handleSearchInputChange = (e) => {
+  const handleSearchMusicInputChange = async (e) => {
     setSearchMusicQuery(e.target.value);
 
     if (e.target.value === "") {
@@ -80,6 +84,15 @@ const CreatePostDailog = () => {
     } else {
       setShowSearchClear(true);
     }
+
+    const response = await searchSong(e.target.value);
+
+    response?.tracks?.items.forEach(async (elem) => {
+      const id = elem.data.id;
+      const response = await getSongBYId(id);
+      const songData = response.tracks[0];
+      setSearchedSongs((priVal) => [...priVal, songData]);
+    });
   };
 
   const handleSearchTagInputChange = async (e) => {
@@ -100,7 +113,6 @@ const CreatePostDailog = () => {
   };
 
   const getImgDownloadURL = async (media) => {
-
     const response = await uploadMedia(media);
     const result = await response.json();
 
@@ -109,7 +121,6 @@ const CreatePostDailog = () => {
         setIsVideoMedia(true);
         setVideoUrl(result.url);
         setMediaType("video");
-
       } else {
         setIsVideoMedia(false);
         setMediaType("img");
@@ -175,7 +186,8 @@ const CreatePostDailog = () => {
       setMediaMetaData({
         ...mediaMetaData,
         postType: "img",
-        singlePostImgURL: multiMediaPath.length === 1 ? multiMediaPath[0].url : "",
+        singlePostImgURL:
+          multiMediaPath.length === 1 ? multiMediaPath[0].url : "",
         isPostContainSong: isMusicSelected,
         postSongTitle: selectedMusicTitle,
         postSongURL: selectedMusicUrl,
@@ -199,10 +211,9 @@ const CreatePostDailog = () => {
       setShowMediaMeta(false);
       setShowDisplayLoader(true);
       uploadMediaOnProfile();
-    }
-    else if (nextBtnTitle === "Close") {
+    } else if (nextBtnTitle === "Close") {
       setMultiMediaPath([]);
-      setCreatePostDailog((priVal) => !priVal);;
+      setCreatePostDailog((priVal) => !priVal);
     }
   };
 
@@ -251,13 +262,54 @@ const CreatePostDailog = () => {
       setShowDisplayLoader(false);
       setShowCompleteTaskLoader(true);
       setIsAlert(true);
-      setAleartData({ message: 'Post Creaed SuccessFul!', type: 'Success' })
-    }
-    else {
+      setAleartData({ message: "Post Creaed SuccessFul!", type: "Success" });
+    } else {
       setIsAlert(true);
-      setAleartData({ message: 'Post Creaed Faild!', type: 'Error' })
+      setAleartData({ message: "Post Creaed Faild!", type: "Error" });
     }
-  }
+  };
+
+  const handleSongBtnClick = (ind) => {
+    const cardAudioElement = Array.from(
+      document.querySelectorAll(".cardAudioElement")
+    );
+
+    const cardPaushBtn = Array.from(
+      document.querySelectorAll(".pauseaudioBtn")
+    );
+
+    const cardPlayBtn = Array.from(document.querySelectorAll(".playaudiBtn"));
+
+    cardPaushBtn.forEach((elem, i) => {
+      elem.classList.remove("active");
+      if (i === ind) elem.classList.add("active");
+    });
+
+    cardPlayBtn.forEach((elem, i) => {
+      elem.classList.add("active");
+      if (i === ind) elem.classList.remove("active");
+    });
+
+    cardAudioElement.forEach((elem, i) => {
+      if (!elem.paused && i == ind) {
+        elem.pause();
+        cardPaushBtn.forEach((elem) => elem.classList.remove("active"));
+        cardPlayBtn.forEach((elem) => elem.classList.add("active"));
+      } else {
+        elem.pause();
+        if (i === ind) elem.play();
+      }
+    });
+  };
+
+  const handleSongCardClick = (elem) => {
+    setIsMusicSelected(true);
+    setSelectedMusicTitle(elem?.name);
+    setSelectedMusicUrl(elem?.preview_url);
+    setSearchedSongs([]);
+    setSearchMusic(false);
+    setSearchMusicQuery('');
+  };
 
   useEffect(() => {
     if (mediaType === "img") {
@@ -272,9 +324,8 @@ const CreatePostDailog = () => {
     }
 
     if (isPostMetaUpdated) {
-      addPostInDb(mediaMetaData)
+      addPostInDb(mediaMetaData);
     }
-
   }, [multiMediaPath, videoUrl, mediaType, mediaMetaData, isPostMetaUpdated]);
 
   return (
@@ -833,8 +884,9 @@ const CreatePostDailog = () => {
                   </div>
 
                   <div
-                    className={`media-meta-data-section ${showMediaMeta ? "active" : ""
-                      }`}
+                    className={`media-meta-data-section ${
+                      showMediaMeta ? "active" : ""
+                    }`}
                   >
                     <div className="media-meta-data-header">
                       <div className="media-meta-data-header-content">
@@ -912,7 +964,7 @@ const CreatePostDailog = () => {
                     <div className="select-song-section">
                       <div className="song-section-content">
                         <div className="song-title-section">
-                          <span className="song-title">Add Song</span>
+                          <span className={selectedMusicTitle !== '' ? "song-title active" : "song-title"}>{selectedMusicTitle !== '' ? selectedMusicTitle : 'Add Song'}</span>
                         </div>
                         <div className="add-song-btn-section">
                           <div
@@ -951,7 +1003,9 @@ const CreatePostDailog = () => {
                               <div className="search-song-input">
                                 <input
                                   value={searchMusicQuery}
-                                  onChange={(e) => handleSearchInputChange(e)}
+                                  onChange={(e) =>
+                                    handleSearchMusicInputChange(e)
+                                  }
                                   type="text"
                                   className="search-song-input"
                                 />
@@ -969,28 +1023,67 @@ const CreatePostDailog = () => {
                           </div>
                           <div className="search-song-result-section">
                             <div className="search-song-result-content">
-                              <div className="song-card">
-                                <div className="song-card-content">
-                                  <audio src=""></audio>
-                                  <div className="song-poster">
-                                    <img
-                                      src="https://i.scdn.co/image/ab67616d00001e02ae9e865ad220d670cd5cfceb"
-                                      alt=""
-                                    />
+                              {searchedSongs?.map((elem, i) => {
+                                return (
+                                  <div
+                                    className="song-card">
+                                    <div className="song-card-content"
+                                    onClick={() => handleSongCardClick(elem)}>
+                                      <audio
+                                        className="cardAudioElement"
+                                        ref={songElement}
+                                        src={elem?.preview_url}
+                                      ></audio>
+                                      <div className="song-poster">
+                                        <img
+                                          src={elem?.album?.images[2]?.url}
+                                          alt={elem.name}
+                                        />
+                                      </div>
+                                      <div className="song-meta">
+                                        <span className="song-title">
+                                          {elem.name}
+                                        </span>
+                                        <span className="song-meta-data">
+                                          {elem?.album?.name}
+                                        </span>
+                                      </div>
+                                    </div>
+                                      <div className="play-pause-song-btn">
+                                        <div
+                                          className="play-song-btn"
+                                          onClick={() => handleSongBtnClick(i)}
+                                        >
+                                          <svg
+                                            aria-label="Pause"
+                                            className="x1lliihq x1n2onr6 x9bdzbf playaudiBtn active"
+                                            fill="currentColor"
+                                            height={16}
+                                            role="img"
+                                            viewBox="0 0 48 48"
+                                            width={16}
+                                          >
+                                            <title>Pause</title>
+                                            <path d="M15 1c-3.3 0-6 1.3-6 3v40c0 1.7 2.7 3 6 3s6-1.3 6-3V4c0-1.7-2.7-3-6-3zm18 0c-3.3 0-6 1.3-6 3v40c0 1.7 2.7 3 6 3s6-1.3 6-3V4c0-1.7-2.7-3-6-3z" />
+                                          </svg>
+
+                                          <svg
+                                            aria-label="Play"
+                                            className="x1lliihq x1n2onr6 x9bdzbf pauseaudioBtn"
+                                            fill="currentColor"
+                                            height={16}
+                                            role="img"
+                                            viewBox="0 0 24 24"
+                                            width={16}
+                                          >
+                                            <title>Play</title>
+                                            <path d="M5.888 22.5a3.46 3.46 0 0 1-1.721-.46l-.003-.002a3.451 3.451 0 0 1-1.72-2.982V4.943a3.445 3.445 0 0 1 5.163-2.987l12.226 7.059a3.444 3.444 0 0 1-.001 5.967l-12.22 7.056a3.462 3.462 0 0 1-1.724.462Z" />
+                                          </svg>
+                                        </div>
+                                      </div>
                                   </div>
-                                  <div className="song-meta">
-                                    <span className="song-title">
-                                      Dil Diyan Galla
-                                    </span>
-                                    <span className="song-meta-data">
-                                      Tiger Zinda Hai
-                                    </span>
-                                  </div>
-                                  <div className="play-pause-song-btn">
-                                    <div className="play-song-btn"></div>
-                                  </div>
-                                </div>
-                              </div>
+                                );
+                              })}
                             </div>
                           </div>
                         </div>

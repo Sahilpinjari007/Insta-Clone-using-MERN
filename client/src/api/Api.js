@@ -7,6 +7,9 @@ const API = axios.create({ baseURL: 'http://localhost:5000' });
 // storage
 export const mediaUpload = (requestOptions) => fetch("http://localhost:5000/storage/upload", requestOptions);
 
+// songs
+export const getSongById = (songOptions) => axios.request(songOptions);
+export const searchSong = (songOptions) => axios.request(songOptions);
 
 
 // it is return direct api response
